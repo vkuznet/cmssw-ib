@@ -60,7 +60,7 @@ CalibFormats/CastorObjects V01-00-06
 CalibFormats/HcalObjects V03-05-00
 CalibFormats/SiPixelObjects V00-05-08
 CalibFormats/SiStripObjects V16-01-03
-CalibMuon/CSCCalibration V02-04-01
+CalibMuon/CSCCalibration V03-00-02
 CalibMuon/Configuration V00-00-23
 CalibMuon/DTCalibration V01-13-01
 CalibMuon/DTDigiSync V02-00-04
@@ -148,7 +148,7 @@ CondFormats/Alignment V00-10-00
 CondFormats/AlignmentRecord V00-04-01
 CondFormats/BTauObjects V01-04-00
 CondFormats/BeamSpotObjects V00-02-00
-CondFormats/CSCObjects V03-06-03
+CondFormats/CSCObjects V04-00-01
 CondFormats/Calibration V09-01-01
 CondFormats/CastorObjects V01-02-01
 CondFormats/Common V10-04-03
@@ -382,6 +382,7 @@ DetectorDescription/Schema V02-02-02
 DiffractiveForwardAnalysis/Configuration V00-01-02
 DiffractiveForwardAnalysis/Skimming V00-01-09
 Documentation/CodingRules V00-00-01
+Documentation/DataFormats V00-00-03
 Documentation/PhysicsTools V00-00-00
 Documentation/ReferenceManualScripts V00-04-10
 EgammaAnalysis/CSA07Skims V00-00-13-08
@@ -572,7 +573,7 @@ Geometry/TrackerSimData V01-02-06
 Geometry/TrackingGeometryAligner V00-06-00
 Geometry/TwentyFivePercentTrackerCommonData V00-00-04
 GeometryReaders/XMLIdealGeometryESSource V01-02-41
-HLTrigger/Configuration V14-10-01
+HLTrigger/Configuration V14-10-02
 HLTrigger/Egamma V01-00-11
 HLTrigger/HLTanalyzers V03-10-20
 HLTrigger/HLTcore V04-01-05
@@ -787,10 +788,10 @@ RecoLocalCalo/HcalLaserReco V00-00-05
 RecoLocalCalo/HcalRecAlgos V01-01-01
 RecoLocalCalo/HcalRecProducers V00-10-02
 RecoLocalMuon/CSCEfficiency V01-02-03
-RecoLocalMuon/CSCRecHitD V02-09-01
+RecoLocalMuon/CSCRecHitD V03-00-00
 RecoLocalMuon/CSCSegment V00-15-02
 RecoLocalMuon/CSCValidation V01-06-03
-RecoLocalMuon/Configuration V02-02-00
+RecoLocalMuon/Configuration V02-02-01
 RecoLocalMuon/DTRecHit V02-01-14
 RecoLocalMuon/DTSegment V02-05-06
 RecoLocalMuon/RPCRecHit V02-00-04-10
@@ -809,7 +810,7 @@ RecoLuminosity/TCPReceiver V01-01-05
 RecoMET/Configuration V00-06-34
 RecoMET/METAlgorithms V03-04-06-02
 RecoMET/METFilters V00-00-11-03
-RecoMET/METProducers V03-03-23
+RecoMET/METProducers V03-03-25
 RecoMuon/Configuration V01-01-02
 RecoMuon/CosmicMuonProducer V00-10-02
 RecoMuon/DetLayers V00-06-07
@@ -994,7 +995,7 @@ SimGeneral/NoiseGenerators V02-02-06
 SimGeneral/PileupInformation V00-02-05
 SimGeneral/TrackingAnalysis V04-03-02
 SimMuon/CSCDigitizer V01-00-01
-SimMuon/Configuration V02-00-00
+SimMuon/Configuration V02-00-01
 SimMuon/DTDigitizer V01-04-15
 SimMuon/MCTruth V02-08-00
 SimMuon/Neutron V00-01-06

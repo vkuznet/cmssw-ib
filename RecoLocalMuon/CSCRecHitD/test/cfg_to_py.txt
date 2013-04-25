@@ -1,2 +1,0 @@
-### cfg -> py
-python $CMSSW_RELEASE_BASE/src/FWCore/ParameterSet/python/cfg2py.py file.cfg > file.py
