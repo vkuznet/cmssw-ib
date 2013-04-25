@@ -332,7 +332,7 @@ DataFormats/LTCDigi V01-00-06
 DataFormats/Luminosity V06-01-03
 DataFormats/METObjects V01-00-09
 DataFormats/METReco V03-04-06
-DataFormats/Math V06-03-02
+DataFormats/Math V06-03-05
 DataFormats/MuonData V00-00-07
 DataFormats/MuonDetId V01-03-04-91
 DataFormats/MuonReco V09-06-03
@@ -465,7 +465,7 @@ FastSimulation/CaloHitMakers V01-05-07
 FastSimulation/CaloRecHitsProducer V07-02-02
 FastSimulation/CalorimeterProperties V01-00-15
 FastSimulation/Calorimetry V13-07-05
-FastSimulation/Configuration V13-07-07
+FastSimulation/Configuration V13-07-08
 FastSimulation/EgammaElectronAlgos V00-11-02
 FastSimulation/Event V02-10-03
 FastSimulation/EventProducer V03-14-02
@@ -486,7 +486,7 @@ FastSimulation/Tracking V04-12-01
 FastSimulation/TrackingRecHitProducer V03-14-00
 FastSimulation/TrajectoryManager V01-06-00
 FastSimulation/Utilities V00-04-09
-FastSimulation/Validation V01-13-04
+FastSimulation/Validation V01-13-05
 Fireworks/Calo V06-13-05-01
 Fireworks/Candidates V06-13-01
 Fireworks/Core V06-16-11
@@ -532,7 +532,7 @@ Geometry/CMSCommonData V01-09-14
 Geometry/CSCGeometry V01-05-18
 Geometry/CSCGeometryBuilder V01-08-03
 Geometry/CaloEventSetup V03-11-13
-Geometry/CaloGeometry V03-15-01
+Geometry/CaloGeometry V03-15-02
 Geometry/CaloTopology V02-13-01
 Geometry/CommonDetUnit V00-09-02
 Geometry/CommonTopologies V01-07-03
@@ -871,10 +871,10 @@ RecoTracker/Configuration V00-18-02
 RecoTracker/ConversionSeedGenerators V00-04-09
 RecoTracker/DeDx V01-00-05
 RecoTracker/DebugTools V01-20-01
-RecoTracker/FinalTrackSelectors V00-34-03
+RecoTracker/FinalTrackSelectors V00-34-04
 RecoTracker/GeometryESProducer V01-01-02
 RecoTracker/IterativeTracking V00-21-02
-RecoTracker/MeasurementDet V09-06-07
+RecoTracker/MeasurementDet V09-06-08
 RecoTracker/NuclearSeedGenerator V04-02-14
 RecoTracker/Record V02-07-01
 RecoTracker/SingleTrackPattern V02-03-03
@@ -992,7 +992,7 @@ SimGeneral/HepPDTRecord V00-03-01
 SimGeneral/MixingModule V07-00-07-03
 SimGeneral/NoiseGenerators V02-02-06
 SimGeneral/PileupInformation V00-02-05
-SimGeneral/TrackingAnalysis V04-03-01
+SimGeneral/TrackingAnalysis V04-03-02
 SimMuon/CSCDigitizer V01-00-01
 SimMuon/Configuration V02-00-00
 SimMuon/DTDigitizer V01-04-15
@@ -1037,7 +1037,7 @@ TrackPropagation/SteppingHelixPropagator V01-09-19
 TrackingTools/AnalyticalJacobians V01-03-04
 TrackingTools/Configuration V00-00-04
 TrackingTools/DetLayers V05-05-01
-TrackingTools/GeomPropagators V02-05-05
+TrackingTools/GeomPropagators V02-05-06
 TrackingTools/GsfTools V02-04-03
 TrackingTools/GsfTracking V02-04-02
 TrackingTools/IPTools V00-01-13
@@ -1054,7 +1054,7 @@ TrackingTools/TrackRefitter V01-03-00
 TrackingTools/TrajectoryCleaning V00-10-01
 TrackingTools/TrajectoryFiltering V01-02-00
 TrackingTools/TrajectoryParametrization V01-03-07
-TrackingTools/TrajectoryState V07-03-01
+TrackingTools/TrajectoryState V07-03-02
 TrackingTools/TransientTrack V00-10-01
 TrackingTools/TransientTrackingRecHit V03-00-02
 Utilities/BinningTools V00-01-01

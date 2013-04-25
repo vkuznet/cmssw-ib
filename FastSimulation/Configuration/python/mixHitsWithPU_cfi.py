@@ -17,8 +17,13 @@ simHcalUnsuppressedDigis = cms.EDAlias(
     )
 
 g4SimHits = cms.EDAlias(
-    famosSimHits = cms.VPSet(    cms.PSet(type = cms.string('PCaloHits'))  ),
-    MuonSimHits = cms.VPSet(    cms.PSet(type = cms.string('PSimHits'))  ),
+    famosSimHits = cms.VPSet(    cms.PSet(type = cms.string('PCaloHits')),
+                                 cms.PSet(type = cms.string('PSimHits')),
+                                 cms.PSet(type = cms.string('SimTracks')),
+                                 cms.PSet(type = cms.string('SimVertexs'))
+                                 ),
+    MuonSimHits = cms.VPSet(    cms.PSet(type = cms.string('PSimHits'))
+                                ),
     g4SimHits = cms.VPSet(    cms.PSet(type = cms.string('PCaloHits'),
                               fromProductInstance = cms.string(''),
                               toProductInstance = cms.string('refined')) )
@@ -75,15 +80,20 @@ mixSimCaloHits = cms.EDProducer("MixingModule",
     mixSH = cms.PSet(
     mixSimHits
     ),
+    mixVertices = cms.PSet(
+    mixSimVertices
+    ),
     mixCH = cms.PSet(
     mixCaloHits
     ),
-    mixMuonTracks = cms.PSet( # remove?
+    mixMuonTracks = cms.PSet( 
     mixMuonSimTracks
+    ),
+    mixTracks = cms.PSet(
+    mixSimTracks
     ),
     mixHepMC = cms.PSet(
     mixHepMCProducts
     )
     )
-# add SimTracks?                                
 )
