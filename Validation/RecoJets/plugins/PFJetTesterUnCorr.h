@@ -1,17 +1,16 @@
-#ifndef ValidationRecoJetsPFJetTester_h
-#define ValidationRecoJetsPFJetTester_h
+#ifndef ValidationRecoJetsPFJetTesterUnCorr_h
+#define ValidationRecoJetsPFJetTesterUnCorr_h
 
 // Producer for validation histograms for PFJet objects
 // F. Ratnikov, Sept. 7, 2006
 // Modified by Chiyoung.Jeong Feb 2, 2010
-// $Id: PFJetTester.h,v 1.15 2012/02/15 21:41:52 kovitang Exp $
+// $Id: PFJetTesterUnCorr.h,v 1.7 2011/09/20 22:56:36 kovitang Exp $
 
 #include <string>
 
 #include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "DQMServices/Core/interface/MonitorElement.h"
 #include "JetMETCorrections/Objects/interface/JetCorrector.h"
-#include "DataFormats/VertexReco/interface/Vertex.h"
 
 namespace reco {
   class PFJet;
@@ -20,22 +19,23 @@ namespace reco {
 
 class MonitorElement;
 
-class PFJetTester : public edm::EDAnalyzer {
+class PFJetTesterUnCorr : public edm::EDAnalyzer {
 public:
 
-  PFJetTester (const edm::ParameterSet&);
-  ~PFJetTester();
+  PFJetTesterUnCorr (const edm::ParameterSet&);
+  ~PFJetTesterUnCorr();
 
   virtual void analyze(const edm::Event&, const edm::EventSetup&);
   virtual void beginJob() ;
   virtual void endJob() ;
-
+ 
 private:
   
-  void fillMatchHists (const reco::GenJet& fGenJet, const reco::PFJet& fPFJet,std::vector<reco::Vertex> goodVertices);
+  void fillMatchHists (const reco::GenJet& fGenJet, const reco::PFJet& fPFJet);
 
   edm::InputTag mInputCollection;
   edm::InputTag mInputGenCollection;
+  edm::InputTag rho_tag_;
   std::string mOutputFile;
   edm::InputTag inputMETLabel_;
   std::string METType_;
@@ -88,55 +88,9 @@ private:
   MonitorElement* mpTRatio_200_600_d;
   MonitorElement* mpTRatio_600_1500_d;
   MonitorElement* mpTRatio_1500_3500_d;
-  MonitorElement* mpTResponse;
-  MonitorElement* mpTResponseB_d;
-  MonitorElement* mpTResponseE_d;
-  MonitorElement* mpTResponseF_d;
-  MonitorElement* mpTResponse_30_200_d;
-  MonitorElement* mpTResponse_200_600_d;
-  MonitorElement* mpTResponse_600_1500_d;
-  MonitorElement* mpTResponse_1500_3500_d;
-  MonitorElement* mpTResponse_30_d;
   MonitorElement* mjetArea;
+  MonitorElement* mRho;
 
-  // nvtx
-  MonitorElement* nvtx_0_30;
-  MonitorElement* nvtx_0_60;
-  MonitorElement* mpTResponse_nvtx_0_5;
-  MonitorElement* mpTResponse_nvtx_5_10; 
-  MonitorElement* mpTResponse_nvtx_10_15;
-  MonitorElement* mpTResponse_nvtx_15_20;
-  MonitorElement* mpTResponse_nvtx_20_30; 
-  MonitorElement* mpTResponse_nvtx_30_inf;
-  MonitorElement* mpTScale_a_nvtx_0_5;
-  MonitorElement* mpTScale_b_nvtx_0_5;
-  MonitorElement* mpTScale_c_nvtx_0_5;
-  MonitorElement* mpTScale_a_nvtx_5_10;
-  MonitorElement* mpTScale_b_nvtx_5_10;
-  MonitorElement* mpTScale_c_nvtx_5_10;
-  MonitorElement* mpTScale_a_nvtx_10_15;
-  MonitorElement* mpTScale_b_nvtx_10_15;
-  MonitorElement* mpTScale_c_nvtx_10_15;
-  MonitorElement* mpTScale_a_nvtx_15_20;
-  MonitorElement* mpTScale_b_nvtx_15_20;
-  MonitorElement* mpTScale_c_nvtx_15_20;
-  MonitorElement* mpTScale_a_nvtx_20_30;
-  MonitorElement* mpTScale_b_nvtx_20_30;
-  MonitorElement* mpTScale_c_nvtx_20_30;
-  MonitorElement* mpTScale_a_nvtx_30_inf;
-  MonitorElement* mpTScale_b_nvtx_30_inf;
-  MonitorElement* mpTScale_c_nvtx_30_inf;
-  MonitorElement* mpTScale_nvtx_0_5;
-  MonitorElement* mpTScale_nvtx_5_10;
-  MonitorElement* mpTScale_nvtx_10_15;
-  MonitorElement* mpTScale_nvtx_15_20;
-  MonitorElement* mpTScale_nvtx_20_30;
-  MonitorElement* mpTScale_nvtx_30_inf;
-  MonitorElement* mNJetsEtaF_30;
-  MonitorElement* mpTScale_a;
-  MonitorElement* mpTScale_b;
-  MonitorElement* mpTScale_c;
-  MonitorElement* mpTScale_pT;
 
   // Leading Jet Parameters
   MonitorElement* mEtaFirst;

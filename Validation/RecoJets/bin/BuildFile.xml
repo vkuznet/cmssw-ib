@@ -1,4 +1,0 @@
-<use   name="root"/>
-<use   name="Validation/RecoJets"/>
-<bin   file="CalibClosureTest.cc">
-</bin>
