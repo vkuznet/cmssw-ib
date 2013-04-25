@@ -10,7 +10,7 @@ Alignment/CommonAlignment V03-12-07
 Alignment/CommonAlignmentAlgorithm V04-00-11
 Alignment/CommonAlignmentMonitor V01-10-09
 Alignment/CommonAlignmentParametrization V00-15-04
-Alignment/CommonAlignmentProducer V01-13-02
+Alignment/CommonAlignmentProducer V01-13-02-01
 Alignment/Geners V01-00-00
 Alignment/HIPAlignmentAlgorithm V00-28-03
 Alignment/KalmanAlignmentAlgorithm V03-04-03
@@ -21,9 +21,9 @@ Alignment/MillePedeAlignmentAlgorithm V00-29-05
 Alignment/MuonAlignment V02-11-04
 Alignment/MuonAlignmentAlgorithms V00-11-03-02
 Alignment/OfflineValidation V02-11-15
-Alignment/ReferenceTrajectories V01-05-05
+Alignment/ReferenceTrajectories V01-05-06
 Alignment/SurveyAnalysis V01-06-08
-Alignment/TrackerAlignment V02-07-09
+Alignment/TrackerAlignment V02-07-10
 Alignment/TwoBodyDecay V00-04-01
 AnalysisAlgos/SiStripClusterInfoProducer V04-01-07
 AnalysisAlgos/TrackInfoProducer V00-04-08
@@ -144,7 +144,7 @@ CondCore/SiPixelPlugins V02-00-01
 CondCore/SiStripPlugins V02-01-00
 CondCore/TagCollection V09-01-07
 CondCore/Utilities V10-08-16
-CondFormats/Alignment V00-10-00
+CondFormats/Alignment V00-10-01
 CondFormats/AlignmentRecord V00-04-01
 CondFormats/BTauObjects V01-04-00
 CondFormats/BeamSpotObjects V00-02-00
@@ -466,7 +466,7 @@ FastSimulation/CaloHitMakers V01-05-07
 FastSimulation/CaloRecHitsProducer V07-02-02
 FastSimulation/CalorimeterProperties V01-00-15
 FastSimulation/Calorimetry V13-07-05
-FastSimulation/Configuration V13-07-10
+FastSimulation/Configuration V13-08-00
 FastSimulation/EgammaElectronAlgos V00-11-02
 FastSimulation/Event V02-10-03
 FastSimulation/EventProducer V03-14-02
@@ -483,7 +483,7 @@ FastSimulation/ParticlePropagator V01-02-04
 FastSimulation/PileUpProducer V04-05-35
 FastSimulation/ShowerDevelopment V02-03-18
 FastSimulation/TrackerSetup V04-07-05
-FastSimulation/Tracking V04-12-01
+FastSimulation/Tracking V04-12-02
 FastSimulation/TrackingRecHitProducer V03-14-00
 FastSimulation/TrajectoryManager V01-06-00
 FastSimulation/Utilities V00-04-09
@@ -658,7 +658,7 @@ L1Trigger/Skimmer V01-00-02
 L1Trigger/TextToDigi V00-05-12
 L1TriggerConfig/CSCTFConfigProducers V01-00-09
 L1TriggerConfig/DTTPGConfig V02-01-05
-L1TriggerConfig/DTTPGConfigProducers V02-01-10
+L1TriggerConfig/DTTPGConfigProducers V02-01-09
 L1TriggerConfig/DTTrackFinder V02-07-02
 L1TriggerConfig/GMTConfigProducers V01-05-09
 L1TriggerConfig/GctConfigProducers V00-12-09
@@ -804,7 +804,7 @@ RecoLocalTracker/SiStripClusterizer V14-05-06
 RecoLocalTracker/SiStripRecHitConverter V06-01-06-01
 RecoLocalTracker/SiStripZeroSuppression V07-06-09
 RecoLocalTracker/SubCollectionProducers V01-10-00
-RecoLuminosity/LumiDB V04-02-01
+RecoLuminosity/LumiDB V04-02-03
 RecoLuminosity/LumiProducer V06-05-02-00
 RecoLuminosity/TCPReceiver V01-01-05
 RecoMET/Configuration V00-06-34
@@ -961,7 +961,7 @@ SimG4CMS/CherenkovAnalysis V01-02-10
 SimG4CMS/EcalTestBeam V01-03-06
 SimG4CMS/FP420 V02-00-01
 SimG4CMS/Forward V02-03-19
-SimG4CMS/HcalTestBeam V01-03-07
+SimG4CMS/HcalTestBeam V01-03-08
 SimG4CMS/Muon V01-01-06
 SimG4CMS/ShowerLibraryProducer V01-04-09
 SimG4CMS/Tracker V01-04-16
@@ -991,7 +991,7 @@ SimGeneral/DataMixingModule V01-02-04
 SimGeneral/GFlash V00-03-01
 SimGeneral/HepPDTESSource V00-06-08
 SimGeneral/HepPDTRecord V00-03-01
-SimGeneral/MixingModule V07-00-07-03
+SimGeneral/MixingModule V07-00-09
 SimGeneral/NoiseGenerators V02-02-06
 SimGeneral/PileupInformation V00-02-05
 SimGeneral/TrackingAnalysis V04-03-02
@@ -1034,17 +1034,17 @@ TopQuarkAnalysis/TopTools V06-07-13
 TrackPropagation/Geant4e V02-00-10
 TrackPropagation/NavGeometry V00-00-12
 TrackPropagation/NavPropagator V00-01-02
-TrackPropagation/RungeKutta V00-02-03
+TrackPropagation/RungeKutta V00-03-00
 TrackPropagation/SteppingHelixPropagator V01-09-19
 TrackingTools/AnalyticalJacobians V01-03-04
 TrackingTools/Configuration V00-00-04
 TrackingTools/DetLayers V05-06-00
-TrackingTools/GeomPropagators V02-05-07
+TrackingTools/GeomPropagators V02-05-08
 TrackingTools/GsfTools V02-04-03
 TrackingTools/GsfTracking V02-04-02
 TrackingTools/IPTools V00-01-13
 TrackingTools/KalmanUpdators V01-05-10
-TrackingTools/MaterialEffects V05-01-03
+TrackingTools/MaterialEffects V05-01-04
 TrackingTools/MeasurementDet V00-04-01
 TrackingTools/PatternTools V02-19-02
 TrackingTools/Producers V00-07-02
