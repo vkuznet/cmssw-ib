@@ -271,7 +271,7 @@ DQMOffline/Ecal V00-19-07
 DQMOffline/Hcal V00-00-02
 DQMOffline/JetMET V01-02-91
 DQMOffline/L1Trigger V00-00-14
-DQMOffline/Muon V00-09-01
+DQMOffline/Muon V00-09-02
 DQMOffline/PFTau V00-03-09
 DQMOffline/RecoB V01-03-27
 DQMOffline/Trigger V07-03-04
@@ -418,7 +418,7 @@ EventFilter/LTCRawToDigi V00-00-06
 EventFilter/Message2log4cplus V00-12-03
 EventFilter/Modules V00-08-18
 EventFilter/Playback V00-02-08
-EventFilter/Processor V02-05-28
+EventFilter/Processor V02-05-29
 EventFilter/RPCRawToDigi V00-15-01
 EventFilter/RawDataCollector V00-04-03
 EventFilter/ResourceBroker V01-00-28
@@ -430,7 +430,7 @@ EventFilter/SiPixelRawToDigi V00-12-13
 EventFilter/SiStripChannelChargeFilter V02-01-01
 EventFilter/SiStripRawToDigi V13-05-10-02
 EventFilter/StorageManager V08-11-05
-EventFilter/Utilities V02-19-38
+EventFilter/Utilities V02-19-39
 FWCore/Catalog V03-01-13
 FWCore/Common V00-04-04
 FWCore/Concurrency V01-00-02
@@ -466,7 +466,7 @@ FastSimulation/CaloHitMakers V01-05-07
 FastSimulation/CaloRecHitsProducer V07-02-02
 FastSimulation/CalorimeterProperties V01-00-15
 FastSimulation/Calorimetry V13-07-05
-FastSimulation/Configuration V13-07-09
+FastSimulation/Configuration V13-07-10
 FastSimulation/EgammaElectronAlgos V00-11-02
 FastSimulation/Event V02-10-03
 FastSimulation/EventProducer V03-14-02
@@ -581,7 +581,7 @@ HLTrigger/HLTexample V01-02-02
 HLTrigger/HLTfilters V02-00-31
 HLTrigger/JetMET V01-02-30
 HLTrigger/Muon V03-01-06
-HLTrigger/Timer V01-11-08
+HLTrigger/Timer V01-12-00
 HLTrigger/Tools V00-00-08
 HLTrigger/btau V04-01-16
 HLTrigger/special V02-01-04
@@ -964,14 +964,14 @@ SimG4CMS/HcalTestBeam V01-03-06
 SimG4CMS/Muon V01-01-06
 SimG4CMS/ShowerLibraryProducer V01-04-08
 SimG4CMS/Tracker V01-04-16
-SimG4Core/Application V05-17-06
+SimG4Core/Application V05-17-07
 SimG4Core/CheckSecondary V01-01-22
 SimG4Core/Configuration V01-00-00
 SimG4Core/CountProcesses V00-00-10
 SimG4Core/CustomPhysics V01-00-00
 SimG4Core/GFlash V04-05-00
 SimG4Core/Generators V01-02-02
-SimG4Core/Geometry V01-03-05
+SimG4Core/Geometry V01-03-06
 SimG4Core/GeometryProducer V00-01-09
 SimG4Core/HelpfulWatchers V01-03-05-01
 SimG4Core/KillSecondaries V01-01-07
