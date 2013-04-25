@@ -292,7 +292,7 @@ DataFormats/CaloRecHit V02-05-10
 DataFormats/CaloTowers V03-00-03
 DataFormats/Candidate V10-01-01
 DataFormats/CastorReco V00-05-00
-DataFormats/Common V10-06-16
+DataFormats/Common V10-06-17
 DataFormats/DTDigi V00-03-03
 DataFormats/DTRecHit V02-00-14
 DataFormats/DetId V02-00-09
@@ -382,7 +382,7 @@ DetectorDescription/Schema V02-02-02
 DiffractiveForwardAnalysis/Configuration V00-01-02
 DiffractiveForwardAnalysis/Skimming V00-01-09
 Documentation/CodingRules V00-00-01
-Documentation/DataFormats V00-00-03
+Documentation/DataFormats V00-00-06
 Documentation/PhysicsTools V00-00-00
 Documentation/ReferenceManualScripts V00-04-10
 EgammaAnalysis/CSA07Skims V00-00-13-08
@@ -405,9 +405,9 @@ EventFilter/Cosmics V01-00-01
 EventFilter/DTRawToDigi V00-21-07
 EventFilter/DTTFRawToDigi V01-04-05
 EventFilter/ESDigiToRaw V00-12-04
-EventFilter/ESRawToDigi V00-12-09
+EventFilter/ESRawToDigi V00-12-10
 EventFilter/EcalDigiToRaw V00-01-11
-EventFilter/EcalRawToDigi V01-14-22
+EventFilter/EcalRawToDigi V01-14-23
 EventFilter/EcalTBRawToDigi V04-10-14
 EventFilter/FEDInterface V00-01-03
 EventFilter/GctRawToDigi V00-13-01
@@ -466,7 +466,7 @@ FastSimulation/CaloHitMakers V01-05-07
 FastSimulation/CaloRecHitsProducer V07-02-02
 FastSimulation/CalorimeterProperties V01-00-15
 FastSimulation/Calorimetry V13-07-05
-FastSimulation/Configuration V13-07-08
+FastSimulation/Configuration V13-07-09
 FastSimulation/EgammaElectronAlgos V00-11-02
 FastSimulation/Event V02-10-03
 FastSimulation/EventProducer V03-14-02
@@ -518,7 +518,7 @@ GeneratorInterface/Herwig6Interface V02-04-00
 GeneratorInterface/HiGenCommon V00-01-08
 GeneratorInterface/HijingInterface V00-01-01
 GeneratorInterface/HydjetInterface V03-00-05
-GeneratorInterface/LHEInterface V00-08-08
+GeneratorInterface/LHEInterface V00-09-01
 GeneratorInterface/MCatNLOInterface V02-00-11
 GeneratorInterface/PartonShowerVeto V00-01-17
 GeneratorInterface/PomwigInterface V02-01-02
@@ -783,7 +783,7 @@ RecoLocalCalo/Configuration V00-04-12-02
 RecoLocalCalo/EcalDeadChannelRecoveryAlgos V00-00-14
 RecoLocalCalo/EcalDeadChannelRecoveryProducers V00-00-11
 RecoLocalCalo/EcalRecAlgos V00-13-25
-RecoLocalCalo/EcalRecProducers V02-05-32
+RecoLocalCalo/EcalRecProducers V02-05-33
 RecoLocalCalo/HcalLaserReco V00-00-05
 RecoLocalCalo/HcalRecAlgos V01-01-01
 RecoLocalCalo/HcalRecProducers V00-10-02
@@ -898,7 +898,7 @@ RecoVertex/Configuration V00-03-00
 RecoVertex/GaussianSumVertexFit V01-02-13
 RecoVertex/GhostTrackFitter V00-01-07
 RecoVertex/KalmanVertexFit V01-02-01
-RecoVertex/KinematicFit V02-00-09
+RecoVertex/KinematicFit V02-00-10
 RecoVertex/KinematicFitPrimitives V02-00-05
 RecoVertex/LinearizationPointFinders V00-01-11
 RecoVertex/MultiVertexFit V01-00-10
@@ -941,7 +941,7 @@ SimDataFormats/DigiSimLinks V00-00-07
 SimDataFormats/EcalTestBeam V00-04-01
 SimDataFormats/EncodedEventId V00-00-07
 SimDataFormats/Forward V01-00-02
-SimDataFormats/GeneratorProducts V01-02-00
+SimDataFormats/GeneratorProducts V01-02-01
 SimDataFormats/HcalTestBeam V00-03-07
 SimDataFormats/HiGenData V00-01-11
 SimDataFormats/JetMatching V00-01-02

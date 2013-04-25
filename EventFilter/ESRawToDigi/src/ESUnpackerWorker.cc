@@ -32,15 +32,13 @@ void ESUnpackerWorker::write(edm::Event & e) const{
 }
 
 void ESUnpackerWorker::update(const edm::Event & e)const{
-  /// keep the event
-  evt=&e;
 }
 
 
 std::auto_ptr< EcalRecHitCollection > ESUnpackerWorker::work(const uint32_t & index, const FEDRawDataCollection & rawdata)const{
-  MyWatcher watcher("Worker");
-  LogDebug("ESRawToRecHit|Worker")<<"is going to work on index: "<<index
-				  <<watcher.lap();
+//  MyWatcher watcher("Worker");
+  LogDebug("ESRawToRecHit|Worker")<<"is going to work on index: "<<index ;
+//				  <<watcher.lap();
 
   int fedIndex = EcalRegionCabling::esFedIndex(index);
 
@@ -54,8 +52,8 @@ std::auto_ptr< EcalRecHitCollection > ESUnpackerWorker::work(const uint32_t & in
 
   ESUnpacker_->interpretRawData(fedIndex, fedData, productDCC, productKCHIP, productdigis);
   
-  LogDebug("ESRawToRecHit|Worker")<<"unpacked "<<productdigis.size()<<" digis"
-				  <<watcher.lap();
+  LogDebug("ESRawToRecHit|Worker")<<"unpacked "<<productdigis.size()<<" digis" ;
+//				  <<watcher.lap();
 
 
   //then make rechits
@@ -68,12 +66,13 @@ std::auto_ptr< EcalRecHitCollection > ESUnpackerWorker::work(const uint32_t & in
   
   ESDigiCollection::const_iterator esIt=beginDigiES;
   for (;esIt!=endDigiES;++esIt){
-    RHWorker_->run( *evt, esIt, *ecalrechits );
+    RHWorker_->run( esIt, *ecalrechits );
   }
 
-  LogDebug("ESRawToRecHit|Worker")<<" made : "<<ecalrechits->size()<<" es rechits"
-				  <<watcher.lap();
+  LogDebug("ESRawToRecHit|Worker")<<" made : "<<ecalrechits->size()<<" es rechits" ;
+//				  <<watcher.lap();
 
   return ecalrechits;
 }
+
 										   
