@@ -437,7 +437,7 @@ FWCore/Concurrency V01-00-02
 FWCore/FWLite V00-26-06
 FWCore/Framework V09-08-13
 FWCore/GuiBrowsers V00-00-70
-FWCore/Integration V01-24-22
+FWCore/Integration V01-24-23
 FWCore/MessageLogger V03-20-06
 FWCore/MessageService V01-24-23
 FWCore/Modules V01-19-02
@@ -709,7 +709,7 @@ PhysicsTools/MVATrainer V00-07-06
 PhysicsTools/ParallelAnalysis V02-00-15-03
 PhysicsTools/PatAlgos V08-11-02
 PhysicsTools/PatExamples V00-05-30
-PhysicsTools/PatUtils V03-09-29
+PhysicsTools/PatUtils V03-09-30
 PhysicsTools/PythonAnalysis V00-05-04
 PhysicsTools/RecoAlgos V09-00-11
 PhysicsTools/RecoUtils V00-03-01
@@ -1064,7 +1064,7 @@ Utilities/General V00-03-05
 Utilities/LStoreAdaptor V01-00-02
 Utilities/RFIOAdaptor V04-01-12
 Utilities/RelMon V00-08-07
-Utilities/ReleaseScripts V00-13-26
+Utilities/ReleaseScripts V00-13-28
 Utilities/StaticAnalyzers V00-00-13
 Utilities/StorageFactory V04-03-21
 Utilities/Testing V00-00-00
