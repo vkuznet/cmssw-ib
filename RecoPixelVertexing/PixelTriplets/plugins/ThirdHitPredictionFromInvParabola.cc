@@ -15,27 +15,21 @@ namespace {
   template <class T> inline T sqr( T t) {return t*t;}
 }
 
-
-typedef Basic2DVector<double> Point2D;
-typedef PixelRecoRange<double> Ranged;
-
 using namespace std;
 
 ThirdHitPredictionFromInvParabola::ThirdHitPredictionFromInvParabola( 
-    const GlobalPoint& P1, const GlobalPoint& P2,double ip, double curv, double torlerance)
-  : theTolerance(torlerance)
+    const GlobalPoint& P1, const GlobalPoint& P2,Scalar ip, Scalar curv, Scalar tolerance)
+  : theTolerance(tolerance)
 {
   init(P1,P2,ip,std::abs(curv));
 }
 
 
-void ThirdHitPredictionFromInvParabola::
-    init( const GlobalPoint & P1, const GlobalPoint & P2, double ip, double curv)
-{
+void ThirdHitPredictionFromInvParabola:: init(Scalar x1,Scalar y1, Scalar x2,Scalar y2,  Scalar ip, Scalar curv) {
 //  GlobalVector aX = GlobalVector( P2.x()-P1.x(), P2.y()-P1.y(), 0.).unit();
  
-  Point2D p1 = P1.basicVector().xy();
-  Point2D p2 = P2.basicVector().xy();
+  Point2D p1(x1,y1);
+  Point2D p2(x2,y2);
   theRotation = Rotation(p1);
   p1 = transform(p1);  // (1./P1.xy().mag(),0); 
   p2 = transform(p2);
@@ -50,9 +44,9 @@ void ThirdHitPredictionFromInvParabola::
   RangeD ipRange(-ip, ip); 
   ipRange.sort();
   
-  double ipIntyPlus = ipFromCurvature(0.,1);
-  double ipCurvPlus = ipFromCurvature(curv, 1);
-  double ipCurvMinus = ipFromCurvature(curv, -1);
+  Scalar ipIntyPlus = ipFromCurvature(0.,true);
+  Scalar ipCurvPlus = ipFromCurvature(curv, true);
+  Scalar ipCurvMinus = ipFromCurvature(curv, false);
 
   
   RangeD ipRangePlus(ipIntyPlus, ipCurvPlus); ipRangePlus.sort();
@@ -60,27 +54,29 @@ void ThirdHitPredictionFromInvParabola::
 
   theIpRangePlus  = ipRangePlus.intersection(ipRange);
   theIpRangeMinus = ipRangeMinus.intersection(ipRange);
+  // change sign as intersect assume -ip for negative charge...
+  // theIpRangeMinus = RangeD(-theIpRangeMinus.min(),-theIpRangeMinus.max());
 }
     
 
 
 ThirdHitPredictionFromInvParabola::Range 
-ThirdHitPredictionFromInvParabola::rangeRPhi(double radius, int icharge) const
+ThirdHitPredictionFromInvParabola::rangeRPhi(Scalar radius, int icharge) const
 {
-  double charge = icharge; // will (icharge>0) ? 1. : -1; be faster?
+  bool pos =  icharge>0;
 
-  RangeD ip = (charge > 0) ? theIpRangePlus : theIpRangeMinus;
+  RangeD ip = (pos) ? theIpRangePlus : theIpRangeMinus;
 
 
   //  it will vectorize with gcc 4.7 (with -O3 -fno-math-errno)
-  double ipv[2]={ip.min(),ip.max()};
-  double u[2], v[2];
+  Scalar ipv[2]={(pos)? ip.min() : -ip.min() ,(pos)? ip.max() : -ip.max()};
+  Scalar u[2], v[2];
   for (int i=0; i!=2; ++i)
-    findPointAtCurve(radius, charge, ipv[i],u[i],v[i]);
+    findPointAtCurve(radius,ipv[i],u[i],v[i]);
 
- 
-  double phi1 = theRotation.rotateBack(Point2D(u[0],v[0])).barePhi();
-  double phi2 = phi1+(v[1]-v[0]); 
+  // 
+  Scalar phi1 = theRotation.rotateBack(Point2D(u[0],v[0])).barePhi();
+  Scalar phi2 = phi1+(v[1]-v[0]); 
   
   if (ip.empty()) {
     Range r1(phi1*radius-theTolerance, phi1*radius+theTolerance); 
@@ -95,23 +91,23 @@ ThirdHitPredictionFromInvParabola::rangeRPhi(double radius, int icharge) const
 
 /*
 ThirdHitPredictionFromInvParabola::Range ThirdHitPredictionFromInvParabola::rangeRPhiSlow(
-    double radius, int charge, int nIter) const
+    Scalar radius, int charge, int nIter) const
 {
   Range predRPhi(1.,-1.);
 
-  double invr2 = 1/(radius*radius);
-  double u = sqrt(invr2);
-  double v = 0.;
+  Scalar invr2 = 1/(radius*radius);
+  Scalar u = sqrt(invr2);
+  Scalar v = 0.;
 
   Range ip = (charge > 0) ? theIpRangePlus : theIpRangeMinus;
 
   for (int i=0; i < nIter; ++i) {
-    v = predV(u, ip.min(), charge); 
-    double d2 = invr2-sqr(v);
+    v = predV(u, charge*ip.min()); 
+    Scalar d2 = invr2-sqr(v);
     u = (d2 > 0) ? sqrt(d2) : 0.;
   }
   Point2D  pred_tmp1(u, v);
-  double phi1 = transformBack(pred_tmp1).phi(); 
+  Scalar phi1 = transformBack(pred_tmp1).phi(); 
   while ( phi1 >= M_PI) phi1 -= 2*M_PI;
   while ( phi1 < -M_PI) phi1 += 2*M_PI;
 
@@ -120,11 +116,11 @@ ThirdHitPredictionFromInvParabola::Range ThirdHitPredictionFromInvParabola::rang
   v=0;
   for (int i=0; i < nIter; ++i) {
     v = predV(u, ip.max(), charge); 
-    double d2 = invr2-sqr(v);
+    Scalar d2 = invr2-sqr(v);
     u = (d2 > 0) ? sqrt(d2) : 0.;
   }
   Point2D  pred_tmp2(u, v);
-  double phi2 = transformBack(pred_tmp2).phi(); 
+  Scalar phi2 = transformBack(pred_tmp2).phi(); 
   while ( phi2-phi1 >= M_PI) phi2 -= 2*M_PI;
   while ( phi2-phi1 < -M_PI) phi2 += 2*M_PI;
 

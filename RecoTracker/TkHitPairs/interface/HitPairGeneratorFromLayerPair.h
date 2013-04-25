@@ -24,6 +24,10 @@ public:
 
   virtual ~HitPairGeneratorFromLayerPair() { }
 
+
+  virtual HitDoublets doublets( const TrackingRegion& reg, 
+			     const edm::Event & ev,  const edm::EventSetup& es);
+
   virtual void hitPairs( const TrackingRegion& reg, OrderedHitPairs & prs, 
       const edm::Event & ev,  const edm::EventSetup& es);
 
@@ -36,8 +40,8 @@ public:
 
 private:
   LayerCacheType & theLayerCache;
-  Layer theOuterLayer;  
-  Layer theInnerLayer; 
+  Layer const theOuterLayer;  
+  Layer const theInnerLayer; 
 };
 
 #endif
