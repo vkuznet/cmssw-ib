@@ -10,11 +10,37 @@
 #include <cmath>
 #include<sstream>
 
+unsigned int BTSCount::maxReferences=0;
+unsigned long long  BTSCount::aveReferences=0;
+unsigned long long  BTSCount::toteReferences=0;
+
+BTSCount::~BTSCount(){
+  maxReferences = std::max(referenceMax_, maxReferences);
+  toteReferences++;
+  aveReferences+=referenceMax_;
+  // if (referenceMax_>100) std::cout <<"BST with " << referenceMax_ << std::endl;
+}
+
+#include<iostream>
+namespace {
+
+  struct Printer{
+    ~Printer() {
+      std::cout << "maxReferences of BTSCount = " 
+                << BTSCount::maxReferences << " " 
+                << double(BTSCount::aveReferences)/double(BTSCount::toteReferences)<< std::endl;
+    }
+  };
+  Printer printer;
+
+}
+
+BasicTrajectoryState::~BasicTrajectoryState(){}
 
 namespace {
   inline
   FreeTrajectoryState makeFTS(const LocalTrajectoryParameters& par,
-			      const Surface& surface,
+			      const BasicTrajectoryState::SurfaceType& surface,
 			      const MagneticField* field) {
     GlobalPoint  x = surface.toGlobal(par.position());
     GlobalVector p = surface.toGlobal(par.momentum());
@@ -25,7 +51,7 @@ namespace {
 
 BasicTrajectoryState::
 BasicTrajectoryState( const FreeTrajectoryState& fts,
-			    const Surface& aSurface,
+			    const SurfaceType& aSurface,
 			    const SurfaceSide side) :
   theFreeState(fts),
   theLocalError(InvalidError()),
@@ -39,7 +65,7 @@ BasicTrajectoryState( const FreeTrajectoryState& fts,
 
 BasicTrajectoryState::
 BasicTrajectoryState( const GlobalTrajectoryParameters& par,
-			    const Surface& aSurface,
+			    const SurfaceType& aSurface,
 			    const SurfaceSide side) :
   theFreeState(par),
   theLocalError(InvalidError()),
@@ -54,7 +80,7 @@ BasicTrajectoryState( const GlobalTrajectoryParameters& par,
 BasicTrajectoryState::
 BasicTrajectoryState( const GlobalTrajectoryParameters& par,
 			    const CartesianTrajectoryError& err,
-			    const Surface& aSurface,
+			    const SurfaceType& aSurface,
 			    const SurfaceSide side) :
   theFreeState(par, err),
   theLocalError(InvalidError()),
@@ -69,7 +95,7 @@ BasicTrajectoryState( const GlobalTrajectoryParameters& par,
 BasicTrajectoryState::
 BasicTrajectoryState( const GlobalTrajectoryParameters& par,
 			    const CurvilinearTrajectoryError& err,
-			    const Surface& aSurface,
+			    const SurfaceType& aSurface,
 			    const SurfaceSide side,
 			    double weight) :
   theFreeState(par, err),
@@ -85,7 +111,7 @@ BasicTrajectoryState( const GlobalTrajectoryParameters& par,
 BasicTrajectoryState::
 BasicTrajectoryState( const GlobalTrajectoryParameters& par,
 			    const CurvilinearTrajectoryError& err,
-			    const Surface& aSurface,
+			    const SurfaceType& aSurface,
 			    double weight) :
   theFreeState(par, err),
   theLocalError(InvalidError()),
@@ -99,7 +125,7 @@ BasicTrajectoryState( const GlobalTrajectoryParameters& par,
 
 BasicTrajectoryState::
 BasicTrajectoryState( const LocalTrajectoryParameters& par,
-			    const Surface& aSurface,
+			    const SurfaceType& aSurface,
 			    const MagneticField* field,
 			    const SurfaceSide side) :
   theFreeState(makeFTS(par,aSurface,field)),
@@ -115,7 +141,7 @@ BasicTrajectoryState( const LocalTrajectoryParameters& par,
 BasicTrajectoryState::
 BasicTrajectoryState( const LocalTrajectoryParameters& par,
 			    const LocalTrajectoryError& err,
-			    const Surface& aSurface,
+			    const SurfaceType& aSurface,
 			    const MagneticField* field,
 			    const SurfaceSide side,
 			    double weight) :
@@ -132,7 +158,7 @@ BasicTrajectoryState( const LocalTrajectoryParameters& par,
 BasicTrajectoryState::
 BasicTrajectoryState( const LocalTrajectoryParameters& par,
 			    const LocalTrajectoryError& err,
-			    const Surface& aSurface,
+			    const SurfaceType& aSurface,
 			    const MagneticField* field,
 			    double weight) :
   theFreeState(makeFTS(par,aSurface,field)),
@@ -145,7 +171,7 @@ BasicTrajectoryState( const LocalTrajectoryParameters& par,
   theWeight(weight){}
 
 BasicTrajectoryState::
-BasicTrajectoryState(const Surface& aSurface) :
+BasicTrajectoryState(const SurfaceType& aSurface) :
   theLocalError(InvalidError()),
   theLocalParameters(),
   theLocalParametersValid(false),
@@ -156,7 +182,6 @@ BasicTrajectoryState(const Surface& aSurface) :
 {}
 
 
-BasicTrajectoryState::~BasicTrajectoryState(){}
 
 void BasicTrajectoryState::notValid() {
   throw TrajectoryStateException("TrajectoryStateOnSurface is invalid and cannot return any parameters");
@@ -195,7 +220,7 @@ void BasicTrajectoryState::checkCurvilinError() const {
 
   if unlikely(!theLocalParametersValid) createLocalParameters();
   
-  JacobianLocalToCurvilinear loc2Curv(surface(), localParameters(), *magneticField());
+  JacobianLocalToCurvilinear loc2Curv(surface(), localParameters(), globalParameters(), *magneticField());
   const AlgebraicMatrix55& jac = loc2Curv.jacobian();
   const AlgebraicSymMatrix55 &cov = ROOT::Math::Similarity(jac, theLocalError.matrix());
 
@@ -228,7 +253,7 @@ void BasicTrajectoryState::createLocalError() const {
 void 
 BasicTrajectoryState::createLocalErrorFromCurvilinearError() const {
   
-  JacobianCurvilinearToLocal curv2Loc(surface(), localParameters(), *magneticField());
+  JacobianCurvilinearToLocal curv2Loc(surface(), localParameters(), globalParameters(), *magneticField());
   const AlgebraicMatrix55& jac = curv2Loc.jacobian();
   
   const AlgebraicSymMatrix55 &cov = 
@@ -244,7 +269,7 @@ BasicTrajectoryState::createLocalErrorFromCurvilinearError() const {
 
 void
 BasicTrajectoryState::update( const LocalTrajectoryParameters& p,
-        const Surface& aSurface,
+        const SurfaceType& aSurface,
         const MagneticField* field,
         const SurfaceSide side) 
 {
@@ -262,7 +287,7 @@ BasicTrajectoryState::update( const LocalTrajectoryParameters& p,
 void
 BasicTrajectoryState::update( const LocalTrajectoryParameters& p,
         const LocalTrajectoryError& err,
-        const Surface& aSurface,
+        const SurfaceType& aSurface,
         const MagneticField* field,
         const SurfaceSide side, 
         double weight) 

@@ -211,12 +211,12 @@ DQM/CastorMonitor V05-00-08
 DQM/DTMonitorClient V03-13-07
 DQM/DTMonitorModule V04-00-07-05
 DQM/DataScouting V00-01-04-01
-DQM/EcalBarrelMonitorClient V00-20-08
+DQM/EcalBarrelMonitorClient V00-20-08-02
 DQM/EcalBarrelMonitorDbModule V00-19-01
 DQM/EcalBarrelMonitorModule V00-19-03
 DQM/EcalBarrelMonitorTasks V00-20-08
 DQM/EcalCommon V00-20-04
-DQM/EcalEndcapMonitorClient V00-19-13
+DQM/EcalEndcapMonitorClient V00-19-15
 DQM/EcalEndcapMonitorDbModule V00-19-01
 DQM/EcalEndcapMonitorModule V00-19-03-01
 DQM/EcalEndcapMonitorTasks V00-19-08
@@ -267,7 +267,7 @@ DQMOffline/CalibMuon V00-04-00
 DQMOffline/CalibTracker V00-03-11-04
 DQMOffline/Configuration V00-04-13
 DQMOffline/EGamma V04-03-01
-DQMOffline/Ecal V00-19-05
+DQMOffline/Ecal V00-19-07
 DQMOffline/Hcal V00-00-02
 DQMOffline/JetMET V01-02-91
 DQMOffline/L1Trigger V00-00-14
@@ -309,7 +309,7 @@ DataFormats/FP420Digi V00-05-04
 DataFormats/FWLite V01-16-07
 DataFormats/GeometryCommonDetAlgo V00-03-03
 DataFormats/GeometrySurface V00-09-00
-DataFormats/GeometryVector V00-04-00
+DataFormats/GeometryVector V01-01-00
 DataFormats/GsfTrackReco V00-01-04
 DataFormats/HLTReco V02-07-02
 DataFormats/HcalCalibObjects V00-00-06
@@ -332,7 +332,7 @@ DataFormats/LTCDigi V01-00-06
 DataFormats/Luminosity V06-01-03
 DataFormats/METObjects V01-00-09
 DataFormats/METReco V03-04-06
-DataFormats/Math V06-03-01
+DataFormats/Math V06-03-02
 DataFormats/MuonData V00-00-07
 DataFormats/MuonDetId V01-03-04-91
 DataFormats/MuonReco V09-06-03
@@ -464,7 +464,7 @@ FastSimulation/CaloGeometryTools V02-03-00
 FastSimulation/CaloHitMakers V01-05-07
 FastSimulation/CaloRecHitsProducer V07-02-02
 FastSimulation/CalorimeterProperties V01-00-15
-FastSimulation/Calorimetry V13-07-04
+FastSimulation/Calorimetry V13-07-05
 FastSimulation/Configuration V13-07-07
 FastSimulation/EgammaElectronAlgos V00-11-02
 FastSimulation/Event V02-10-03
@@ -657,7 +657,7 @@ L1Trigger/Skimmer V01-00-02
 L1Trigger/TextToDigi V00-05-12
 L1TriggerConfig/CSCTFConfigProducers V01-00-09
 L1TriggerConfig/DTTPGConfig V02-01-05
-L1TriggerConfig/DTTPGConfigProducers V02-01-08
+L1TriggerConfig/DTTPGConfigProducers V02-01-09
 L1TriggerConfig/DTTrackFinder V02-07-02
 L1TriggerConfig/GMTConfigProducers V01-05-09
 L1TriggerConfig/GctConfigProducers V00-12-09
@@ -1034,7 +1034,7 @@ TrackPropagation/NavGeometry V00-00-12
 TrackPropagation/NavPropagator V00-01-02
 TrackPropagation/RungeKutta V00-02-03
 TrackPropagation/SteppingHelixPropagator V01-09-19
-TrackingTools/AnalyticalJacobians V01-03-03
+TrackingTools/AnalyticalJacobians V01-03-04
 TrackingTools/Configuration V00-00-04
 TrackingTools/DetLayers V05-05-01
 TrackingTools/GeomPropagators V02-05-05
@@ -1054,7 +1054,7 @@ TrackingTools/TrackRefitter V01-03-00
 TrackingTools/TrajectoryCleaning V00-10-01
 TrackingTools/TrajectoryFiltering V01-02-00
 TrackingTools/TrajectoryParametrization V01-03-07
-TrackingTools/TrajectoryState V07-03-00
+TrackingTools/TrajectoryState V07-03-01
 TrackingTools/TransientTrack V00-10-01
 TrackingTools/TransientTrackingRecHit V03-00-02
 Utilities/BinningTools V00-01-01
