@@ -454,7 +454,7 @@ FWCore/Skeletons V02-00-00
 FWCore/Sources V00-27-02
 FWCore/TFWLiteSelector V00-13-04
 FWCore/TFWLiteSelectorTest V00-02-06
-FWCore/Utilities V01-12-00
+FWCore/Utilities V01-12-01
 FWCore/Version V00-09-00
 FastSimDataFormats/External V00-01-05
 FastSimDataFormats/L1GlobalMuonTrigger V00-00-08
@@ -494,7 +494,7 @@ Fireworks/Core V06-16-11
 Fireworks/Electrons V06-14-03
 Fireworks/Eve V06-13-03
 Fireworks/FWInterface V06-13-11
-Fireworks/GenParticle V06-13-00
+Fireworks/GenParticle V06-13-02
 Fireworks/Geometry V06-13-20
 Fireworks/Macros V06-13-00
 Fireworks/Muons V06-13-05
@@ -658,7 +658,7 @@ L1Trigger/Skimmer V01-00-02
 L1Trigger/TextToDigi V00-05-12
 L1TriggerConfig/CSCTFConfigProducers V01-00-09
 L1TriggerConfig/DTTPGConfig V02-01-05
-L1TriggerConfig/DTTPGConfigProducers V02-01-09
+L1TriggerConfig/DTTPGConfigProducers V02-01-10
 L1TriggerConfig/DTTrackFinder V02-07-02
 L1TriggerConfig/GMTConfigProducers V01-05-09
 L1TriggerConfig/GctConfigProducers V00-12-09
@@ -957,13 +957,13 @@ SimDataFormats/TrackingHit V03-03-07
 SimDataFormats/ValidationFormats V02-00-05
 SimDataFormats/Vertex V01-02-03
 SimG4CMS/Calo V02-09-01
-SimG4CMS/CherenkovAnalysis V01-02-09
+SimG4CMS/CherenkovAnalysis V01-02-10
 SimG4CMS/EcalTestBeam V01-03-06
 SimG4CMS/FP420 V02-00-01
-SimG4CMS/Forward V02-03-18
-SimG4CMS/HcalTestBeam V01-03-06
+SimG4CMS/Forward V02-03-19
+SimG4CMS/HcalTestBeam V01-03-07
 SimG4CMS/Muon V01-01-06
-SimG4CMS/ShowerLibraryProducer V01-04-08
+SimG4CMS/ShowerLibraryProducer V01-04-09
 SimG4CMS/Tracker V01-04-16
 SimG4Core/Application V05-17-07
 SimG4Core/CheckSecondary V01-01-22
