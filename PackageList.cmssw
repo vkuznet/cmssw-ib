@@ -435,7 +435,7 @@ FWCore/Catalog V03-01-13
 FWCore/Common V00-04-04
 FWCore/Concurrency V01-00-02
 FWCore/FWLite V00-26-06
-FWCore/Framework V09-08-09
+FWCore/Framework V09-08-11
 FWCore/GuiBrowsers V00-00-70
 FWCore/Integration V01-24-22
 FWCore/MessageLogger V03-20-06
@@ -449,7 +449,7 @@ FWCore/PythonParameterSet V00-03-07
 FWCore/PythonUtilities V01-08-05
 FWCore/RootAutoLibraryLoader V00-08-04
 FWCore/ServiceRegistry V03-04-01
-FWCore/Services V01-22-03
+FWCore/Services V01-22-05
 FWCore/Skeletons V02-00-00
 FWCore/Sources V00-27-02
 FWCore/TFWLiteSelector V00-13-03
