@@ -107,20 +107,6 @@ namespace {
     std::vector<edm::Ref<std::vector<reco::GsfPFRecTrack>,reco::GsfPFRecTrack,edm::refhelper::FindUsingAdvance<std::vector<reco::GsfPFRecTrack>,reco::GsfPFRecTrack> > > dummy19e;
     edm::Ref<std::vector<reco::PFCluster>,reco::PFCluster,edm::refhelper::FindUsingAdvance<std::vector<reco::PFCluster>,reco::PFCluster> > dummy20;
 
-    /* NuclearInteraction stuffs  */
-    reco::PFNuclearInteraction                                dummy21;
-    std::vector<reco::PFNuclearInteraction>                   dummy22;
-    edm::Wrapper<std::vector<reco::PFNuclearInteraction> >    dummy23;
-    edm::Ref<std::vector<reco::PFNuclearInteraction> >        dummy24;
-    edm::RefProd<std::vector<reco::PFNuclearInteraction> >    dummy25;
-    edm::RefVector<std::vector<reco::PFNuclearInteraction> >  dummy26;
-
-    reco::PFDisplacedTrackerVertex                                dummy21a;
-    std::vector<reco::PFDisplacedTrackerVertex>                   dummy22a;
-    edm::Wrapper<std::vector<reco::PFDisplacedTrackerVertex> >    dummy23a;
-    edm::Ref<std::vector<reco::PFDisplacedTrackerVertex> >        dummy24a;
-    edm::RefProd<std::vector<reco::PFDisplacedTrackerVertex> >    dummy25a;
-    edm::RefVector<std::vector<reco::PFDisplacedTrackerVertex> >  dummy26a;
 
 
     reco::RecoPFClusterRefCandidateCollection vpfcr1;
@@ -135,31 +121,6 @@ namespace {
     edm::reftobase::VectorHolder<reco::Candidate, reco::RecoPFClusterRefCandidateRefVector> rbpfr3;
     edm::reftobase::RefVectorHolder<reco::RecoPFClusterRefCandidateRefVector> rbpfr4;
 
-    reco::PFConversionCollection dummy27;
-    edm::Wrapper<reco::PFConversionCollection> dummy28;
-    edm::Ref<reco::PFConversionCollection> dummy29;
-    edm::RefProd<reco::PFConversionCollection> dummy30;
-    edm::Wrapper<edm::RefVector<reco::PFConversionCollection> > dummy31;
-    std::vector<edm::Ref<std::vector<reco::PFRecTrack>,reco::PFRecTrack,edm::refhelper::FindUsingAdvance<std::vector<reco::PFRecTrack>,reco::PFRecTrack> > > dummy32;
-
-    /* V0 stuffs  */
-    reco::PFV0                                dummy33;
-    std::vector<reco::PFV0>                   dummy34;
-    edm::Wrapper<std::vector<reco::PFV0> >    dummy35;
-    edm::Ref<std::vector<reco::PFV0> >        dummy36;
-    edm::RefProd<std::vector<reco::PFV0> >    dummy37;
-    edm::RefVector<std::vector<reco::PFV0> >  dummy38;
-    edm::Ref<std::vector<reco::VertexCompositeCandidate>,reco::VertexCompositeCandidate,edm::refhelper::FindUsingAdvance<std::vector<reco::VertexCompositeCandidate>,reco::VertexCompositeCandidate> > dummy39;
-
-    /* ConvBremSeed stuff */
-    reco::ConvBremSeedCollection dummy40;
-    edm::Wrapper<reco::ConvBremSeedCollection> dummy41;
-    edm::Ref<reco::ConvBremSeedCollection> dummy42;
-    edm::RefProd<reco::ConvBremSeedCollection> dummy43;
-    edm::Wrapper<edm::RefVector<reco::ConvBremSeedCollection> > dummy44;
-    edm::RefToBase<reco::ConvBremSeed> dummy45;
-    edm::reftobase::Holder< reco::ConvBremSeed, edm::Ref<reco::ConvBremSeedCollection> > dummy46;
-    edm::reftobase::RefHolder< edm::Ref<reco::ConvBremSeedCollection> > dummy47;
 
     /* Calibratable bits */
     pftools::Calibratable dummy50;
