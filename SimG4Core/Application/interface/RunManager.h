@@ -139,8 +139,6 @@ private:
     edm::ESWatcher<IdealMagneticFieldRecord> idealMagRcdWatcher_;
 
     edm::InputTag m_theLHCTlinkTag;
-
-    std::string m_WriteFile;
 };
 
 #endif

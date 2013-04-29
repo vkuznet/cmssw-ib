@@ -25,7 +25,6 @@ public:
        /param[in] pset with the configuration values
     */
     PSimHitSelector(edm::ParameterSet const &);
-    std::string mixLabel_;
 
     //! Virtual destructor.
     virtual ~PSimHitSelector() {}

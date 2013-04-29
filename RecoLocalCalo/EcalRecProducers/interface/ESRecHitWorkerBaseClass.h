@@ -6,6 +6,7 @@
 #include "FWCore/Framework/interface/EventSetup.h"
 
 namespace edm {
+        class Event;
         class ParameterSet;
 }
 
@@ -15,7 +16,7 @@ class ESRecHitWorkerBaseClass {
                 virtual ~ESRecHitWorkerBaseClass() {};
 
                 virtual void set(const edm::EventSetup& es) = 0;
-                virtual bool run(const ESDigiCollection::const_iterator& digi, ESRecHitCollection & result) = 0;
+                virtual bool run(const edm::Event& evt, const ESDigiCollection::const_iterator& digi, ESRecHitCollection & result) = 0;
 };
 
 #endif

@@ -78,7 +78,6 @@ EcalRawToRecHitProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSet
     for (;iRegion!=iRegionEnd;++iRegion){
       LogDebug("EcalRawToRecHit|Producer")<<"looping over refgetter region: "<<iR;
 //<<watcher.lap();
-      lgetter->setEvent(iEvent);
       std::vector<EcalRecHit>::const_iterator iRecHit=lgetter->begin_record()+iRegion->start();
       std::vector<EcalRecHit>::const_iterator iRecHitEnd =lgetter->begin_record()+iRegion->finish();
       for (;iRecHit!=iRecHitEnd;iRecHit++){
@@ -125,7 +124,6 @@ EcalRawToRecHitProducer::produce(edm::Event& iEvent, const edm::EventSetup& iSet
     for (;iRegion!=iRegionEnd;++iRegion){
       LogDebug("EcalRawToRecHit|Producer")<<"looping over refgetter region: "<<iR ;
 //<<watcher.lap();
-      lgetter->setEvent(iEvent);
       std::vector<EcalRecHit>::const_iterator iRecHit=lgetter->begin_record()+iRegion->start();
       std::vector<EcalRecHit>::const_iterator iRecHitEnd=lgetter->begin_record()+iRegion->finish();
       for (;iRecHit!=iRecHitEnd;iRecHit++){

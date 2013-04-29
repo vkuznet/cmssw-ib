@@ -227,7 +227,7 @@ KinematicConstrainedVertexFitterT< nTrk, nConstraint>::fit(std::vector<RefCounte
     std::vector<KinematicState> oldStates = lStates;
     GlobalVector mf = field->inInverseGeV(lPoint);
     rVtx = updator->update(inPar,refCCov,lStates,lPoint,mf,cs);
-    if (particles.size() != lStates.size() || rVtx == 0) {
+    if (particles.size() != lStates.size()) {
       LogDebug("KinematicConstrainedVertexFitter")
 	<< "updator failure\n";
       return ReferenceCountingPointer<KinematicTree>(new KinematicTree());

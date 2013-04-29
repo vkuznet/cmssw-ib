@@ -135,8 +135,8 @@ KinematicConstrainedVertexUpdatorT< nTrk, nConstraint >::update(const ROOT::Math
   // bool ifl1 = v_g_sym.Invert();
   bool ifl1 = invertPosDefMatrix(v_g_sym);
   if(!ifl1) {
-    edm::LogWarning("KinematicConstrainedVertexUpdatorFailed")<< "invert failed\n"
-							      << v_g_sym;
+    std::cout << "invert failed\n";
+    std::cout << v_g_sym << std::endl;
     LogDebug("KinematicConstrainedVertexFitter3")
       << "Fit failed: unable to invert SYM gain matrix\n";
     return  RefCountedKinematicVertex();	

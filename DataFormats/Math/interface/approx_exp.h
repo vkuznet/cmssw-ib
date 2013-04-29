@@ -38,6 +38,7 @@ Not sure it makes that much sense in the vector context.
 #include <cmath>
 #include <limits>
 #include <algorithm>
+#include <x86intrin.h>
 
 #ifndef APPROX_MATH_N
 #define APPROX_MATH_N

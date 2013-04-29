@@ -22,6 +22,7 @@
 namespace edm {
   class ParameterSet;
   class EventSetup;
+  class Event;
 }
 
 class ESRecHitWorker : public ESRecHitWorkerBaseClass {
@@ -32,7 +33,7 @@ class ESRecHitWorker : public ESRecHitWorkerBaseClass {
   ~ESRecHitWorker();
   
   void set(const edm::EventSetup& es);
-  bool run(const ESDigiCollection::const_iterator & digi, ESRecHitCollection & result);
+  bool run(const edm::Event& evt, const ESDigiCollection::const_iterator & digi, ESRecHitCollection & result);
 
  private:
 

@@ -1,7 +1,6 @@
 #ifndef DataFormats_Math_AlgebraicROOTObjects_h_
 #define DataFormats_Math_AlgebraicROOTObjects_h_
 
-#include "FWCore/Utilities/interface/GCC11Compatibility.h"
 #include <Math/SVector.h>
 #include <Math/SMatrix.h>
 

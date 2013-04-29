@@ -1,6 +1,6 @@
 #ifndef GeometryVector_oldBasic3DVector_h
 #define GeometryVector_oldBasic3DVector_h
-#if ( defined(IN_DICTBUILD) || defined(__CINT__) )  && !defined(__REFLEX__)
+#if defined(__CINT__)  && !defined(__REFLEX__)
 #define __REFLEX__
 #endif
 #include "DataFormats/GeometryVector/interface/Basic2DVector.h"
@@ -9,11 +9,10 @@
 #include "DataFormats/GeometryVector/interface/PreciseFloatType.h"
 #include "DataFormats/GeometryVector/interface/CoordinateSets.h"
 #ifndef __REFLEX__ 
-#include "DataFormats/Math/interface/SIMDVec.h"
+#include "DataFormats/Math/interface/SSEVec.h"
 #endif
 #include <iosfwd>
 #include <cmath>
-
 
 namespace detailsBasic3DVector {
   inline float __attribute__((always_inline)) __attribute__ ((pure))
@@ -68,12 +67,7 @@ public:
     theX(p.x()), theY(p.y()), theZ(p.z()), theW(0) {}
 
 
-#if  defined(USE_EXTVECT)
-  template<typename U>
-  Basic3DVector(Vec4<U> const& iv) :
-    theX(iv[0]), theY(iv[1]), theZ(iv[2]), theW(0) {}
-#elif  defined(USE_SSEVECT)
-
+#ifndef __REFLEX__
   // constructor from Vec4
   template<typename U>
   Basic3DVector(mathSSE::Vec4<U> const& iv) :
@@ -104,12 +98,6 @@ public:
     Polar p( theta.value(), phi.value(), r);
     theX = p.x(); theY = p.y(); theZ = p.z();
   }
-
-
-  T operator[](int i) const { return *((&theX)+i)  ;}
-  T & operator[](int i) { return *((&theX)+i);}
-
- 
 
   /// Cartesian x coordinate
   T x() const { return theX;}

@@ -54,10 +54,9 @@ public:
    *  are too restrictive (preferably never). 
    */
   const BasicVectorType& basicVector() const { return theVector;}
-#ifndef __REFLEX__
   MathVector const & mathVector() const { return theVector.v;}
   MathVector & mathVector() { return theVector.v;}
-#endif  
+  
 
   T x() const { return basicVector().x();}
   T y() const { return basicVector().y();}

@@ -205,10 +205,6 @@ bool HeaderLess::operator() (const LHERunInfoProduct::Header &a,
 	return iter2 != b.end();
 }
 
-bool LHERunInfoProduct::isTagComparedInMerge(const std::string& tag) {
-	return !(tag == "" || tag.find("Alpgen") == 0 || tag == "MGGridCard" || tag == "MGGenerationInfo");
-}
-
 bool LHERunInfoProduct::mergeProduct(const LHERunInfoProduct &other)
 {
 	if (heprup_.IDBMUP != other.heprup_.IDBMUP ||
@@ -237,20 +233,20 @@ bool LHERunInfoProduct::mergeProduct(const LHERunInfoProduct &other)
 		for(std::vector<LHERunInfoProduct::Header>::const_iterator
 					header = other.headers_begin();
 		    header != other.headers_end(); ++header) {
-			if (headers.count(*header)) {
+			if (headers.count(*header))
 				continue;
-			}
 
-			if(isTagComparedInMerge(header->tag())) {
-				failed = true;
-			} else {
+			if (header->tag() == "" ||
+			    header->tag().find("Alpgen") == 0 ||
+			    header->tag() == "MGGridCard" ||
+			    header->tag() == "MGGenerationInfo") {
 				addHeader(*header);	
 				headers.insert(*header);
-			}
+			} else
+				failed = true;
 		}
-		if (failed) {
+		if (failed)
 			break;
-		}
 
 		compatibleHeaders = true;
 	}

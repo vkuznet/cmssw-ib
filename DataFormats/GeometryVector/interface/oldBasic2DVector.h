@@ -1,6 +1,6 @@
 #ifndef GeometryVector_oldBasic2DVector_h
 #define GeometryVector_oldBasic2DVector_h
-#if ( defined(IN_DICTBUILD) || defined(__CINT__) )  && !defined(__REFLEX__)
+#if defined(__CINT__)  && !defined(__REFLEX__)
 #define __REFLEX__
 #endif
 
@@ -8,7 +8,7 @@
 #include "DataFormats/GeometryVector/interface/PreciseFloatType.h"
 #include "DataFormats/GeometryVector/interface/CoordinateSets.h"
 #ifndef __REFLEX__ 
-#include "DataFormats/Math/interface/SIMDVec.h"
+#include "DataFormats/Math/interface/SSEVec.h"
 #endif
 
 
@@ -48,15 +48,7 @@ public:
   Basic2DVector( const T& x, const T& y) : theX(x), theY(y) {}
 
 
-#if  defined(USE_EXTVECT)
-  // constructor from Vec2 or vec4
-  template<typename U>
-  Basic2DVector(Vec2<U> const& iv) :
-    theX(iv[0]), theY(iv[1]) {}
-  template<typename U>
-  Basic2DVector(Vec4<U> const& iv) :
-    theX(iv.arr[0]), theY(iv.arr[1]) {}
-#elif  defined(USE_SSEVECT)
+#ifndef __REFLEX__
   // constructor from Vec2 or vec4
   template<typename U>
   Basic2DVector(mathSSE::Vec2<U> const& iv) :

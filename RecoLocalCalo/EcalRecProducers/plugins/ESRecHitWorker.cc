@@ -105,8 +105,9 @@ void ESRecHitWorker::set(const edm::EventSetup& es) {
 }
 
 bool
-ESRecHitWorker::run( const ESDigiCollection::const_iterator & itdg,
-                     ESRecHitCollection & result )
+ESRecHitWorker::run( const edm::Event & evt, 
+                const ESDigiCollection::const_iterator & itdg, 
+                ESRecHitCollection & result )
 {
   if (recoAlgo_ == 0)
     result.push_back( algoW_->reconstruct(*itdg) );

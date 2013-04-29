@@ -9,12 +9,10 @@
 
 #include "FWCore/Framework/interface/InputSourceMacros.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
-#include "FWCore/Framework/interface/EventPrincipal.h"
-#include "FWCore/Framework/interface/LuminosityBlockPrincipal.h"
-#include "FWCore/Framework/interface/RunPrincipal.h"
+#include "FWCore/Framework/interface/Event.h"
+#include "FWCore/Framework/interface/Run.h"
 #include "FWCore/ParameterSet/interface/ParameterSet.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-#include "FWCore/Utilities/interface/TypeID.h"
 
 #include "DataFormats/Common/interface/OrphanHandle.h"
 
@@ -34,19 +32,10 @@ LHESource::LHESource(const edm::ParameterSet &params,
                      const edm::InputSourceDescription &desc) :
 	ProducerSourceFromFiles(params, desc, false),
 	reader(new LHEReader(fileNames(), params.getUntrackedParameter<unsigned int>("skipEvents", 0))),
-	wasMerged(false),
-	lheProvenanceHelper_(edm::TypeID(typeid(LHEEventProduct)), edm::TypeID(typeid(LHERunInfoProduct))),
-	phid_(),
-        runPrincipal_()
+	wasMerged(false)
 {
-        nextEvent();
-        lheProvenanceHelper_.lheAugment(runInfo.get());
-	// Initialize metadata, and save the process history ID for use every event.
-	phid_ = lheProvenanceHelper_.lheInit(productRegistryUpdate());
-
-        // These calls are not wanted, because the principals are used for putting the products.
-	//produces<LHEEventProduct>();
-	//produces<LHERunInfoProduct, edm::InRun>();
+	produces<LHEEventProduct>();
+	produces<LHERunInfoProduct, edm::InRun>();
 }
 
 LHESource::~LHESource()
@@ -60,16 +49,14 @@ void LHESource::endJob()
 
 void LHESource::nextEvent()
 {
-	if (partonLevel) {
+	if (partonLevel)
 		return;
-        }
 
 	bool newFileOpened = false;
 	partonLevel = reader->next(&newFileOpened);
 	if(newFileOpened) incrementFileIndex();
-	if (!partonLevel) {
-		return;
-        }
+	if (!partonLevel)
+			return;
 
 	boost::shared_ptr<LHERunInfo> runInfoThis = partonLevel->getRunInfo();
 	if (runInfoThis != runInfoLast) {
@@ -78,24 +65,9 @@ void LHESource::nextEvent()
 	}
 }
 
-// This is the only way we can now access the run principal.
-boost::shared_ptr<edm::RunPrincipal>
-LHESource::readRun_(boost::shared_ptr<edm::RunPrincipal> runPrincipal) {
-  runAuxiliary()->setProcessHistoryID(phid_);
-  runPrincipal->fillRunPrincipal();
-  runPrincipal_ = runPrincipal;
-  return runPrincipal;
-}
-
-boost::shared_ptr<edm::LuminosityBlockPrincipal>
-LHESource::readLuminosityBlock_(boost::shared_ptr<edm::LuminosityBlockPrincipal> lumiPrincipal) {
-  luminosityBlockAuxiliary()->setProcessHistoryID(phid_);
-  lumiPrincipal->fillLuminosityBlockPrincipal();
-  return lumiPrincipal;
-}
-
-void LHESource::beginRun(edm::Run&)
+void LHESource::beginRun(edm::Run &run)
 {
+	nextEvent();
 	if (runInfoLast) {
 		runInfo = runInfoLast;
 
@@ -115,53 +87,40 @@ void LHESource::beginRun(edm::Run&)
 		runInfoProducts.push_back(new LHERunInfoProduct(*product));
 		wasMerged = false;
 
-                edm::WrapperOwningHolder rdp(new edm::Wrapper<LHERunInfoProduct>(product), edm::Wrapper<LHERunInfoProduct>::getInterface());
-		runPrincipal_->put(lheProvenanceHelper_.runProductBranchDescription_, rdp);
+		run.put(product);
 
 		runInfo.reset();
 	}
 }
 
-void LHESource::endRun(edm::Run&)
+void LHESource::endRun(edm::Run &run)
 {
 	if (!runInfoProducts.empty()) {
 		std::auto_ptr<LHERunInfoProduct> product(
 					runInfoProducts.pop_front().release());
-                edm::WrapperOwningHolder rdp(new edm::Wrapper<LHERunInfoProduct>(product), edm::Wrapper<LHERunInfoProduct>::getInterface());
-		runPrincipal_->put(lheProvenanceHelper_.runProductBranchDescription_, rdp);
+		run.put(product);
 	}
-	runPrincipal_.reset();
 }
 
 bool LHESource::setRunAndEventInfo(edm::EventID&, edm::TimeValue_t&)
 {
 	nextEvent();
-	if (!partonLevel) {
+	if (!partonLevel)
 		return false;
-        }
         return true;
 }
 
-edm::EventPrincipal*
-LHESource::readEvent_(edm::EventPrincipal& eventPrincipal) {
-	assert(eventCached() || processingMode() != RunsLumisAndEvents);
-	EventSourceSentry sentry(*this);
-	edm::EventAuxiliary aux(eventID(), processGUID(), edm::Timestamp(presentTime()), false);
-	aux.setProcessHistoryID(phid_);
-	eventPrincipal.fillEventPrincipal(aux);
-
+void LHESource::produce(edm::Event &event)
+{
 	std::auto_ptr<LHEEventProduct> product(
 			new LHEEventProduct(*partonLevel->getHEPEUP()));
-	if (partonLevel->getPDF()) {
+	if (partonLevel->getPDF())
 		product->setPDF(*partonLevel->getPDF());
-        }
 	std::for_each(partonLevel->getComments().begin(),
 	              partonLevel->getComments().end(),
 	              boost::bind(&LHEEventProduct::addComment,
 	                          product.get(), _1));
-
-	edm::WrapperOwningHolder edp(new edm::Wrapper<LHEEventProduct>(product), edm::Wrapper<LHEEventProduct>::getInterface());
-	eventPrincipal.put(lheProvenanceHelper_.eventProductBranchDescription_, edp, lheProvenanceHelper_.eventProductProvenance_);
+	event.put(product);
 
 	if (runInfo) {
 		std::auto_ptr<LHERunInfoProduct> product(
@@ -189,9 +148,6 @@ LHESource::readEvent_(edm::EventPrincipal& eventPrincipal) {
 	}
 
 	partonLevel.reset();
-
-	resetEventCached();
-	return &eventPrincipal;
 }
 
 DEFINE_FWK_INPUT_SOURCE(LHESource);

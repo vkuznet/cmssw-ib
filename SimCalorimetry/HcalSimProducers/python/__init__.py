@@ -1,3 +1,3 @@
 #Automatically created by SCRAM
 import os
-__path__.append(os.path.dirname(os.path.abspath(__file__).rsplit('/SimCalorimetry/HcalSimProducers/',1)[0])+'/cfipython/slc5_amd64_gcc472/SimCalorimetry/HcalSimProducers')
+__path__.append(os.path.dirname(os.path.abspath(__file__).rsplit('/SimCalorimetry/HcalSimProducers/',1)[0])+'/cfipython/slc6_amd64_gcc480/SimCalorimetry/HcalSimProducers')

@@ -1,3 +1,3 @@
 #Automatically created by SCRAM
 import os
-__path__.append(os.path.dirname(os.path.abspath(__file__).rsplit('/DPGAnalysis/SiStripTools/',1)[0])+'/cfipython/slc5_amd64_gcc472/DPGAnalysis/SiStripTools')
+__path__.append(os.path.dirname(os.path.abspath(__file__).rsplit('/DPGAnalysis/SiStripTools/',1)[0])+'/cfipython/slc6_amd64_gcc480/DPGAnalysis/SiStripTools')

@@ -1,4 +1,3 @@
-#if !defined(__arm__)
 #include "DataFormats/Math/interface/SSEVec.h"
 
 #include<cmath>
@@ -274,12 +273,6 @@ int main() {
   std::vector<Vec> vec2(53);
   std::vector<Vec> vec3; vec3.reserve(50234);
 
-  return 0;
-}
-#endif
-
-#else // arm
-int main() {
   return 0;
 }
 #endif
