@@ -12,14 +12,12 @@
  *  only be included when propagating from a TrajectoryStateOnSurface.
  *  Ported from ORCA.
  *
- *  $Date: 2013/04/12 15:08:44 $
- *  $Revision: 1.17 $
+ *  $Date: 2012/05/05 17:44:59 $
+ *  $Revision: 1.14 $
  *  \author todorov, cerati
  */
 
 #include "DataFormats/GeometryCommonDetAlgo/interface/DeepCopyPointerByClone.h"
-#include "TrackPropagation/RungeKutta/interface/defaultRKPropagator.h"
-
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"
 #include "TrackingTools/MaterialEffects/interface/MaterialEffectsUpdator.h"
 #include "MagneticField/Engine/interface/MagneticField.h"
@@ -40,6 +38,12 @@ public:
   PropagatorWithMaterial (PropagationDirection dir, const float mass,  
 			  const MagneticField * mf=0,const float maxDPhi=1.6,
 			  bool useRungeKutta=false, float ptMin=-1.,bool useOldGeoPropLogic=true);
+  /** Constructor with explicit propagator and material effects objects.
+   */
+  PropagatorWithMaterial(const Propagator& Propagator,
+			 const MaterialEffectsUpdator& MEUpdator,
+			 const MagneticField * mf=0,
+			 bool useRungeKutta=false);
 
   virtual ~PropagatorWithMaterial();
 
@@ -125,12 +129,10 @@ public:
 
 private:
   /// Inclusion of material at the source?
-  bool materialAtSource() const dso_internal;
+  bool materialAtSource() const;
 
 private:
   // Geometrical propagator
-
-  defaultRKPropagator::Product rkProduct;
   DeepCopyPointerByClone<Propagator> theGeometricalPropagator;
 
 

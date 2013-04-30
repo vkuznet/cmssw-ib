@@ -12,7 +12,7 @@ process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(10))
 process.c = cms.EDProducer("ThingProducer")
 
 process.d = cms.EDProducer("OtherThingProducer",
-                           thingTag=cms.InputTag("c"))
+                           thingLabel=cms.untracked.string("c"))
 
 process.o = cms.OutputModule("PoolOutputModule",
                              outputCommands = cms.untracked.vstring("drop *",

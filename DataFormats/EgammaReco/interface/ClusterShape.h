@@ -8,7 +8,7 @@
  * \author Michael A. Balazs, UVa
  * \author Luca Lista, INFN
  *
- * \version $Id: ClusterShape.h,v 1.11 2013/04/22 22:53:02 wmtan Exp $
+ * \version $Id: ClusterShape.h,v 1.10 2008/04/16 09:06:54 ferriff Exp $
  *
  */
 
@@ -28,8 +28,8 @@ namespace reco {
 		  double e5x5, double E10_Right_, double E10_Left_,
 		  double E10_Top_, double E10_Bottom_, double e3x2Ratio,
 		  double LAT, double etaLAT, double phiLAT, double A20, double A42,
-                  const std::vector<double>& energyBasketFractionEta_,
-                  const std::vector<double>& energyBasketFractionPhi_);
+                  std::vector<double> energyBasketFractionEta_,
+                  std::vector<double> energyBasketFractionPhi_);
     double eMax() const { return eMax_; }
     double e2nd() const { return e2nd_; }
     double e2x2() const { return e2x2_; }

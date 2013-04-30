@@ -17,7 +17,7 @@
 //
 // Original Author:  Sunanda Banerjee
 //         Created:  Sun May 14 10:14:34 CEST 2006
-// $Id: PHcalTB04Info.h,v 1.3 2013/04/22 22:30:15 wmtan Exp $
+// $Id: PHcalTB04Info.h,v 1.2 2006/11/15 05:52:36 sunanda Exp $
 //
 
 // system include files
@@ -94,16 +94,16 @@ public:
 
   // ---------- member functions ---------------------------
   void clear();
-  void setIDs(const std::vector<int>&, const std::vector<int>&);
+  void setIDs(std::vector<int>, std::vector<int>);
   void setPrimary(int primary, int id, double energy, double eta, double phi);
   void setEdep(double simtot, double sime, double simh, 
 	       double digtot, double dige, double digh);
-  void setEdepEcal(const std::vector<double>& esim, const std::vector<double>& edig);
-  void setEdepHcal(const std::vector<double>& esim, const std::vector<double>& edig);
+  void setEdepEcal(std::vector<double> esim, std::vector<double> edig);
+  void setEdepHcal(std::vector<double> esim, std::vector<double> edig);
 
-  void setTrnsProf(const std::vector<double>& es1, const std::vector<double>& eq1, 
-		   const std::vector<double>& es2, const std::vector<double>& eq2);
-  void setLongProf(const std::vector<double>& es, const std::vector<double>& eq);
+  void setTrnsProf(std::vector<double> es1, std::vector<double> eq1, 
+		   std::vector<double> es2, std::vector<double> eq2);
+  void setLongProf(std::vector<double> es, std::vector<double> eq);
   void saveHit(int det, int lay, int eta, int phi, double e, double t);
 
   //Vertex associated methods

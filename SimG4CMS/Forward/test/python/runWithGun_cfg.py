@@ -37,10 +37,14 @@ process.MessageLogger = cms.Service("MessageLogger",
     )
 )
 
-process.load("IOMC.RandomEngine.IOMC_cff")
-process.RandomNumberGeneratorService.generator.initialSeed = 456789
-process.RandomNumberGeneratorService.g4SimHits.initialSeed = 9876
-process.RandomNumberGeneratorService.VtxSmeared.initialSeed = 123456789
+process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+    moduleSeeds = cms.PSet(
+        generator = cms.untracked.uint32(456789),
+        g4SimHits = cms.untracked.uint32(9876),
+        VtxSmeared = cms.untracked.uint32(123456789)
+    ),
+    sourceSeed = cms.untracked.uint32(135799753)
+)
 
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(2)
@@ -98,15 +102,7 @@ process.g4SimHits.StackingAction = cms.PSet(
     SaveFirstLevelSecondary = cms.untracked.bool(True),
     SavePrimaryDecayProductsAndConversionsInTracker = cms.untracked.bool(True),
     SavePrimaryDecayProductsAndConversionsInCalo    = cms.untracked.bool(True),
-    SavePrimaryDecayProductsAndConversionsInMuon    = cms.untracked.bool(True),
-    RusRoEcalNeutron         = cms.double(1.0),
-    RusRoEcalNeutronLimit    = cms.double(0.0),
-    RusRoHcalNeutron         = cms.double(1.0),
-    RusRoHcalNeutronLimit    = cms.double(0.0),
-    RusRoEcalProton      = cms.double(1.0),
-    RusRoEcalProtonLimit = cms.double(0.0),
-    RusRoHcalProton      = cms.double(1.0),
-    RusRoHcalProtonLimit = cms.double(0.0)
+    SavePrimaryDecayProductsAndConversionsInMuon    = cms.untracked.bool(True)
 )
 process.g4SimHits.SteppingAction = cms.PSet(
     process.common_maximum_timex,

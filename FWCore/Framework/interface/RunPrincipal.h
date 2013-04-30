@@ -75,22 +75,14 @@ namespace edm {
 
     void readImmediate() const;
 
-    void setComplete() {
-      complete_ = true;
-    }
-
   private:
 
-    virtual bool isComplete_() const override {return complete_;}
-
-    virtual bool unscheduledFill(std::string const&) const override {return false;}
+    virtual bool unscheduledFill(std::string const&) const {return false;}
 
     void resolveProductImmediate(ProductHolderBase const& phb) const;
 
     // A vector of product holders.
     boost::shared_ptr<RunAuxiliary> aux_;
-
-    bool complete_;
   };
 }
 #endif

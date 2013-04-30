@@ -12,7 +12,6 @@ These products should be informational products about the filter decision.
 ----------------------------------------------------------------------*/
 
 #include "FWCore/Framework/interface/ProducerBase.h"
-#include "FWCore/Framework/interface/EDConsumerBase.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/ParameterSet/interface/ParameterSetfwd.h"
 #include "DataFormats/Provenance/interface/ModuleDescription.h"
@@ -22,7 +21,7 @@ These products should be informational products about the filter decision.
 
 namespace edm {
 
-  class EDFilter : public ProducerBase, public EDConsumerBase {
+  class EDFilter : public ProducerBase {
   public:
     template <typename T> friend class WorkerT;
     typedef EDFilter ModuleType;

@@ -48,11 +48,11 @@ produceDenomsSingleMu = cms.Sequence(
     produceDenominatorRealData+
     produceDenominatorRealMuonsData
     )
-produceDenomsJet = cms.Sequence(produceDenominatorRealData)
-produceDenomsMultiJet = cms.Sequence(produceDenomsJet)
+produceDenomsJet = produceDenominatorRealData
+produceDenomsMultiJet = produceDenomsJet
 
-produceDenomsDoubleElectron = cms.Sequence(produceDenominatorRealElectronsData)
-produceDenomsTauPlusX = cms.Sequence(produceDenomsDoubleElectron)
+produceDenomsDoubleElectron = produceDenominatorRealElectronsData
+produceDenomsTauPlusX = produceDenomsDoubleElectron
 
 #----------------------------------------------------------------------------------------------------------------------------------------
 #                                                  Main modules according to dataset
@@ -170,11 +170,11 @@ runTauEffSingleMu =  cms.Sequence(
     normalizePlotsRealMuonsData
     )       
 
-runTauEffJet = cms.Sequence(TauEfficienciesRealData)
+runTauEffJet = TauEfficienciesRealData
 runTauEffMutiJet = cms.Sequence(runTauEffJet)
 
-runTauEffDoubleElectron = cms.Sequence(produceDenominatorRealElectronsData)
-runTauEffTauPlusX = cms.Sequence(runTauEffDoubleElectron)
+runTauEffDoubleElectron = produceDenominatorRealElectronsData
+runTauEffTauPlusX = runTauEffDoubleElectron
 
 ##Full sequences, including normalizations
 ## TauEfficienciesRealData+

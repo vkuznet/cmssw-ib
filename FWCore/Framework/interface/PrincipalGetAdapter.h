@@ -1,5 +1,5 @@
-#ifndef FWCore_Framework_PrincipalGetAdapter_h
-#define FWCore_Framework_PrincipalGetAdapter_h
+#ifndef Framework_PrincipalGetAdapter_h
+#define Framework_PrincipalGetAdapter_h
 
 // -*- C++ -*-
 //
@@ -99,12 +99,7 @@ edm::Ref<AppleCollection> ref(refApples, index);
 
 #include "DataFormats/Common/interface/Handle.h"
 
-#include "DataFormats/Common/interface/Wrapper.h"
-
 #include "FWCore/Utilities/interface/InputTag.h"
-#include "FWCore/Utilities/interface/EDGetToken.h"
-#include "FWCore/Utilities/interface/ProductKindOfType.h"
-
 
 namespace edm {
 
@@ -114,14 +109,6 @@ namespace edm {
     };
     void
     throwOnPutOfNullProduct(char const* principalType, TypeID const& productType, std::string const& productInstanceName);
-    void
-    throwOnPrematureRead(char const* principalType, TypeID const& productType, std::string const& moduleLabel, std::string const& productInstanceName);
-    void
-    throwOnPrematureRead(char const* principalType, TypeID const& productType);
-
-    void
-    throwOnPrematureRead(char const* principalType, TypeID const& productType, EDGetToken);
-
   }
   class PrincipalGetAdapter {
   public:
@@ -134,16 +121,6 @@ namespace edm {
     PrincipalGetAdapter& operator=(PrincipalGetAdapter const&) = delete; // Disallow copying and moving
 
     //size_t size() const;
-    
-    void setConsumer(EDConsumerBase const* iConsumer) {
-      consumer_ = iConsumer;
-    }
-
-    bool isComplete() const;
-
-    template <typename PROD>
-    bool 
-    checkIfComplete() const;
 
     template <typename PROD>
     void 
@@ -177,9 +154,6 @@ namespace edm {
 		std::string const& process) const;
 
     BasicHandle
-    getByToken_(TypeID const& id, KindOfType kindOfType, EDGetToken token) const;
-    
-    BasicHandle
     getMatchingSequenceByLabel_(TypeID const& typeID,
                                 InputTag const& tag) const;
 
@@ -196,13 +170,10 @@ namespace edm {
     // Also isolates the PrincipalGetAdapter class
     // from the Principal class.
     EDProductGetter const* prodGetter() const;
-
   private:
     // Is this an Event, a LuminosityBlock, or a Run.
     BranchType const& branchType() const;
 
-    BasicHandle
-    makeFailToGetException(KindOfType,TypeID const&,EDGetToken) const;
   private:
     //------------------------------------------------------------
     // Data members
@@ -215,8 +186,6 @@ namespace edm {
     // Each PrincipalGetAdapter must have a description of the module executing the
     // "transaction" which the PrincipalGetAdapter represents.
     ModuleDescription const& md_;
-    
-    EDConsumerBase const* consumer_;
 
   };
 
@@ -292,13 +261,6 @@ namespace edm {
   // Implementation of  PrincipalGetAdapter  member templates. See  PrincipalGetAdapter.cc for the
   // implementation of non-template members.
   //
-
-  template <typename PROD>
-  inline
-  bool 
-  PrincipalGetAdapter::checkIfComplete() const { 
-    return isComplete() || !detail::has_mergeProduct_function<PROD>::value;
-  }
 
   template <typename PROD>
   inline

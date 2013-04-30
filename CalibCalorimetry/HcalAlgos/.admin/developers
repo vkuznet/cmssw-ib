@@ -24,8 +24,13 @@
 # of developers to include in the list.
 #
 >Developers
+akub19 : Andrew Kubik : kubik@lotus.phys.northwestern.edu
+devildog : Steven Won : Steven.Won@cern.ch
+kukartse : Gennadiy Kukartsev : Gennadiy.Kukartsev@cern.ch
 sturdy: Jared Sturdy : Jared.Todd.Sturdy@cern.ch
 andersj: Jake Anderson : Jake.Anderson@cern.ch
+temple : Jeffrey Temple : jtemple@fnal.gov
+rpw : Rick Wilkinson : Richard.Wilkinson@cern.ch
 abdullin : Salavat Abdoulline : Salavat.Abdoulline@cern.ch
 xiezhen : Zhen Xie : Zhen.Xie@cern.ch
 pbgeff : Paul Geffert :	pbgeff@cern.ch
@@ -33,5 +38,6 @@ pbgeff : Paul Geffert :	pbgeff@cern.ch
 >Administrators
 rahatlou : Shahram Rahatlou : Shahram.Rahatlou@cern.ch
 mansj : Jeremy Mans : jmmans@physics.umn.edu
+rofierzy : Radek Ofierzynski : Radek.Ofierzynski@cern.ch
 abdullin : Salavat Abdoulline : Salavat.Abdoulline@cern.ch
 

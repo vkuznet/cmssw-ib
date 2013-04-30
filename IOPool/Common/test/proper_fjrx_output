@@ -7,9 +7,7 @@
 <ModuleLabel>source</ModuleLabel>
 <Branches>
   <Branch>edmTriggerResults_TriggerResults__TESTPROD.</Branch>
-  <Branch>edmtestOtherThings_AOtherThing_testUserTag_TESTPROD.</Branch>
   <Branch>edmtestOtherThings_OtherThing_testUserTag_TESTPROD.</Branch>
-  <Branch>edmtestOtherThings_ZOtherThing_testUserTag_TESTPROD.</Branch>
   <Branch>edmtestThings_Thing__TESTPROD.</Branch>
 </Branches>
 <InputType>primaryFiles</InputType>
@@ -50,9 +48,7 @@
 <ModuleLabel>output</ModuleLabel>
 <Branches>
   <Branch>edmTriggerResults_TriggerResults__TESTPROD.</Branch>
-  <Branch>edmtestOtherThings_AOtherThing_testUserTag_TESTPROD.</Branch>
   <Branch>edmtestOtherThings_OtherThing_testUserTag_TESTPROD.</Branch>
-  <Branch>edmtestOtherThings_ZOtherThing_testUserTag_TESTPROD.</Branch>
   <Branch>edmtestThings_Thing__TESTPROD.</Branch>
 </Branches>
 <OutputModuleClass>PoolOutputModule</OutputModuleClass>
@@ -60,7 +56,7 @@
 
 <DataType>MC</DataType>
 
-<BranchHash>424c4c69ba38c3dbfb10d247e72f522e</BranchHash>
+<BranchHash>7dc99e51d599f427e45b5da85dfa67c1</BranchHash>
 
 <Runs>
 <Run ID="100">
@@ -86,9 +82,7 @@
 </File>
 <ReadBranches>
 <Branch Name="edmTriggerResults_TriggerResults__TESTPROD." ReadCount="35" />
-<Branch Name="edmtestOtherThings_AOtherThing_testUserTag_TESTPROD." ReadCount="10" />
 <Branch Name="edmtestOtherThings_OtherThing_testUserTag_TESTPROD." ReadCount="10" />
-<Branch Name="edmtestOtherThings_ZOtherThing_testUserTag_TESTPROD." ReadCount="10" />
 <Branch Name="edmtestThings_Thing__TESTPROD." ReadCount="35" />
 </ReadBranches>
 

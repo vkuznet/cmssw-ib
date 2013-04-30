@@ -10,7 +10,6 @@ EDProducts into an Event.
 ----------------------------------------------------------------------*/
 
 #include "FWCore/Framework/interface/ProducerBase.h"
-#include "FWCore/Framework/interface/EDConsumerBase.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "DataFormats/Provenance/interface/ModuleDescription.h"
 #include "FWCore/ParameterSet/interface/ParameterSetfwd.h"
@@ -19,7 +18,7 @@ EDProducts into an Event.
 #include <vector>
 
 namespace edm {
-  class EDProducer : public ProducerBase, public EDConsumerBase {
+  class EDProducer : public ProducerBase {
   public:
     template <typename T> friend class WorkerT;
     typedef EDProducer ModuleType;

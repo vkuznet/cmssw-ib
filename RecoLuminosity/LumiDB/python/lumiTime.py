@@ -1,4 +1,4 @@
-import os,sys,time,calendar
+import os,sys,time,calendar,pytz
 from datetime import datetime,timedelta
 
 class lumiTime(object):
@@ -9,9 +9,8 @@ class lumiTime(object):
         self.bunchspace_us=0.02495 #in microseconds
         self.bunchspace_s=24.95e-09 #in seconds
         
-    #def timestampTodatetimeUTC(self,ts):
-        ##return datetime.fromtimestamp(ts,tz=pytz.utc)
-        #return datetime.utcfromtimestamp(ts)
+    def timestampTodatetimeUTC(self,ts):
+        return datetime.fromtimestamp(ts,tz=pytz.utc)
     
     def LSDuration(self,norbits):
         return timedelta(microseconds=(self.nbx*norbits*self.bunchspace_us))

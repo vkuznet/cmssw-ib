@@ -29,13 +29,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "TrackingTools/GeomPropagators/interface/AnalyticalPropagator.h"
-#include "TrackPropagation/RungeKutta/interface/defaultRKPropagator.h"
-
-class RKTestField GCC11_FINAL : public MagneticField
-{
- public:
-  virtual GlobalVector inTesla ( const GlobalPoint& ) const {return GlobalVector(0,0,4);}
-};
+#include "TrackPropagation/RungeKutta/interface/RKTestPropagator.h"
 
 
 using namespace std;
@@ -77,7 +71,7 @@ void RKTest::propagateInCentralVolume( const MagneticField* field) const
 
   //  RKTestPropagator RKprop ( &TestField, alongMomentum );
   //AnalyticalPropagator ANprop  ( &TestField, alongMomentum);
-  defaultRKPropagator::Product  prod( field, alongMomentum, 5.e-5); auto & RKprop = prod.propagator;
+  RKTestPropagator RKprop ( field, alongMomentum, 5.e-5);
   AnalyticalPropagator ANprop  ( field, alongMomentum);
 
 

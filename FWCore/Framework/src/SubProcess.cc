@@ -138,7 +138,7 @@ namespace edm {
       fixBranchIDListsForEDAliases(droppedBranchIDToKeptBranchID());
     }
     ServiceRegistry::Operate operate(serviceToken_);
-    schedule_->beginJob(*preg_);
+    schedule_->beginJob();
     if(subProcess_.get()) subProcess_->doBeginJob();
   }
 

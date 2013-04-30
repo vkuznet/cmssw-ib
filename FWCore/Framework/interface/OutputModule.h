@@ -19,7 +19,6 @@ output stream.
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/ProductSelectorRules.h"
 #include "FWCore/Framework/interface/ProductSelector.h"
-#include "FWCore/Framework/interface/EDConsumerBase.h"
 #include "FWCore/ParameterSet/interface/ParameterSetfwd.h"
 
 #include <array>
@@ -33,7 +32,7 @@ namespace edm {
 
   std::vector<std::string> const& getAllTriggerNames();
 
-  class OutputModule : public EDConsumerBase {
+  class OutputModule  {
   public:
     template <typename T> friend class WorkerT;
     friend class OutputWorker;

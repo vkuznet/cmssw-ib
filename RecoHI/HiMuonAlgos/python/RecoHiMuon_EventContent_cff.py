@@ -47,10 +47,6 @@ reRecoMuonRECO = cms.PSet(
 reRecoMuonFEVT = cms.PSet(
     outputCommands = cms.untracked.vstring()
 )
-reRecoMuonRECO.outputCommands.extend(reRecoMuonAOD.outputCommands)
-reRecoMuonFEVT.outputCommands.extend(reRecoMuonRECO.outputCommands)
-
-RecoHiMuonAOD.outputCommands.extend(reRecoMuonAOD.outputCommands)
-RecoHiMuonRECO.outputCommands.extend(reRecoMuonRECO.outputCommands)
-RecoHiMuonFEVT.outputCommands.extend(reRecoMuonFEVT.outputCommands)
+RecoHiMuonRECO.outputCommands.extend(reRecoMuonAOD.outputCommands)
+RecoHiMuonFEVT.outputCommands.extend(reRecoMuonRECO.outputCommands)
 

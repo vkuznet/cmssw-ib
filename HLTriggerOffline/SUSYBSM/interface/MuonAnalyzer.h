@@ -75,7 +75,7 @@ class MuonAnalyzerSBSM {
   edm::InputTag triggerTag_;
   edm::InputTag muonTag_;
 
-  bool find(const std::vector<int>&, int);
+  bool find(std::vector<int>, int);
 
 };
 

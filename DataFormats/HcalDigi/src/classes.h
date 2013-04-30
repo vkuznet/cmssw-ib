@@ -1,7 +1,6 @@
 #include <vector>
 #include "DataFormats/Common/interface/SortedCollection.h"
 #include "DataFormats/HcalDigi/interface/HcalQIESample.h"
-#include "DataFormats/HcalDigi/interface/HcalUpgradeQIESample.h"
 #include "DataFormats/HcalDigi/interface/HBHEDataFrame.h"
 #include "DataFormats/HcalDigi/interface/HFDataFrame.h"
 #include "DataFormats/HcalDigi/interface/HODataFrame.h"
@@ -10,12 +9,12 @@
 #include "DataFormats/HcalDigi/interface/HcalUnpackerReport.h"
 #include "DataFormats/HcalDigi/interface/HcalLaserDigi.h"
 #include "DataFormats/HcalDigi/interface/HcalTTPDigi.h"
+#include "DataFormats/HcalDigi/interface/HcalUpgradeDataFrame.h"
 #include "DataFormats/Common/interface/Wrapper.h"
 
 namespace {
   struct dictionary {
     std::vector<HcalQIESample> vQIE_;
-    std::vector<HcalUpgradeQIESample> vUQIE_;
     std::vector<HcalTriggerPrimitiveSample> vTPS_;
     
     edm::SortedCollection<HBHEDataFrame> vHBHE_;
@@ -34,8 +33,7 @@ namespace {
     HcalTrigPrimDigiCollection theHTP_;
     HcalHistogramDigiCollection theHH_;
     ZDCDigiCollection theZDC_;
-    HBHEUpgradeDigiCollection theUHBHE_;
-    HFUpgradeDigiCollection theUHF_;
+    HcalUpgradeDigiCollection theUG_;
     CastorDigiCollection theCastor_;
     CastorTrigPrimDigiCollection theCastorTP_;
     HOTrigPrimDigiCollection theHOTP_;
@@ -64,8 +62,7 @@ namespace {
     edm::Wrapper<HcalUnpackerReport> theReport_;
     edm::Wrapper<HcalLaserDigi> theLaserw_;
     edm::Wrapper<HcalTTPDigiCollection> theTTPw_;
-    edm::Wrapper<HBHEUpgradeDigiCollection> theUHBHEw_;
-    edm::Wrapper<HFUpgradeDigiCollection> theUHFw_;
+    edm::Wrapper<HcalUpgradeDigiCollection> theUGw_;
   };
 }
 

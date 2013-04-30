@@ -6,10 +6,13 @@ process.load("FWCore.Framework.test.cmsExceptionsFatal_cff")
 process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(1)
 )
-process.Thing = cms.EDProducer("ThingProducer")
+process.Thing = cms.EDProducer("ThingProducer",
+    debugLevel = cms.untracked.int32(1)
+)
 
 process.OtherThing = cms.EDProducer("OtherThingProducer",
-    useRefs = cms.untracked.bool(False)
+    useRefs = cms.untracked.bool(False),
+    debugLevel = cms.untracked.int32(1)
 )
 
 process.output = cms.OutputModule("PoolOutputModule",

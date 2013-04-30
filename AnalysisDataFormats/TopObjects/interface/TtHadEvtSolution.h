@@ -1,7 +1,7 @@
 #ifndef TopObjects_TtHadEvtSolution_h
 #define TopObjects_TtHadEvtSolution_h
 //
-// $Id: TtHadEvtSolution.h,v 1.13 2013/04/19 22:13:23 wmtan Exp $
+// $Id: TtHadEvtSolution.h,v 1.12 2009/11/16 14:06:51 rwolf Exp $
 // adapted TtSemiEvtSolution.h,v 1.14 2007/07/06 03:07:47 lowette Exp 
 // for fully hadronic channel
 
@@ -212,7 +212,7 @@ class TtHadEvtSolution {
   void setMCBestJetComb(int mcbs) { mcBestJetComb_ = mcbs; };
   void setSimpleBestJetComb(int sbs) { simpleBestJetComb_ = sbs; };
   void setLRBestJetComb(int lrbs) { lrBestJetComb_ = lrbs; };
-  void setLRJetCombObservables(const std::vector<std::pair<unsigned int, double> >& varval);
+  void setLRJetCombObservables(std::vector<std::pair<unsigned int, double> > varval);
   void setLRJetCombLRval(double clr) {lrJetCombLRval_ = clr;};
   void setLRJetCombProb(double plr) {lrJetCombProb_ = plr;};
 
@@ -220,7 +220,7 @@ class TtHadEvtSolution {
   // methods to set the outcome of the signal 
   // selection LR
   //-------------------------------------------
-  void setLRSignalEvtObservables(const std::vector<std::pair<unsigned int, double> >& varval);
+  void setLRSignalEvtObservables(std::vector<std::pair<unsigned int, double> > varval);
   void setLRSignalEvtLRval(double clr) {lrSignalEvtLRval_ = clr;};
   void setLRSignalEvtProb(double plr) {lrSignalEvtProb_ = plr;};
   

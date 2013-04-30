@@ -1,6 +1,6 @@
 //  Author     : Gero Flucke (based on code by Edmund Widl replacing ORCA's TkReferenceTrack)
 //  date       : 2006/09/17
-//  last update: $Date: 2013/04/12 13:22:30 $
+//  last update: $Date: 2012/12/25 16:42:04 $
 //  by         : $Author: innocent $
 
 #include <memory>
@@ -25,7 +25,7 @@
 #include "TrackingTools/AnalyticalJacobians/interface/JacobianCurvilinearToLocal.h"
 
 #include "TrackingTools/GeomPropagators/interface/AnalyticalPropagator.h"
-#include "TrackPropagation/RungeKutta/interface/defaultRKPropagator.h"
+#include "TrackPropagation/RungeKutta/interface/RKTestPropagator.h"
 
 #include "TrackingTools/TrajectoryState/interface/TrajectoryStateOnSurface.h"
 #include "TrackingTools/TrajectoryParametrization/interface/GlobalTrajectoryParameters.h"
@@ -365,8 +365,8 @@ bool ReferenceTrajectory::propagate(const Plane &previousSurface, const Trajecto
   // Hard coded RungeKutta instead Analytical (avoid bias in TEC), but
   // work around TrackPropagation/RungeKutta/interface/RKTestPropagator.h and
   // http://www.parashift.com/c++-faq-lite/strange-inheritance.html#faq-23.9
-  defaultRKPropagator::Product  rkprod(magField, propDir); //double tolerance = 5.e-5)
-  Propagator &aPropagator = rkprod.propagator;
+  RKTestPropagator bPropagator(magField, propDir); //double tolerance = 5.e-5)
+  Propagator &aPropagator = bPropagator;
   const std::pair<TrajectoryStateOnSurface, double> tsosWithPath =
     aPropagator.propagateWithPath(previousTsos, newSurface);
 

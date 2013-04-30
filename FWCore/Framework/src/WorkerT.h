@@ -46,9 +46,6 @@ namespace edm {
     
     virtual Types moduleType() const override;
 
-    virtual void updateLookup(BranchType iBranchType,
-                              ProductHolderIndexHelper const&) override;
-
 
   protected:
     T& module() {return *module_;}

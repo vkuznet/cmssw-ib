@@ -4,7 +4,6 @@
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "DataFormats/Provenance/interface/ModuleDescription.h"
 #include "FWCore/ParameterSet/interface/ParameterSetfwd.h"
-#include "FWCore/Framework/interface/EDConsumerBase.h"
 
 #include <string>
 
@@ -12,7 +11,7 @@
 
 namespace edm {
 
-  class EDAnalyzer : public EDConsumerBase {
+  class EDAnalyzer {
   public:
     template <typename T> friend class WorkerT;
     typedef EDAnalyzer ModuleType;

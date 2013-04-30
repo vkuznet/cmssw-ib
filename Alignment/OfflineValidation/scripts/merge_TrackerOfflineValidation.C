@@ -117,9 +117,9 @@ void hadd(const char *filesSeparatedByKommaOrEmpty = "", const char * outputFile
   TString outputFileString;
 
   if (strlen(outputFile)!=0) 
-    outputFileString = TString("$OUTPUTDIR/")+ TString(outputFile);
+    outputFileString = TString("$TMPDIR/")+ TString(outputFile);
   else
-    outputFileString = "$OUTPUTDIR/merge_output.root";
+    outputFileString = "$TMPDIR/merge_output.root";
   
   TFile *Target = TFile::Open( outputFileString, "RECREATE" );
   MergeRootfile( Target, FileList);
@@ -151,18 +151,12 @@ void hadd(const char *filesSeparatedByKommaOrEmpty = "", const char * outputFile
   std::cout << "--- 4) continue plotting with fg (only a few minutes left)------ " << std::endl;
   std::cout << "-- ------------------------------------------------------------- " << std::endl;
 
- 
   //  gROOT->GetListOfFiles()->Remove(Target);
 
   // tested, does not work
   //  Target->cd();
   Target->Close();
   //delete Target;
-
-  // The abort() command is ugly, but much quicker than the clean return()
-  // Use of return() can take 90 minutes, while abort() takes 10 minutes
-  // (merging 20 jobs with 1M events in total)
-  abort();
 
   std::cout << "Now returning from merge_TrackerOfflineValidation.C" << std::endl;
   return;

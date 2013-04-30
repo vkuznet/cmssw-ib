@@ -44,13 +44,12 @@ ClusterShapeHitFilter::ClusterShapeHitFilter
   (const TrackerGeometry * theTracker_,
    const MagneticField          * theMagneticField_,
    const SiPixelLorentzAngle    * theSiPixelLorentzAngle_,
-   const SiStripLorentzAngle    * theSiStripLorentzAngle_,
-   const std::string            * use_PixelShapeFile_)
+   const SiStripLorentzAngle    * theSiStripLorentzAngle_)
    : theTracker(theTracker_),
      theMagneticField(theMagneticField_),
      theSiPixelLorentzAngle(theSiPixelLorentzAngle_),
-     theSiStripLorentzAngle(theSiStripLorentzAngle_),
-     PixelShapeFile(use_PixelShapeFile_)
+     theSiStripLorentzAngle(theSiStripLorentzAngle_)
+
 {
   // Load pixel limits
   loadPixelLimits();
@@ -69,9 +68,7 @@ ClusterShapeHitFilter::~ClusterShapeHitFilter()
 void ClusterShapeHitFilter::loadPixelLimits()
 {
   edm::FileInPath
-  fileInPath(PixelShapeFile->c_str());
-  //fileInPath("RecoPixelVertexing/PixelLowPtUtilities/data/pixelShape.par");
-  //fileInPath("RecoPixelVertexing/PixelLowPtUtilities/data/pixelShape_Phase1Tk.par");
+    fileInPath("RecoPixelVertexing/PixelLowPtUtilities/data/pixelShape.par");
   ifstream inFile(fileInPath.fullPath().c_str());
 
 

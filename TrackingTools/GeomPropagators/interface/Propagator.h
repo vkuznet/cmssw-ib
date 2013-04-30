@@ -142,7 +142,7 @@ public:
    *  path lengt means "alongMomentum", an egeative sign means 
    *  "oppositeToMomentum".
    */
-  virtual PropagationDirection propagationDirection() const GCC11_FINAL {
+  virtual PropagationDirection propagationDirection() const {
     return theDir;
   }
 

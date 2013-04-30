@@ -21,8 +21,13 @@ process.MessageLogger = cms.Service("MessageLogger",
 
 process.Timing = cms.Service("Timing")
 
-process.load("IOMC.RandomEngine.IOMC_cff")
-process.RandomNumberGeneratorService.generator.initialSeed = 456789
+process.RandomNumberGeneratorService = cms.Service("RandomNumberGeneratorService",
+    moduleSeeds = cms.PSet(
+        generator = cms.untracked.uint32(456789)
+    ),
+    sourceSeed = cms.untracked.uint32(123456789)
+)
+
 process.rndmStore = cms.EDProducer("RandomEngineStateProducer")
 
 # Event output

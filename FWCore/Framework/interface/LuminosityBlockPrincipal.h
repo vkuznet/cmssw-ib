@@ -93,23 +93,14 @@ namespace edm {
 
     void readImmediate() const;
 
-    void setComplete() {
-      complete_ = true;
-    }
-
   private:
-
-    virtual bool isComplete_() const override {return complete_;}
-
-    virtual bool unscheduledFill(std::string const&) const override {return false;}
+    virtual bool unscheduledFill(std::string const&) const {return false;}
 
     void resolveProductImmediate(ProductHolderBase const& phb) const;
 
     boost::shared_ptr<RunPrincipal> runPrincipal_;
 
     boost::shared_ptr<LuminosityBlockAuxiliary> aux_;
-
-    bool complete_;
   };
 }
 #endif

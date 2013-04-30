@@ -14,12 +14,11 @@ namespace edm {
     ProcessConfiguration const& pc,
     HistoryAppender* historyAppender) :
     Base(reg, reg->productLookup(InRun), pc, InRun, historyAppender),
-      aux_(aux), complete_(false) {
+      aux_(aux) {
   }
 
   void
   RunPrincipal::fillRunPrincipal(DelayedReader* reader) {
-    complete_ = false;
 
     fillPrincipal(aux_->processHistoryID(), reader);
 

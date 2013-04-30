@@ -15,15 +15,12 @@ namespace edm {
       HistoryAppender* historyAppender) :
     Base(reg, reg->productLookup(InLumi), pc, InLumi, historyAppender),
         runPrincipal_(),
-        aux_(aux),
-        complete_(false) {
+        aux_(aux) {
   }
 
   void
   LuminosityBlockPrincipal::fillLuminosityBlockPrincipal(
       DelayedReader* reader) {
-
-    complete_ = false;
 
     fillPrincipal(aux_->processHistoryID(), reader);
 

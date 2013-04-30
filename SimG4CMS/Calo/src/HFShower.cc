@@ -73,16 +73,13 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep, double weight) {
   int    nHit    = 0;
 
   double edep    = weight*(aStep->GetTotalEnergyDeposit());
-#ifdef DebugLog
-  edm::LogInfo("HFShower") << "HFShower::getHits: energy " << aStep->GetTotalEnergyDeposit() << " weight " << weight << " edep " << edep;
-#endif
   double stepl   = 0.;
 
   if (aStep->GetTrack()->GetDefinition()->GetPDGCharge() != 0.)
     stepl = aStep->GetStepLength();
   if ((edep == 0.) || (stepl == 0.)) {
 #ifdef DebugLog
-    edm::LogInfo("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
+    LogDebug("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
 #endif
     return hits;
   }
@@ -127,7 +124,7 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep, double weight) {
     }
 #ifdef DebugLog
     edm::LogInfo("HFShower") << "HFShower: npmt " << npmt 
-                             << " zv " << std::abs(globalPos.z()) 
+                             << " zv " << std::abs(pe_effect.z()) 
                              << ":" << gpar[4] << ":" << zv << ":" 
                              << gpar[0] << " ok " << ok << " depth " << depth;
 #endif
@@ -146,18 +143,18 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep, double weight) {
   double time     = fibre->tShift(localPos, depth, chkFibre);
 
 #ifdef DebugLog
-  edm::LogInfo("HFShower") << "HFShower::getHits: in " << name << " Z " 
-			   << zCoor << "(" << globalPos.z() << ") " << zFibre 
-			   << " Trans " << translation << " Time " << tSlice  
-			   << " " << time << "\n                  Direction " 
-			   << momentumDir << " Local " << localMom;
+  LogDebug("HFShower") << "HFShower::getHits: in " << name << " Z " << zCoor 
+                       << "(" << globalPos.z() << ") " << zFibre << " Trans "
+                       << translation << " Time " << tSlice  << " " << time 
+                       << "\n                  Direction " << momentumDir 
+                       << " Local " << localMom;
 #endif 
   // Here npe should be 0 if there is no fiber (@@ M.K.)
   int npe = 1;
   std::vector<double> wavelength;
   std::vector<double> momz;
   if (!applyFidCut) { // _____ Tmp close of the cherenkov function
-    if (ok) npe = cherenkov->computeNPE(aStep,particleDef,pBeta,u,v,w,stepl,zFibre,dose, npeDose);
+    if (ok) npe = cherenkov->computeNPE(particleDef,pBeta,u,v,w,stepl,zFibre,dose, npeDose);
     wavelength = cherenkov->getWL();
     momz       = cherenkov->getMom();
   } // ^^^^^ End of Tmp close of the cherenkov function
@@ -168,10 +165,10 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep, double weight) {
       double r1  = G4UniformRand();
       double r2  = G4UniformRand();
 #ifdef DebugLog
-      edm::LogInfo("HFShower") << "HFShower::getHits: " << i << " attenuation "
-			       << r1 <<":" << exp(-p*zFibre) << " r2 " << r2 
-			       << ":" << probMax << " Survive: " 
-			       << (r1 <= exp(-p*zFibre) && r2 <= probMax);
+      LogDebug("HFShower") << "HFShower::getHits: " << i << " attenuation " << r1
+			   <<":" << exp(-p*zFibre) << " r2 " << r2 << ":" 
+			   << probMax << " Survive: " 
+			   << (r1 <= exp(-p*zFibre) && r2 <= probMax);
 #endif
       if (applyFidCut || chkFibre < 0 || (r1 <= exp(-p*zFibre) && r2 <= probMax)) {
 	hit.depth      = depth;
@@ -191,12 +188,12 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep, double weight) {
   }
 
 #ifdef DebugLog
-  edm::LogInfo("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
+  LogDebug("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
   for (int i=0; i<nHit; ++i)
-    edm::LogInfo("HFShower") << "HFShower::Hit " << i << " WaveLength " 
-			     << hits[i].wavelength << " Time " << hits[i].time
-			     << " Momentum " << hits[i].momentum <<" Position "
-			     << hits[i].position;
+    LogDebug("HFShower") << "HFShower::Hit " << i << " WaveLength " 
+                         << hits[i].wavelength << " Time " << hits[i].time
+                         << " Momentum " << hits[i].momentum << " Position "
+                         << hits[i].position;
 #endif
   return hits;
 
@@ -216,7 +213,7 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep,
     stepl = aStep->GetStepLength();
   if ((edep == 0.) || (stepl == 0.)) {
 #ifdef DebugLog
-    edm::LogInfo("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
+    LogDebug("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
 #endif
     return hits;
   }
@@ -262,7 +259,7 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep,
     }
 #ifdef DebugLog
     edm::LogInfo("HFShower") << "HFShower: npmt " << npmt 
-                             << " zv " << std::abs(globalPos.z()) 
+                             << " zv " << std::abs(pe_effect.z()) 
                              << ":" << gpar[4] << ":" << zv << ":" 
                              << gpar[0] << " ok " << ok << " depth " << depth;
 #endif
@@ -281,18 +278,18 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep,
   double time     = fibre->tShift(localPos, depth, chkFibre);
 
 #ifdef DebugLog
-  edm::LogInfo("HFShower") << "HFShower::getHits: in " << name << " Z " <<zCoor
-			   << "(" << globalPos.z() <<") " << zFibre <<" Trans "
-			   << translation << " Time " << tSlice  << " " << time
-			   << "\n                  Direction " << momentumDir 
-			   << " Local " << localMom;
+  LogDebug("HFShower") << "HFShower::getHits: in " << name << " Z " << zCoor 
+                       << "(" << globalPos.z() << ") " << zFibre << " Trans "
+                       << translation << " Time " << tSlice  << " " << time 
+                       << "\n                  Direction " << momentumDir 
+                       << " Local " << localMom;
 #endif 
   // Here npe should be 0 if there is no fiber (@@ M.K.)
   int npe = 1;
   std::vector<double> wavelength;
   std::vector<double> momz;
   if (!applyFidCut) { // _____ Tmp close of the cherenkov function
-    if (ok) npe = cherenkov->computeNPE(aStep,particleDef,pBeta,u,v,w,stepl,zFibre,dose, npeDose);
+    if (ok) npe = cherenkov->computeNPE(particleDef,pBeta,u,v,w,stepl,zFibre,dose, npeDose);
     wavelength = cherenkov->getWL();
     momz       = cherenkov->getMom();
   } // ^^^^^ End of Tmp close of the cherenkov function
@@ -303,10 +300,10 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep,
       double r1  = G4UniformRand();
       double r2  = G4UniformRand();
 #ifdef DebugLog
-      edm::LogInfo("HFShower") << "HFShower::getHits: " << i << " attenuation "
-			       << r1 << ":" << exp(-p*zFibre) << " r2 " << r2 
-			       << ":" << probMax << " Survive: " 
-			       << (r1 <= exp(-p*zFibre) && r2 <= probMax);
+      LogDebug("HFShower") << "HFShower::getHits: " << i << " attenuation " << r1
+			   <<":" << exp(-p*zFibre) << " r2 " << r2 << ":" 
+			   << probMax << " Survive: " 
+			   << (r1 <= exp(-p*zFibre) && r2 <= probMax);
 #endif
       if (applyFidCut || chkFibre < 0 || (r1 <= exp(-p*zFibre) && r2 <= probMax)) {
 	hit.depth      = depth;
@@ -326,12 +323,12 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep,
   }
 
 #ifdef DebugLog
-  edm::LogInfo("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
+  LogDebug("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
   for (int i=0; i<nHit; ++i)
-    edm::LogInfo("HFShower") << "HFShower::Hit " << i << " WaveLength " 
-			     << hits[i].wavelength << " Time " << hits[i].time
-			     << " Momentum " << hits[i].momentum <<" Position "
-			     << hits[i].position;
+    LogDebug("HFShower") << "HFShower::Hit " << i << " WaveLength " 
+                         << hits[i].wavelength << " Time " << hits[i].time
+                         << " Momentum " << hits[i].momentum << " Position "
+                         << hits[i].position;
 #endif
   return hits;
 
@@ -348,7 +345,7 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep, bool forLibrary) {
     stepl = aStep->GetStepLength();
   if ((edep == 0.) || (stepl == 0.)) {
 #ifdef DebugLog
-    edm::LogInfo("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
+    LogDebug("HFShower") << "HFShower::getHits: Number of Hits " << nHit;
 #endif
     return hits;
   }
@@ -393,7 +390,7 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep, bool forLibrary) {
     }
 #ifdef DebugLog
     edm::LogInfo("HFShower") << "HFShower:getHits(SL): npmt " << npmt 
-                             << " zv " << std::abs(globalPos.z()) 
+                             << " zv " << std::abs(pe_effect.z()) 
                              << ":" << gpar[4] << ":" << zv << ":" 
                              << gpar[0] << " ok " << ok << " depth " << depth;
 #endif
@@ -412,15 +409,15 @@ std::vector<HFShower::Hit> HFShower::getHits(G4Step * aStep, bool forLibrary) {
   double time     = fibre->tShift(localPos, depth, chkFibre);
 
 #ifdef DebugLog
-  edm::LogInfo("HFShower") << "HFShower::getHits(SL): in " << name << " Z " 
-			   << zCoor << "(" << globalPos.z() << ") " << zFibre 
-			   << " Trans " << translation << " Time " << tSlice  
-			   << " " << time << "\n                  Direction " 
-			   << momentumDir << " Local " << localMom;
+  LogDebug("HFShower") << "HFShower::getHits(SL): in " << name << " Z " <<zCoor
+                       << "(" << globalPos.z() << ") " << zFibre << " Trans "
+                       << translation << " Time " << tSlice  << " " << time
+                       << "\n                  Direction " << momentumDir
+                       << " Local " << localMom;
 #endif
   // npe should be 0
   int npe = 0;
-  if(ok) npe = cherenkov->computeNPE(aStep,particleDef,pBeta,u,v,w, stepl,zFibre, dose, npeDose);
+  if(ok) npe = cherenkov->computeNPE(particleDef,pBeta,u,v,w, stepl,zFibre, dose, npeDose);
   std::vector<double> wavelength = cherenkov->getWL();
   std::vector<double> momz       = cherenkov->getMom();
 

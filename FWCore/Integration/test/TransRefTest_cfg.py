@@ -16,12 +16,17 @@ process.maxEvents = cms.untracked.PSet(
 )
 process.source = cms.Source("EmptySource")
 
-process.Thing = cms.EDProducer("ThingProducer")
-
-process.OtherThing = cms.EDProducer("OtherThingProducer",
-    transient = cms.untracked.bool(True)
+process.Thing = cms.EDProducer("ThingProducer",
+    debugLevel = cms.untracked.int32(1)
 )
 
-process.Analysis = cms.EDAnalyzer("OtherThingAnalyzer")
+process.OtherThing = cms.EDProducer("OtherThingProducer",
+    transient = cms.untracked.bool(True),
+    debugLevel = cms.untracked.int32(1)
+)
+
+process.Analysis = cms.EDAnalyzer("OtherThingAnalyzer",
+    debugLevel = cms.untracked.int32(1)
+)
 
 process.p = cms.Path(process.Thing * process.OtherThing * process.Analysis)

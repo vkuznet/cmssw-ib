@@ -44,7 +44,7 @@ class L1MuDTChambPhContainer {
   //  Destructor
   ~L1MuDTChambPhContainer();
 
-  void setContainer(const Phi_Container& inputSegments);
+  void setContainer(Phi_Container inputSegments);
 
   Phi_Container* getContainer() const;
 

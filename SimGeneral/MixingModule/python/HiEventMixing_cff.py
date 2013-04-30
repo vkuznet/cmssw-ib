@@ -6,8 +6,7 @@ eventEmbeddingSourceParameters = cms.PSet(
         averageNumber = cms.double(1.0)
     ),
     seed = cms.int32(325),
-    type = cms.string('fixed'),
-    sequential = cms.untracked.bool(True)
+    type = cms.string('fixed')
 )
 eventEmbeddingMixParameters = cms.PSet(
     LabelPlayback = cms.string(''),

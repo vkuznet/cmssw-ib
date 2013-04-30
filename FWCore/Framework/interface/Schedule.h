@@ -130,7 +130,7 @@ namespace edm {
                               EventSetup const& eventSetup,
                               bool cleaningUpAfterException = false);
 
-    void beginJob(ProductRegistry const&);
+    void beginJob();
     void endJob(ExceptionCollector & collector);
 
     // Write the luminosity block

@@ -13,10 +13,13 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("EmptySource")
 
 process.Thing = cms.EDProducer("ThingProducer",
-    offsetDelta = cms.int32(5)
+    offsetDelta = cms.untracked.int32(5),
+    debugLevel = cms.untracked.int32(1)
 )
 
-process.OtherThing = cms.EDProducer("OtherThingProducer")
+process.OtherThing = cms.EDProducer("OtherThingProducer",
+    debugLevel = cms.untracked.int32(1)
+)
 
 process.out = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string('good_b.root')

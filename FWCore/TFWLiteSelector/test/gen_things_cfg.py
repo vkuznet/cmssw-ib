@@ -12,9 +12,13 @@ process.maxEvents = cms.untracked.PSet(
 
 process.source = cms.Source("EmptySource")
 
-process.Thing = cms.EDProducer("ThingProducer")
+process.Thing = cms.EDProducer("ThingProducer",
+    debugLevel = cms.untracked.int32(1)
+)
 
-process.OtherThing = cms.EDProducer("OtherThingProducer")
+process.OtherThing = cms.EDProducer("OtherThingProducer",
+    debugLevel = cms.untracked.int32(1)
+)
 
 process.out = cms.OutputModule("PoolOutputModule",
     fileName = cms.untracked.string('test.root')

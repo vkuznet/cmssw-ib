@@ -262,7 +262,7 @@ public:
    *
    * Input arguments: a (float) strip number, and an (int) wire. <br>
    * Output: LocalPoint which is at their intersection, or at extreme y
-   * of wire plane, as appropriate. (If y is adjusted, x is also adjusted to keep it on same strip.)
+   * of wire plane, as appropriate.
    */
   LocalPoint intersectionOfStripAndWire( float s, int w) const;
 	
