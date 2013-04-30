@@ -11,6 +11,8 @@
 #include "DataFormats/Provenance/interface/ModuleDescription.h"
 #include "DataFormats/Provenance/interface/ProductHolderIndexHelper.h"
 
+#include "FWCore/MessageLogger/interface/MessageLogger.h"
+
 namespace edm {
 
   PrincipalGetAdapter::PrincipalGetAdapter(Principal & pcpl,
@@ -42,6 +44,44 @@ namespace edm {
 	<< productType
         << ".\nThe specified productInstanceName was '"
 	<< productInstanceName
+        << "'.\n";
+  }
+
+  void
+  principal_get_adapter_detail::throwOnPrematureRead(
+	char const* principalType,
+	TypeID const& productType,
+	std::string const& moduleLabel,
+	std::string const& productInstanceName) {
+      //throw Exception(errors::LogicError)
+      LogWarning("LogicError")
+	<< "::getByLabel: An attempt was made to read a "
+	<< principalType
+        << " product before end"
+	<< principalType
+        << "() was called.\n"
+	<< "The product is of type '"
+	<< productType
+        << "'.\nThe specified ModuleLabel was '"
+	<< moduleLabel
+        << "'.\nThe specified productInstanceName was '"
+	<< productInstanceName
+        << "'.\n";
+  }
+
+  void
+  principal_get_adapter_detail::throwOnPrematureRead(
+	char const* principalType,
+	TypeID const& productType) {
+      //throw Exception(errors::LogicError)
+      LogWarning("LogicError")
+	<< "::getManyByType: An attempt was made to read a "
+	<< principalType
+        << " product before end"
+	<< principalType
+        << "() was called.\n"
+	<< "The product is of type '"
+	<< productType
         << "'.\n";
   }
 
@@ -119,5 +159,10 @@ namespace edm {
   EDProductGetter const*
   PrincipalGetAdapter::prodGetter() const{
     return principal_.prodGetter();
+  }
+
+  bool
+  PrincipalGetAdapter::isComplete() const {
+    return principal_.isComplete();
   }
 }
