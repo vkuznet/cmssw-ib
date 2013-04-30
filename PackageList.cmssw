@@ -171,7 +171,7 @@ CondFormats/OptAlignObjects V02-00-00-02
 CondFormats/PhysicsToolsObjects V01-03-17
 CondFormats/RPCObjects V06-07-05
 CondFormats/RecoMuonObjects V00-00-05
-CondFormats/RunInfo V02-01-07
+CondFormats/RunInfo V02-01-08
 CondFormats/SiPixelObjects V02-00-07
 CondFormats/SiStripObjects V18-00-13
 CondTools/DQM V01-02-04
@@ -203,8 +203,8 @@ Configuration/SVSuite V00-00-17
 Configuration/SiStripDAQ V01-00-03-01
 Configuration/Skimming V02-02-30
 Configuration/StandardSequences V01-21-17-02
-DPGAnalysis/SiStripTools V01-00-02
-DPGAnalysis/Skims V01-00-12-04
+DPGAnalysis/SiStripTools V01-00-03
+DPGAnalysis/Skims V01-00-12-07
 DQM/BeamMonitor V00-04-30
 DQM/CSCMonitorModule V04-01-33
 DQM/CastorMonitor V05-00-08
@@ -320,7 +320,7 @@ DataFormats/HcalRecHit V00-03-18
 DataFormats/HeavyIonEvent V00-01-24
 DataFormats/HepMCCandidate V06-00-07
 DataFormats/Histograms V00-02-00
-DataFormats/JetReco V05-00-17
+DataFormats/JetReco V05-00-19
 DataFormats/L1CSCTrackFinder V00-06-15
 DataFormats/L1CaloTrigger V01-05-07
 DataFormats/L1DTTrackFinder V02-00-04
@@ -332,13 +332,13 @@ DataFormats/LTCDigi V01-00-06
 DataFormats/Luminosity V06-01-03
 DataFormats/METObjects V01-00-09
 DataFormats/METReco V03-04-06
-DataFormats/Math V06-03-05
+DataFormats/Math V06-03-06
 DataFormats/MuonData V00-00-07
 DataFormats/MuonDetId V01-03-04-91
 DataFormats/MuonReco V09-06-03
 DataFormats/MuonSeed V00-01-08
 DataFormats/ParticleFlowCandidate V15-03-11
-DataFormats/ParticleFlowReco V16-00-02
+DataFormats/ParticleFlowReco V16-00-04
 DataFormats/PatCandidates V06-05-13
 DataFormats/PixelMatchTrackReco V00-01-01
 DataFormats/Provenance V05-35-11
@@ -354,9 +354,9 @@ DataFormats/SiStripCluster V05-01-02
 DataFormats/SiStripCommon V07-04-08-02
 DataFormats/SiStripDetId V04-04-00
 DataFormats/SiStripDigi V01-07-02
-DataFormats/StdDictionaries V00-02-15
+DataFormats/StdDictionaries V00-02-16
 DataFormats/Streamer V01-04-03
-DataFormats/TauReco V01-02-05
+DataFormats/TauReco V01-03-00
 DataFormats/TestObjects V00-04-05
 DataFormats/TrackCandidate V00-05-03
 DataFormats/TrackReco V11-00-03
@@ -575,7 +575,7 @@ Geometry/TwentyFivePercentTrackerCommonData V00-00-04
 GeometryReaders/XMLIdealGeometryESSource V01-02-41
 HLTrigger/Configuration V14-10-02
 HLTrigger/Egamma V01-00-11
-HLTrigger/HLTanalyzers V03-10-20
+HLTrigger/HLTanalyzers V03-10-20-00
 HLTrigger/HLTcore V04-01-05
 HLTrigger/HLTexample V01-02-02
 HLTrigger/HLTfilters V02-00-31
@@ -634,7 +634,7 @@ JetMETCorrections/TauJet V02-07-04-03
 JetMETCorrections/Type1MET V04-06-14
 L1Trigger/CSCCommonTrigger V00-15-04
 L1Trigger/CSCTrackFinder V02-03-00
-L1Trigger/CSCTriggerPrimitives V00-11-00
+L1Trigger/CSCTriggerPrimitives V00-11-01
 L1Trigger/Configuration V00-25-04
 L1Trigger/DTBti V02-01-06
 L1Trigger/DTSectorCollector V02-01-06
@@ -865,7 +865,7 @@ RecoTBCalo/ZDCTBAnalysis V00-01-07
 RecoTauTag/Configuration V01-04-08-01
 RecoTauTag/HLTProducers V08-04-09
 RecoTauTag/ImpactParameter V00-04-07
-RecoTauTag/RecoTau V01-04-20-03
+RecoTauTag/RecoTau V01-04-20-06
 RecoTauTag/TauTagTools V01-02-03-02
 RecoTracker/CkfPattern V09-01-00
 RecoTracker/Configuration V00-18-02
@@ -1021,10 +1021,10 @@ TBDataFormats/HcalTBObjects V00-01-15
 TauAnalysis/MCEmbeddingTools V02-00-05
 TopQuarkAnalysis/Configuration V07-00-04
 TopQuarkAnalysis/Examples V06-07-13
-TopQuarkAnalysis/TopEventProducers V06-09-13
+TopQuarkAnalysis/TopEventProducers V06-09-14
 TopQuarkAnalysis/TopEventSelection V06-07-16
 TopQuarkAnalysis/TopHitFit V00-00-07
-TopQuarkAnalysis/TopJetCombination V06-08-05
+TopQuarkAnalysis/TopJetCombination V06-08-07
 TopQuarkAnalysis/TopKinFitter V06-07-23
 TopQuarkAnalysis/TopObjectResolutions V06-07-10
 TopQuarkAnalysis/TopPairBSM V04-01-10
