@@ -524,7 +524,7 @@ GeneratorInterface/PartonShowerVeto V00-01-17
 GeneratorInterface/PomwigInterface V02-01-02
 GeneratorInterface/PyquenInterface V02-02-24
 GeneratorInterface/Pythia6Interface V01-05-26
-GeneratorInterface/Pythia8Interface V00-01-52
+GeneratorInterface/Pythia8Interface V00-01-46-01
 GeneratorInterface/ReggeGribovPartonMCInterface V00-01-04
 GeneratorInterface/RivetInterface V00-03-03
 GeneratorInterface/SherpaInterface V00-05-04
