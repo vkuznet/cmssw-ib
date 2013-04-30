@@ -30,9 +30,9 @@ from RecoLocalCalo.EcalRecAlgos.EcalSeverityLevelESProducer_cfi import *
 
 # CaloMode is defined here
 # 0: custom local reco bypassing digis, ECAL and HCAL; default before 61x
-# 1: as 0, but full digi + std local reco in ECAL; default in 61x
+# 1: as 0, but full digi + std local reco in ECAL <---- DEFAULT
 # 2: as 0, but full digi + std local reco in HCAL
-# 3: full digi + std local reco in ECAL and HCAL <---- NEW DEFAULT SINCE 620pre5
+# 3: full digi + std local reco in ECAL and HCAL; planned to become default soon
 
 CaloMode = 1
 

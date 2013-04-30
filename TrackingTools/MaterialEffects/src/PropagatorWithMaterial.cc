@@ -3,7 +3,6 @@
 #include "TrackingTools/GeomPropagators/interface/AnalyticalPropagator.h"
 #include "TrackingTools/MaterialEffects/interface/CombinedMaterialEffectsUpdator.h"
 #include "FWCore/Utilities/interface/Exception.h"
-#include "TrackPropagation/RungeKutta/interface/RKTestPropagator.h"
 #include <string>
 
 using namespace std;
@@ -18,25 +17,16 @@ PropagatorWithMaterial::PropagatorWithMaterial (PropagationDirection dir,
 						bool useRungeKutta,
                                                 float ptMin,bool useOldAnalPropLogic) :
   Propagator(dir),
-  theGeometricalPropagator(),
+  rkProduct(mf,dir),
+  theGeometricalPropagator(useRungeKutta ? 
+			   rkProduct.propagator.clone() : 
+			   new AnalyticalPropagator(mf,dir,maxDPhi,useOldAnalPropLogic)  
+			   ),
   theMEUpdator(new CombinedMaterialEffectsUpdator(mass, ptMin)),
   theMaterialLocation(atDestination), field(mf),useRungeKutta_(useRungeKutta) {
   
-  if(useRungeKutta_)    
-    theGeometricalPropagator = DeepCopyPointerByClone<Propagator>(new RKTestPropagator(mf,dir));
-  else theGeometricalPropagator = DeepCopyPointerByClone<Propagator>(new AnalyticalPropagator(mf,dir,maxDPhi,
-											      useOldAnalPropLogic));
-   
+    
 }
-
-PropagatorWithMaterial::PropagatorWithMaterial (const Propagator& aPropagator,
-						const MaterialEffectsUpdator& aMEUpdator,
-						const MagneticField * mf,
-						bool useRungeKutta) :
-  Propagator(aPropagator.propagationDirection()),
-  theGeometricalPropagator(aPropagator.clone()),
-  theMEUpdator(aMEUpdator.clone()),
-  theMaterialLocation(atDestination), field(mf),useRungeKutta_(useRungeKutta) {}
 
 pair<TrajectoryStateOnSurface,double> 
 PropagatorWithMaterial::propagateWithPath (const FreeTrajectoryState& fts, 
@@ -46,7 +36,7 @@ PropagatorWithMaterial::propagateWithPath (const FreeTrajectoryState& fts,
       bool updateOk = theMEUpdator->updateStateInPlace(newTsosWP.first,
                                                        PropagationDirectionFromPath()(newTsosWP.second,
                                                                                       propagationDirection()));
-      if (!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
+      if unlikely(!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
   }
   return newTsosWP;
 }
@@ -59,7 +49,7 @@ PropagatorWithMaterial::propagateWithPath (const FreeTrajectoryState& fts,
       bool updateOk = theMEUpdator->updateStateInPlace(newTsosWP.first,
                                                        PropagationDirectionFromPath()(newTsosWP.second,
                                                                                       propagationDirection()));
-      if (!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
+      if unlikely(!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
   }
   return newTsosWP;
 }
@@ -74,21 +64,21 @@ PropagatorWithMaterial::propagateWithPath (const TrajectoryStateOnSurface& tsos,
   TsosWP newTsosWP(tsos,0.);
   if ( materialAtSource() ) {
     bool updateOk = theMEUpdator->updateStateInPlace(newTsosWP.first,propagationDirection());
-    if (!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
+    if unlikely(!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
   }
-  if ( !newTsosWP.first.isValid() )  return newTsosWP;
+  if unlikely( !newTsosWP.first.isValid() )  return newTsosWP;
   //
   // geometrical propagation
   //
   newTsosWP = theGeometricalPropagator->propagateWithPath(newTsosWP.first,plane);
-  if ( !newTsosWP.first.isValid() || materialAtSource() )  return newTsosWP;
+  if unlikely( !newTsosWP.first.isValid() || materialAtSource() )  return newTsosWP;
   //
   // add material at destination surface, if requested
   //
   bool updateOk = theMEUpdator->updateStateInPlace(newTsosWP.first,
                                                    PropagationDirectionFromPath()(newTsosWP.second,
                                                                                   propagationDirection()));
-  if (!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
+  if unlikely(!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
   return newTsosWP;
 }
 
@@ -101,21 +91,21 @@ PropagatorWithMaterial::propagateWithPath (const TrajectoryStateOnSurface& tsos,
   TsosWP newTsosWP(tsos,0.);
   if ( materialAtSource() ) {
     bool updateOk = theMEUpdator->updateStateInPlace(newTsosWP.first,propagationDirection());
-    if (!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
+    if unlikely(!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
   }
-  if ( !newTsosWP.first.isValid() )  return newTsosWP;
+  if unlikely( !newTsosWP.first.isValid() )  return newTsosWP;
   //
   // geometrical propagation
   //
   newTsosWP = theGeometricalPropagator->propagateWithPath(newTsosWP.first,cylinder);
-  if ( !(newTsosWP.first).isValid() || materialAtSource() )  return newTsosWP;
+  if unlikely( !(newTsosWP.first).isValid() || materialAtSource() )  return newTsosWP;
   //
   // add material at destination surface, if requested
   //
   bool updateOk = theMEUpdator->updateStateInPlace(newTsosWP.first,
                                                    PropagationDirectionFromPath()(newTsosWP.second,
                                                                                   propagationDirection()));
-  if (!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
+  if unlikely(!updateOk) newTsosWP.first = TrajectoryStateOnSurface();
   return newTsosWP;
 }
 
@@ -126,13 +116,10 @@ void PropagatorWithMaterial::setPropagationDirection (PropagationDirection dir) 
 
 bool
 PropagatorWithMaterial::materialAtSource() const {
-  if ( propagationDirection()==anyDirection ) {
-    if ( theMaterialLocation!=atDestination ) { 
-      string message("PropagatorWithMaterial: propagation direction = anyDirection is ");
-      message += "incompatible with adding of material at source";
-      throw cms::Exception("TrackingTools/MaterialEffects",message);
-    }
-  }
+  if unlikely( (propagationDirection()==anyDirection) &&  (theMaterialLocation!=atDestination) )
+	       throw cms::Exception("TrackingTools/MaterialEffects",
+				    "PropagatorWithMaterial: propagation direction = anyDirection is incompatible with adding of material at source");
+
   return theMaterialLocation==atSource || (theMaterialLocation==fromDirection&&
 					   propagationDirection()==alongMomentum);
 }
