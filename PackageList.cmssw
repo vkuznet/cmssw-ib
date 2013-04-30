@@ -339,9 +339,9 @@ DataFormats/MuonReco V09-06-03
 DataFormats/MuonSeed V00-01-08
 DataFormats/ParticleFlowCandidate V15-03-11
 DataFormats/ParticleFlowReco V16-00-04
-DataFormats/PatCandidates V06-05-13
+DataFormats/PatCandidates V06-06-00
 DataFormats/PixelMatchTrackReco V00-01-01
-DataFormats/Provenance V05-35-11
+DataFormats/Provenance V05-35-12
 DataFormats/RPCDigi V02-00-03
 DataFormats/RPCRecHit V01-00-04
 DataFormats/RecoCandidate V00-18-03
@@ -605,7 +605,7 @@ IOMC/Input V00-05-01
 IOMC/ParticleGuns V01-01-11
 IOMC/RandomEngine V01-02-09
 IOPool/Common V05-08-09
-IOPool/Input V12-03-19
+IOPool/Input V12-03-20
 IOPool/Output V06-14-04
 IOPool/SecondaryInput V02-08-03
 IOPool/Streamer V07-10-06
