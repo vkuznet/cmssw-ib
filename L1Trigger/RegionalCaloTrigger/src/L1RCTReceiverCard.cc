@@ -67,7 +67,7 @@ void L1RCTReceiverCard::fileInput(char* filename){
 // 19 23 27 31
 
 
-void L1RCTReceiverCard::fillInput(std::vector<unsigned short> input){
+void L1RCTReceiverCard::fillInput(const std::vector<unsigned short>& input){
   
   std::vector<unsigned short> ecalInput(32);
   std::vector<unsigned short> ecalFG(32);

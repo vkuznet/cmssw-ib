@@ -70,8 +70,8 @@ void L1RCT::input()
   }
 }
 
-void L1RCT::input(std::vector<std::vector<std::vector<unsigned short> > > barrelIn,
-		  std::vector<std::vector<unsigned short> > hfIn)
+void L1RCT::input(const std::vector<std::vector<std::vector<unsigned short> > >& barrelIn,
+		  const std::vector<std::vector<unsigned short> >& hfIn)
 {
   for(int i = 0; i<18; i++){
     crates.at(i).input(barrelIn.at(i),hfIn.at(i));
