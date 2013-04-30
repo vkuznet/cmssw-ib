@@ -506,7 +506,7 @@ Fireworks/Vertices V06-13-06
 GeneratorInterface/AMPTInterface V00-00-21
 GeneratorInterface/AlpgenInterface V01-02-01
 GeneratorInterface/BeamHaloGenerator V00-02-13
-GeneratorInterface/CascadeInterface V00-00-06
+GeneratorInterface/CascadeInterface V00-00-07
 GeneratorInterface/Configuration V00-03-00
 GeneratorInterface/Core V00-01-10
 GeneratorInterface/CosmicMuonGenerator V03-00-23
@@ -523,7 +523,7 @@ GeneratorInterface/MCatNLOInterface V02-00-11
 GeneratorInterface/PartonShowerVeto V00-01-17
 GeneratorInterface/PomwigInterface V02-01-02
 GeneratorInterface/PyquenInterface V02-02-24
-GeneratorInterface/Pythia6Interface V01-05-24
+GeneratorInterface/Pythia6Interface V01-05-25
 GeneratorInterface/Pythia8Interface V00-01-46-01
 GeneratorInterface/ReggeGribovPartonMCInterface V00-01-04
 GeneratorInterface/RivetInterface V00-03-03
