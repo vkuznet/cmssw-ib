@@ -5,7 +5,8 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("OfflineValidator") 
    
-process.load("Alignment.OfflineValidation..oO[dataset]Oo._cff")
+# process.load("Alignment.OfflineValidation..oO[dataset]Oo._cff")
+.oO[datasetDefinition]Oo.
 
 process.options = cms.untracked.PSet(
    wantSummary = cms.untracked.bool(False),
@@ -13,12 +14,12 @@ process.options = cms.untracked.PSet(
    fileMode  =  cms.untracked.string('NOMERGE') # no ordering needed, but calls endRun/beginRun etc. at file boundaries
 )
 
- ##
- ## Maximum number of Events
- ## 
-process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(.oO[nEvents]Oo.)
- )
+#  ##
+#  ## Maximum number of Events
+#  ## 
+# process.maxEvents = cms.untracked.PSet(
+#     input = cms.untracked.int32(.oO[nEvents]Oo.)
+#  )
 
  ##   
  ## Messages & Convenience
@@ -169,11 +170,7 @@ process.load("Configuration.StandardSequences.Geometry_cff")
  ##
 process.load("Configuration/StandardSequences/MagneticField_38T_cff")
 
-.oO[dbLoad]Oo.
-
 .oO[condLoad]Oo.
-
-.oO[APE]Oo.
 
 ## to apply misalignments
 #TrackerDigiGeometryESModule.applyAlignment = True
@@ -374,11 +371,7 @@ process.load("Configuration.StandardSequences.Geometry_cff")
  ##
 process.load("Configuration/StandardSequences/MagneticField_38T_cff")
 
-.oO[dbLoad]Oo.
-
 .oO[condLoad]Oo.
-
-.oO[APE]Oo.
 
 ## to apply misalignments
 #TrackerDigiGeometryESModule.applyAlignment = True
@@ -413,19 +406,25 @@ mergeOfflineParallelResults="""
 
 # run TkAlOfflinejobs.C
 echo "Merging results from parallel jobs with TkAlOfflineJobsMerge.C"
-root -x -b -q .oO[logdir]Oo./TkAlOfflineJobsMerge.C
-
-# todo do not use /tmp; in case use of /tmp fails, no merged file is obtained
-
-# move output file to datadir, backup existing files
-mv -b /tmp/$USER/AlignmentValidation*.root .oO[datadir]Oo./
+#set directory to which TkAlOfflineJobsMerge.C saves the merged file
+# export OUTPUTDIR=.oO[datadir]Oo.
+export OUTPUTDIR=.
+cp .oO[CMSSW_BASE]Oo./src/Alignment/OfflineValidation/scripts/merge_TrackerOfflineValidation.C .
+# root -x -b -q .oO[logdir]Oo./TkAlOfflineJobsMerge.C
+root -x -b -q TkAlOfflineJobsMerge.C
+cmsStage -f .oO[outputFile]Oo. .oO[resultFile]Oo.
 
 # create log file
-ls -al .oO[datadir]Oo./AlignmentValidation*.root > .oO[datadir]Oo./log_rootfilelist.txt
+# ls -al .oO[datadir]Oo./AlignmentValidation*.root > .oO[datadir]Oo./log_rootfilelist.txt
+ls -al AlignmentValidation*.root > .oO[datadir]Oo./log_rootfilelist.txt
 
 # Remove parallel job files if merged file exists
-for file in .oO[datadir]Oo./AlignmentValidation*root; do
-    rm -f .oO[datadir]Oo./`basename $file .root`_[0-9]*.root;
+for file in $(cmsLs -l /store/caf/user/$USER/.oO[eosdir]Oo. |awk '{print $5}')
+do
+    if [[ ${file} = /store/caf/user/$USER/.oO[eosdir]Oo./AlignmentValidation*_[0-9]*.root ]]
+    then
+        cmsRm ${file}
+    fi
 done
 
 """
@@ -440,7 +439,7 @@ void TkAlOfflineJobsMerge()
 gSystem->Load("libFWCoreFWLite");
 AutoLibraryLoader::enable();
 //compile the makro
-gROOT->ProcessLine(".L .oO[CMSSW_BASE]Oo./src/Alignment/OfflineValidation/scripts/merge_TrackerOfflineValidation.C++");
+gROOT->ProcessLine(".L merge_TrackerOfflineValidation.C++");
 
 .oO[mergeOfflinParJobsInstantiation]Oo.
 }
@@ -482,8 +481,6 @@ LorentzAngleTemplate = "#use lorentz angle from global tag"
 ######################################################################
 ######################################################################
 TrackSelectionTemplate = """
-.oO[kinksAndBows]Oo.
-
 #####default for MC tracks with now further corrections etc.
 
 process.AlignmentTrackSelector.applyBasicCuts = True

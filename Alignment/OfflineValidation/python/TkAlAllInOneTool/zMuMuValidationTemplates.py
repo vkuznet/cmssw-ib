@@ -1,43 +1,7 @@
 ZMuMuValidationTemplate="""
 import FWCore.ParameterSet.Config as cms
-import FWCore.ParameterSet.VarParsing as VarParsing
 
 process = cms.Process("ONLYHISTOS")
-
-#process.options = cms.untracked.PSet(SkipEvent = cms.untracked.vstring('ProductNotFound'))
-
-### command-line options
-options = VarParsing.VarParsing()
-
-### eta ranges steerable
-options.register('etaMax1',
-                 .oO[etamax1]Oo.,
-                 VarParsing.VarParsing.multiplicity.singleton,
-                 VarParsing.VarParsing.varType.float,
-                 "eta max (muon1)")
-
-options.register('etaMin1',
-                 .oO[etamin1]Oo.,
-                 VarParsing.VarParsing.multiplicity.singleton,
-                 VarParsing.VarParsing.varType.float,
-                 "eta min (muon1)")
-
-options.register('etaMax2',
-                 .oO[etamax2]Oo.,
-                 VarParsing.VarParsing.multiplicity.singleton,
-                 VarParsing.VarParsing.varType.float,
-                 "eta max (muon2)")
-
-options.register('etaMin2',
-                 .oO[etamin2]Oo.,
-                 VarParsing.VarParsing.multiplicity.singleton,
-                 VarParsing.VarParsing.varType.float,
-                 "eta min (muon2)")
-
-
-options.parseArguments()
-
-### end of options
 
 
 # Messages
@@ -47,7 +11,8 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 5000
 
 
 ########### DATA FILES  ####################################
-process.load("Alignment.OfflineValidation..oO[dataset]Oo._cff")
+.oO[datasetDefinition]Oo.
+# process.load("Alignment.OfflineValidation..oO[dataset]Oo._cff")
 
 process.load("Geometry.CMSCommonData.cmsIdealGeometryXML_cfi")
 process.load("Geometry.CommonDetUnit.globalTrackingGeometry_cfi")
@@ -64,11 +29,7 @@ process.load("Configuration.StandardSequences.Geometry_cff")
 process.load("Configuration.StandardSequences.FrontierConditions_GlobalTag_cff")
 process.GlobalTag.globaltag = ".oO[GlobalTag]Oo."
 
-.oO[dbLoad]Oo.
-
 .oO[condLoad]Oo.
-
-.oO[APE]Oo.
 
 ########### TRACK REFITTER #################################
 process.load("RecoTracker.TrackProducer.TrackRefitters_cff")
@@ -218,10 +179,10 @@ process.looper = cms.Looper(
     # Set the cuts on muons to be used in the fit
     MinMuonPt = cms.untracked.double(0.),
     MaxMuonPt = cms.untracked.double(1000.),
-    MinMuonEtaFirstRange = cms.untracked.double(options.etaMin1),
-    MaxMuonEtaFirstRange = cms.untracked.double(options.etaMax1),
-    MinMuonEtaSecondRange = cms.untracked.double(options.etaMin2),
-    MaxMuonEtaSecondRange = cms.untracked.double(options.etaMax2),
+    MinMuonEtaFirstRange = cms.untracked.double(.oO[etaminneg]Oo.),
+    MaxMuonEtaFirstRange = cms.untracked.double(.oO[etamaxneg]Oo.),
+    MinMuonEtaSecondRange = cms.untracked.double(.oO[etaminpos]Oo.),
+    MaxMuonEtaSecondRange = cms.untracked.double(.oO[etamaxpos]Oo.),
     
     # The following parameters can be used to filter events
     TriggerResultsLabel = cms.untracked.string("TriggerResults"),
@@ -233,8 +194,6 @@ process.looper = cms.Looper(
 )
 
 ###### FINAL SEQUENCE ##############################################
-
-process.maxEvents = cms.untracked.PSet(input = cms.untracked.int32(.oO[nEvents]Oo.))
 
 process.p = cms.Path(
     process.offlineBeamSpot*process.TrackRefitter
@@ -266,10 +225,15 @@ rfmkdir -p .oO[logdir]Oo.
 rm -f .oO[logdir]Oo./*.stdout
 rm -f .oO[logdir]Oo./*.stderr
 
-## The lines related to the 'workdir' are commented out in order to avoid issues with removed files from the /tmp directory.
-# rfmkdir -p .oO[workdir]Oo.
-# rm -f .oO[workdir]Oo./*
-# cd .oO[workdir]Oo.
+if [[ $HOSTNAME = lxplus[0-9]*\.cern\.ch ]] # check for interactive mode
+then
+    rfmkdir -p .oO[workdir]Oo.
+    rm -f .oO[workdir]Oo./*
+    cd .oO[workdir]Oo.
+else
+    mkdir -p $cwd/TkAllInOneTool
+    cd $cwd/TkAllInOneTool
+fi
 
 
 .oO[CommandLine]Oo.
@@ -295,13 +259,15 @@ root -q -b "CompareBiasZValidation.cc+(\\\"\\\")"
 
 # cd .oO[workdir]Oo.
 cp  .oO[CMSSW_BASE]Oo./src/MuonAnalysis/MomentumScaleCalibration/test/Macros/RooFit/tdrstyle.C .
-cp  .oO[CMSSW_BASE]Oo./src/MuonAnalysis/MomentumScaleCalibration/test/Macros/RooFit/MultiHistoOverlap.C .
+cp  .oO[CMSSW_BASE]Oo./src/MuonAnalysis/MomentumScaleCalibration/test/Macros/RooFit/MultiHistoOverlap_.oO[resonance]Oo..C .
 # ln -fs /afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN2/TMP_EM/ZMuMu/data/MC/BiasCheck_DYToMuMu_Summer11_TkAlZMuMu_IDEAL.root  ./BiasCheck_Reference.root
 ln -fs .oO[zmumureference]Oo. ./BiasCheck_Reference.root
-root -q -b MultiHistoOverlap.C
+root -q -b MultiHistoOverlap_.oO[resonance]Oo..C
 
-for RootOutputFile in $(ls *root ); do
-    rfcp ${RootOutputFile}  .oO[datadir]Oo.
+cmsMkdir /store/caf/user/$USER/.oO[eosdir]Oo.
+for RootOutputFile in $(ls *root )
+do
+    cmsStage -f ${RootOutputFile}  /store/caf/user/$USER/.oO[eosdir]Oo./
 done
 
 for PngOutputFile in $(ls *png ); do
