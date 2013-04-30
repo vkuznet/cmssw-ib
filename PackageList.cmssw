@@ -288,7 +288,7 @@ DataFormats/BeamSpot V00-02-32
 DataFormats/CLHEP V00-02-02
 DataFormats/CSCDigi V00-18-04
 DataFormats/CSCRecHit V02-07-03
-DataFormats/CaloRecHit V02-05-10
+DataFormats/CaloRecHit V02-05-11
 DataFormats/CaloTowers V03-00-03
 DataFormats/Candidate V10-01-01
 DataFormats/CastorReco V00-05-00
@@ -301,14 +301,14 @@ DataFormats/EcalDigi V04-03-11
 DataFormats/EcalRawData V01-02-09
 DataFormats/EcalRecHit V02-02-13
 DataFormats/EgammaCandidates V07-10-02
-DataFormats/EgammaReco V00-12-07
+DataFormats/EgammaReco V00-12-09
 DataFormats/EgammaTrackReco V01-00-09
 DataFormats/FEDRawData V00-12-11
 DataFormats/FP420Cluster V00-05-04
 DataFormats/FP420Digi V00-05-04
 DataFormats/FWLite V01-16-07
 DataFormats/GeometryCommonDetAlgo V00-03-03
-DataFormats/GeometrySurface V00-09-00
+DataFormats/GeometrySurface V00-09-02
 DataFormats/GeometryVector V01-01-00
 DataFormats/GsfTrackReco V00-01-04
 DataFormats/HLTReco V02-07-02
@@ -339,7 +339,7 @@ DataFormats/MuonReco V09-06-03
 DataFormats/MuonSeed V00-01-08
 DataFormats/ParticleFlowCandidate V15-03-11
 DataFormats/ParticleFlowReco V16-00-04
-DataFormats/PatCandidates V06-06-00
+DataFormats/PatCandidates V06-06-01
 DataFormats/PixelMatchTrackReco V00-01-01
 DataFormats/Provenance V05-35-12
 DataFormats/RPCDigi V02-00-03
@@ -471,7 +471,7 @@ FastSimulation/EgammaElectronAlgos V00-11-02
 FastSimulation/Event V02-10-03
 FastSimulation/EventProducer V03-14-02
 FastSimulation/ForwardDetectors V00-01-12
-FastSimulation/HighLevelTrigger V04-10-28
+FastSimulation/HighLevelTrigger V04-10-29
 FastSimulation/L1CaloTriggerProducer V02-04-08
 FastSimulation/MaterialEffects V04-05-15
 FastSimulation/MuonSimHitProducer V00-03-16
@@ -716,7 +716,7 @@ PhysicsTools/RecoUtils V00-03-01
 PhysicsTools/RooStatsCms V02-00-03-03
 PhysicsTools/SelectorUtils V00-03-24-01
 PhysicsTools/TagAndProbe V04-00-03-07
-PhysicsTools/UtilAlgos V08-02-15
+PhysicsTools/UtilAlgos V08-02-16
 PhysicsTools/Utilities V08-03-23
 QCDAnalysis/ChargedHadronSpectra V00-03-09
 QCDAnalysis/Configuration V00-01-03-01
@@ -743,7 +743,7 @@ RecoCaloTools/Navigation V01-04-01
 RecoCaloTools/Selectors V00-00-09-02
 RecoEcal/Configuration V00-02-04
 RecoEcal/EgammaClusterAlgos V00-06-44
-RecoEcal/EgammaClusterProducers V00-10-17
+RecoEcal/EgammaClusterProducers V00-10-20
 RecoEcal/EgammaCoreTools V05-08-26
 RecoEgamma/Configuration V00-06-03
 RecoEgamma/EgammaElectronAlgos V01-41-01
@@ -793,7 +793,7 @@ RecoLocalMuon/CSCSegment V00-15-02
 RecoLocalMuon/CSCValidation V01-06-03
 RecoLocalMuon/Configuration V02-02-01
 RecoLocalMuon/DTRecHit V02-01-14
-RecoLocalMuon/DTSegment V02-05-06
+RecoLocalMuon/DTSegment V02-05-07
 RecoLocalMuon/RPCRecHit V02-00-04-10
 RecoLocalTracker/ClusterParameterEstimator V00-03-02-04
 RecoLocalTracker/Configuration V00-03-01
@@ -1038,7 +1038,7 @@ TrackPropagation/SteppingHelixPropagator V01-09-19
 TrackingTools/AnalyticalJacobians V01-03-04
 TrackingTools/Configuration V00-00-04
 TrackingTools/DetLayers V05-06-00
-TrackingTools/GeomPropagators V02-05-06
+TrackingTools/GeomPropagators V02-05-07
 TrackingTools/GsfTools V02-04-03
 TrackingTools/GsfTracking V02-04-02
 TrackingTools/IPTools V00-01-13
