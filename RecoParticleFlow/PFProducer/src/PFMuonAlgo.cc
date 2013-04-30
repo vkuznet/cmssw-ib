@@ -814,8 +814,8 @@ void PFMuonAlgo::estimateEventQuantities(const reco::PFCandidateCollection* pfc)
     sumet_+=i->pt();
 
     if (vertices_->size()>0 && vertices_->at(0).isValid()&& !vertices_->at(0).isFake()) {
-      //If charged and from PV
-      if( i->charge() !=0 && i->trackRef().isNonnull() && vertices_->size()>0&& i->trackRef()->dz(vertices_->at(0).position())<dzPV_) {
+      //If charged and from PV or muon
+      if( (i->charge() !=0 && i->trackRef().isNonnull() && vertices_->size()>0&& i->trackRef()->dz(vertices_->at(0).position())<dzPV_)||(abs(i->pdgId())==13)) {
 	METXCh+=i->px();
 	METYCh+=i->py();
       }
@@ -827,7 +827,7 @@ void PFMuonAlgo::estimateEventQuantities(const reco::PFCandidateCollection* pfc)
       //Neutral
       else if( !(i->charge() !=0 && i->trackRef().isNonnull())) {
 	METXNeut+=i->px();
-      METYNeut+=i->py();
+	METYNeut+=i->py();
       }
     } //else if we dont have a vertex make standard PFMET
     else {
@@ -993,8 +993,8 @@ void PFMuonAlgo::addMissingMuons(edm::Handle<reco::MuonCollection> muons, reco::
     //Low pt dont need to be cleaned
   
     std::vector<reco::Muon::MuonTrackTypePair> tracks  = goodMuonTracks(muonRef,true);
-    //If there is more than 1 track choice  try to change the track 
-    if(tracks.size()>1) {
+    //If there is at least 1 track choice  try to change the track 
+    if(tracks.size()>0) {
 
     //Find tracks that change dramatically MET or Pt
     std::vector<reco::Muon::MuonTrackTypePair> tracksThatChangeMET = tracksPointingAtMET(tracks);
@@ -1042,9 +1042,14 @@ PFMuonAlgo::getMinMaxMET2(const reco::PFCandidate&pfc) {
   for (unsigned int i=0;i<tracks.size();++i) {
     met2.push_back(pow(METXNO+tracks.at(i).first->px(),2)+pow(METYNO+tracks.at(i).first->py(),2));
   }
-  
-  return std::make_pair(*std::min_element(met2.begin(),met2.end()),*std::max_element(met2.begin(),met2.end()));
 
+  //PROTECT for cases of only one track. If there is only one track it will crash .
+  //Has never happened but could likely happen!
+
+  if(tracks.size()>1)
+    return std::make_pair(*std::min_element(met2.begin(),met2.end()),*std::max_element(met2.begin(),met2.end()));
+  else
+    return std::make_pair(0,0);
 }
 
 
