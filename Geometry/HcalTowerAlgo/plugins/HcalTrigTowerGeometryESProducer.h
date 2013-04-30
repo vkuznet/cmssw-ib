@@ -19,8 +19,10 @@ public:
 
   boost::shared_ptr<HcalTrigTowerGeometry> produce( const CaloGeometryRecord & );
 
-private:
+  static void fillDescriptions(edm::ConfigurationDescriptions & descriptions);
 
+private:
+  bool useFullGranularityHF_;
   boost::shared_ptr<HcalTrigTowerGeometry> m_hcalTrigTowerGeom;
 };
 

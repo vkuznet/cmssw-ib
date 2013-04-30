@@ -87,7 +87,7 @@ private:
   double                        birk1, birk2, birk3, betaThr;
   bool                          useHF, useShowerLibrary, useParam, applyFidCut;
   double                        eminHitHB, eminHitHE, eminHitHO, eminHitHF;
-  double                        lumiDarkening;
+  double                        deliveredLumi;
   G4int                         mumPDG, mupPDG; 
   std::vector<double>           layer0wt, gpar;
   std::vector<int>              hfLevels;

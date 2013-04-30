@@ -13,7 +13,7 @@
 //
 // Original Author:  Michael Segala
 //         Created:  Wed Feb 23 17:36:23 CST 2011
-// $Id: ClusterSummary.h,v 1.8 2012/12/21 19:13:15 wmtan Exp $
+// $Id: ClusterSummary.h,v 1.9 2013/04/22 23:30:07 wmtan Exp $
 //
 //
 
@@ -246,7 +246,7 @@ class ClusterSummary {
 
 
   // Setter and Getter for the User Content. You can also return the size and what is stored in the UserContent 
-  void SetUserContent(std::vector<std::string> Content)  const { userContent = Content;}
+  void SetUserContent(const std::vector<std::string>& Content)  const { userContent = Content;}
   std::vector<std::string> GetUserContent()  { return userContent;}
   int GetUserContentSize()  { return userContent.size(); }
   void  GetUserContentInfo() const  { 

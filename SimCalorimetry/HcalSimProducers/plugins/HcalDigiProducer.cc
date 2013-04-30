@@ -2,12 +2,14 @@
 #include "FWCore/Framework/interface/EDProducer.h"
 
 HcalDigiProducer::HcalDigiProducer(edm::ParameterSet const& pset, edm::EDProducer& mixMod) :
-    DigiAccumulatorMixMod(),
-    theDigitizer_(pset) {
-    mixMod.produces<HBHEDigiCollection>();
-    mixMod.produces<HODigiCollection>();
-    mixMod.produces<HFDigiCollection>();
-    mixMod.produces<ZDCDigiCollection>();
+  DigiAccumulatorMixMod(),
+  theDigitizer_(pset) {
+  mixMod.produces<HBHEDigiCollection>();
+  mixMod.produces<HODigiCollection>();
+  mixMod.produces<HFDigiCollection>();
+  mixMod.produces<ZDCDigiCollection>();
+  mixMod.produces<HBHEUpgradeDigiCollection>("HBHEUpgradeDigiCollection");
+  mixMod.produces<HFUpgradeDigiCollection>("HFUpgradeDigiCollection");
 }
 
 void
