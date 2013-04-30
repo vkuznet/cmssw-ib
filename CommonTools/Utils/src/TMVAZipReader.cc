@@ -1,4 +1,4 @@
-#include "RecoTauTag/RecoTau/interface/TMVAZipReader.h"
+#include "CommonTools/Utils/interface/TMVAZipReader.h"
 #include "FWCore/Utilities/interface/Exception.h"
 #include <stdio.h>
 #include <stdlib.h>

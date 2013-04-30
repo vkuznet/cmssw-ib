@@ -16,7 +16,7 @@
 //
 // Original Author:  Bernard Fabbro
 //         Created:  Fri Jun  2 10:27:01 CEST 2006
-// $Id: EcnaAnalyzer.h,v 1.2 2011/03/21 14:57:41 fabbro Exp $
+// $Id: EcnaAnalyzer.h,v 1.3 2013/04/05 20:17:20 wmtan Exp $
 //
 //
 
@@ -138,7 +138,7 @@ class EcnaAnalyzer : public edm::EDAnalyzer {
   Int_t   gainvalue(const Int_t&);
   void    CheckMsg(const Int_t&, const Int_t&);
   void    CheckMsg(const Int_t&);
-  Bool_t  AnalysisOutcome(const TString);
+  Bool_t  AnalysisOutcome(const TString&);
 
  private:
 
