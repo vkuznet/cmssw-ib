@@ -439,7 +439,7 @@ FWCore/Framework V09-09-03
 FWCore/GuiBrowsers V00-00-70
 FWCore/Integration V01-25-01
 FWCore/MessageLogger V03-20-07
-FWCore/MessageService V01-24-23
+FWCore/MessageService V01-24-24
 FWCore/Modules V01-19-03
 FWCore/ParameterSet V12-22-06
 FWCore/PluginManager V01-08-01
@@ -604,7 +604,7 @@ IOMC/EventVertexGenerators V01-10-01-01
 IOMC/Input V00-05-01
 IOMC/ParticleGuns V01-01-11
 IOMC/RandomEngine V01-02-09
-IOPool/Common V05-08-11
+IOPool/Common V05-08-12
 IOPool/Input V12-03-22
 IOPool/Output V06-14-05
 IOPool/SecondaryInput V02-08-04
