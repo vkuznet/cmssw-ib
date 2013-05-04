@@ -307,6 +307,7 @@ DataFormats/FEDRawData V00-12-11
 DataFormats/FP420Cluster V00-05-04
 DataFormats/FP420Digi V00-05-04
 DataFormats/FWLite V01-16-08
+DataFormats/GEMDigi V00-00-02
 DataFormats/GeometryCommonDetAlgo V00-03-03
 DataFormats/GeometrySurface V00-09-03
 DataFormats/GeometryVector V01-01-01
@@ -549,8 +550,8 @@ Geometry/FP420SimData V00-05-02
 Geometry/ForwardCommonData V01-05-03
 Geometry/ForwardGeometry V01-05-05
 Geometry/ForwardSimData V02-01-05
-Geometry/GEMGeometry V00-01-03
-Geometry/GEMGeometryBuilder V00-01-02
+Geometry/GEMGeometry V00-02-03
+Geometry/GEMGeometryBuilder V00-01-08
 Geometry/GlobalTrackingGeometryBuilder V00-01-15
 Geometry/HcalAlgo V01-05-05
 Geometry/HcalCommonData V01-05-01
@@ -559,7 +560,7 @@ Geometry/HcalSimData V01-02-03
 Geometry/HcalTestBeamData V01-07-09
 Geometry/HcalTowerAlgo V01-10-03
 Geometry/MTCCTrackerCommonData V01-00-14
-Geometry/MuonCommonData V01-07-10
+Geometry/MuonCommonData V01-08-05
 Geometry/MuonNumbering V01-00-01
 Geometry/MuonSimData V01-03-01
 Geometry/RPCGeometry V01-01-37
@@ -937,7 +938,7 @@ SimCalorimetry/HcalTrigPrimProducers V03-09-00
 SimCalorimetry/HcalZeroSuppressionProducers V00-11-08
 SimDataFormats/CaloHit V01-05-03
 SimDataFormats/CaloTest V00-01-08
-SimDataFormats/CrossingFrame V04-02-01-01
+SimDataFormats/CrossingFrame V04-02-02
 SimDataFormats/DigiSimLinks V00-00-07
 SimDataFormats/EcalTestBeam V00-04-01
 SimDataFormats/EncodedEventId V00-00-07
@@ -987,17 +988,18 @@ SimG4Core/SensitiveDetector V02-02-06
 SimG4Core/TrackingVerbose V01-01-08
 SimG4Core/Watcher V01-05-03
 SimGeneral/Configuration V02-01-03
-SimGeneral/DataMixingModule V01-02-04
+SimGeneral/DataMixingModule V01-02-05
 SimGeneral/GFlash V00-03-01
 SimGeneral/HepPDTESSource V00-06-08
 SimGeneral/HepPDTRecord V00-03-01
-SimGeneral/MixingModule V07-00-09
+SimGeneral/MixingModule V07-00-10
 SimGeneral/NoiseGenerators V02-02-06
 SimGeneral/PileupInformation V00-02-05
 SimGeneral/TrackingAnalysis V04-03-02
 SimMuon/CSCDigitizer V01-00-01
 SimMuon/Configuration V02-00-01
 SimMuon/DTDigitizer V01-04-15
+SimMuon/GEMDigitizer V00-02-19
 SimMuon/MCTruth V02-08-00
 SimMuon/Neutron V00-01-06
 SimMuon/RPCDigitizer V04-04-20
