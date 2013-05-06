@@ -47,7 +47,7 @@ CalibCalorimetry/EcalPedestalOffsets V02-00-26
 CalibCalorimetry/EcalSRTools V00-01-06
 CalibCalorimetry/EcalTBCondTools V00-04-00-00
 CalibCalorimetry/EcalTPGTools V01-04-07
-CalibCalorimetry/EcalTrivialCondModules V06-24-02
+CalibCalorimetry/EcalTrivialCondModules V06-24-03
 CalibCalorimetry/HcalAlgos V02-21-03
 CalibCalorimetry/HcalPlugins V02-16-04
 CalibCalorimetry/HcalStandardModules V00-07-03
@@ -99,7 +99,7 @@ CommonTools/CandAlgos V00-01-04
 CommonTools/CandUtils V00-01-01
 CommonTools/Clustering1D V00-02-01
 CommonTools/ConditionDBWriter V00-00-07
-CommonTools/ParticleFlow V01-01-17
+CommonTools/ParticleFlow V01-01-19
 CommonTools/RecoAlgos V00-04-02
 CommonTools/RecoUtils V00-01-04
 CommonTools/Statistics V00-01-11
@@ -176,7 +176,7 @@ CondFormats/SiPixelObjects V02-00-07
 CondFormats/SiStripObjects V18-00-15
 CondTools/DQM V01-02-04
 CondTools/DT V09-01-01
-CondTools/Ecal V03-03-14
+CondTools/Ecal V03-03-15
 CondTools/Geometry V00-06-01
 CondTools/HLT V00-01-03
 CondTools/Hcal V02-10-00
@@ -189,11 +189,11 @@ CondTools/SiPixel V01-00-01
 CondTools/SiStrip V03-06-02
 CondTools/Utilities V04-02-02
 Configuration/AlCa V00-01-12
-Configuration/Applications V01-00-10
+Configuration/Applications V01-00-12
 Configuration/DataProcessing V02-00-01
 Configuration/EcalTB V00-10-00
 Configuration/EventContent V04-04-05-00
-Configuration/Generator V01-15-11
+Configuration/Generator V01-15-12
 Configuration/Geometry V01-00-17
 Configuration/GlobalRuns V00-09-26
 Configuration/HLT V01-09-00
@@ -202,7 +202,7 @@ Configuration/PyReleaseValidation V02-01-05-00
 Configuration/SVSuite V00-00-17
 Configuration/SiStripDAQ V01-00-03-01
 Configuration/Skimming V02-02-30
-Configuration/StandardSequences V01-21-17-02
+Configuration/StandardSequences V01-21-17-03
 DPGAnalysis/SiStripTools V01-00-03
 DPGAnalysis/Skims V01-00-12-07
 DQM/BeamMonitor V00-04-30
@@ -413,7 +413,7 @@ EventFilter/EcalTBRawToDigi V04-10-15
 EventFilter/FEDInterface V00-01-03
 EventFilter/GctRawToDigi V00-13-01
 EventFilter/Goodies V00-02-24
-EventFilter/HcalRawToDigi V01-02-13
+EventFilter/HcalRawToDigi V01-02-14
 EventFilter/L1GlobalTriggerRawToDigi V03-06-09
 EventFilter/LTCRawToDigi V00-00-06
 EventFilter/Message2log4cplus V00-12-03
@@ -436,7 +436,7 @@ FWCore/Catalog V03-01-13
 FWCore/Common V00-04-04
 FWCore/Concurrency V01-00-02
 FWCore/FWLite V00-26-07
-FWCore/Framework V09-09-04
+FWCore/Framework V09-09-05
 FWCore/GuiBrowsers V00-00-70
 FWCore/Integration V01-25-01
 FWCore/MessageLogger V03-20-07
@@ -463,11 +463,11 @@ FastSimDataFormats/NuclearInteractions V01-00-07
 FastSimDataFormats/PileUpEvents V01-00-07
 FastSimulation/BaseParticlePropagator V01-04-00
 FastSimulation/CaloGeometryTools V02-03-00
-FastSimulation/CaloHitMakers V01-05-07
+FastSimulation/CaloHitMakers V01-05-08
 FastSimulation/CaloRecHitsProducer V07-03-00
 FastSimulation/CalorimeterProperties V01-00-15
-FastSimulation/Calorimetry V13-07-07
-FastSimulation/Configuration V13-08-00
+FastSimulation/Calorimetry V13-08-00
+FastSimulation/Configuration V13-08-03
 FastSimulation/EgammaElectronAlgos V00-11-02
 FastSimulation/Event V02-10-03
 FastSimulation/EventProducer V03-14-02
@@ -479,7 +479,7 @@ FastSimulation/MuonSimHitProducer V00-03-16
 FastSimulation/Muons V01-01-01
 FastSimulation/Particle V02-01-02
 FastSimulation/ParticleDecay V03-00-03-02
-FastSimulation/ParticleFlow V00-00-10
+FastSimulation/ParticleFlow V00-00-11
 FastSimulation/ParticlePropagator V01-02-04
 FastSimulation/PileUpProducer V04-05-36
 FastSimulation/ShowerDevelopment V02-03-18
@@ -487,7 +487,7 @@ FastSimulation/TrackerSetup V04-07-05
 FastSimulation/Tracking V04-12-02
 FastSimulation/TrackingRecHitProducer V03-14-00
 FastSimulation/TrajectoryManager V01-06-00
-FastSimulation/Utilities V00-04-09
+FastSimulation/Utilities V00-10-00
 FastSimulation/Validation V01-13-05
 Fireworks/Calo V06-13-05-01
 Fireworks/Candidates V06-13-01
@@ -512,7 +512,7 @@ GeneratorInterface/Configuration V00-03-00
 GeneratorInterface/Core V00-01-10
 GeneratorInterface/CosmicMuonGenerator V03-00-23
 GeneratorInterface/ExhumeInterface V02-01-21
-GeneratorInterface/ExternalDecays V01-06-39-01
+GeneratorInterface/ExternalDecays V01-06-39-02
 GeneratorInterface/GenExtensions V00-03-09
 GeneratorInterface/GenFilters V00-11-17
 GeneratorInterface/Herwig6Interface V02-04-00
@@ -708,7 +708,7 @@ PhysicsTools/KinFitter V00-03-07
 PhysicsTools/MVAComputer V00-08-01
 PhysicsTools/MVATrainer V00-07-06
 PhysicsTools/ParallelAnalysis V02-00-15-03
-PhysicsTools/PatAlgos V08-11-02
+PhysicsTools/PatAlgos V08-11-07
 PhysicsTools/PatExamples V00-05-30
 PhysicsTools/PatUtils V03-09-30
 PhysicsTools/PythonAnalysis V00-05-04
@@ -764,7 +764,7 @@ RecoHI/Configuration V00-00-20
 RecoHI/HiCentralityAlgos V00-01-23-03
 RecoHI/HiEgammaAlgos V02-02-04
 RecoHI/HiEvtPlaneAlgos V00-02-06
-RecoHI/HiJetAlgos V00-02-00
+RecoHI/HiJetAlgos V00-02-01
 RecoHI/HiMuonAlgos V03-00-02
 RecoHI/HiTracking V01-06-01
 RecoJets/Configuration V02-10-00
@@ -863,10 +863,10 @@ RecoTBCalo/HcalPlotter V00-02-06
 RecoTBCalo/HcalTBObjectUnpacker V00-03-00-04
 RecoTBCalo/HcalTBTools V00-01-08
 RecoTBCalo/ZDCTBAnalysis V00-01-07
-RecoTauTag/Configuration V01-04-08-01
+RecoTauTag/Configuration V02-00-00
 RecoTauTag/HLTProducers V08-04-09
 RecoTauTag/ImpactParameter V00-04-07
-RecoTauTag/RecoTau V01-04-20-07
+RecoTauTag/RecoTau V01-06-04
 RecoTauTag/TauTagTools V01-02-03-02
 RecoTracker/CkfPattern V09-01-00
 RecoTracker/Configuration V00-18-02
@@ -957,7 +957,7 @@ SimDataFormats/TrackingAnalysis V02-01-07
 SimDataFormats/TrackingHit V03-03-07
 SimDataFormats/ValidationFormats V02-00-06
 SimDataFormats/Vertex V01-02-03
-SimG4CMS/Calo V02-09-05
+SimG4CMS/Calo V02-09-06
 SimG4CMS/CherenkovAnalysis V01-02-10
 SimG4CMS/EcalTestBeam V01-03-06
 SimG4CMS/FP420 V02-00-01

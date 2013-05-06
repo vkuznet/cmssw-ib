@@ -12,7 +12,7 @@
 
 #include <math.h>
 
-#include "CondTools/Ecal/interface/EvolutionECAL.h"
+#include "SimG4CMS/Calo/interface/EvolutionECAL.h"
 #include "DataFormats/DetId/interface/DetId.h"
 
 class EnergyResolutionVsLumi {

@@ -1,7 +1,7 @@
 #include <string>
 #include <vector>
-#include "CondTools/Ecal/interface/EvolutionECAL.h"
-#include "CondTools/Ecal/interface/EnergyResolutionVsLumi.h"
+#include "SimG4CMS/Calo/interface/EvolutionECAL.h"
+#include "SimG4CMS/Calo/interface/EnergyResolutionVsLumi.h"
 #include "DataFormats/EcalDetId/interface/EBDetId.h"
 #include "DataFormats/EcalDetId/interface/EEDetId.h"
 #include "DataFormats/EcalDetId/interface/EcalSubdetector.h"
