@@ -7,43 +7,29 @@ process.load("SimGeneral.HepPDTESSource.pythiapdt_cfi")
 
 process.source = cms.Source("EmptySource")
 
-process.generator = cms.EDFilter("Pythia8EGun",
+process.generator = cms.EDFilter("Pythia8JetGun",
 
     maxEventsToPrint = cms.untracked.int32(1),
     pythiaPylistVerbosity = cms.untracked.int32(1),
     pythiaHepMCVerbosity = cms.untracked.bool(True),
 
     PGunParameters = cms.PSet(
-       ParticleID = cms.vint32(23),
-       AddAntiParticle = cms.bool(True),
-       MinPhi = cms.double(-3.14159265359),
-       MaxPhi = cms.double(3.14159265359),
-       MinE = cms.double(100.0),
-       MaxE = cms.double(200.0),
-       MinEta = cms.double(0.0),
-       MaxEta = cms.double(2.4)
-    ),
-        
-    ExternalDecays = cms.PSet(
-        Tauola = cms.untracked.PSet(
-	     UseTauolaPolarization = cms.bool(True),
-	     InputCards = cms.PSet
-	     ( 
-	        pjak1 = cms.int32(0), # 1 = electron mode
-		pjak2 = cms.int32(0), # 2 = muon mode
-		mdtau = cms.int32(240)  # (any) tau -> nu pi+- 
-	     )
-	),
-        parameterSets = cms.vstring('Tauola')
+       ParticleID = cms.vint32(211,-211,111,111,130),
+        # this defines "absolute" energy spead of particles in the jet
+	MinE   = cms.double(0.5),
+	MaxE   = cms.double(2.0),
+	# the following params define the boost
+        MinP   = cms.double(20.0),
+        MaxP   = cms.double(20.0),
+        MinPhi = cms.double(-3.14159265359),
+        MaxPhi = cms.double(3.14159265359),
+	MinEta = cms.double(-2.4),
+        MaxEta = cms.double(2.4)
     ),
 
+    # no detailed pythia6 settings necessary            
     PythiaParameters = cms.PSet(
-	py8ZDecaySettings = cms.vstring(  '23:onMode = off', # turn OFF all Z decays
-					  '23:onIfAny = 15'  # turn ON Z->tautau
-	),
-        parameterSets = cms.vstring(  
-	                              'py8ZDecaySettings' 
-				   )
+        parameterSets = cms.vstring() 
     )
 )
 
@@ -66,7 +52,7 @@ process.maxEvents = cms.untracked.PSet(
 )
 
 process.GEN = cms.OutputModule("PoolOutputModule",
-    fileName = cms.untracked.string('Py8EGun_Z2tautau.root')
+    fileName = cms.untracked.string('Py8JetGun.root')
 )
 
 
