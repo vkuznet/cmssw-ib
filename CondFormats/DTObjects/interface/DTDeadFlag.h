@@ -27,6 +27,9 @@
 //---------------
 #include <string>
 #include <vector>
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+#include <atomic>
+#endif
 
 //              ---------------------
 //              -- Class Interface --
@@ -237,12 +240,27 @@ class DTDeadFlag {
   const_iterator end() const;
 
  private:
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  // copy-ctor
+  DTDeadFlag(const DTDeadFlag& src) = delete;
+  // copy assignment operator
+  DTDeadFlag& operator=(const DTDeadFlag& rhs) = delete;
+#else
+  // copy-ctor
+  DTDeadFlag(const DTDeadFlag& src);
+  // copy assignment operator
+  DTDeadFlag& operator=(const DTDeadFlag& rhs);
+#endif
 
   std::string dataVersion;
 
   std::vector< std::pair<DTDeadFlagId,DTDeadFlagData> > dataList;
 
-  DTBufferTree<int,int>* dBuf;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  mutable std::atomic<DTBufferTree<int,int>*> dBuf;
+#else
+  mutable DTBufferTree<int,int>* dBuf;
+#endif
 
   /// read and store full content
   void cacheMap() const;

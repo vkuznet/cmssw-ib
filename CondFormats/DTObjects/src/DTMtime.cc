@@ -35,7 +35,7 @@ DTMtime::DTMtime():
   dataVersion( " " ),
   nsPerCount( 25.0 / 32.0 ) {
   dataList.reserve( 1000 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
@@ -43,7 +43,7 @@ DTMtime::DTMtime( const std::string& version ):
   dataVersion( version ),
   nsPerCount( 25.0 / 32.0 ) {
   dataList.reserve( 1000 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
@@ -127,12 +127,12 @@ int DTMtime::get( int   wheelId,
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::findBuffer( mName );
-//  if ( dBuf == 0 ) {
+//  if ( dBuf == nullptr ) {
 //    cacheMap();
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
 
   std::vector<int> chanKey;
   chanKey.reserve(6);
@@ -143,7 +143,7 @@ int DTMtime::get( int   wheelId,
   chanKey.push_back(   layerId );
   chanKey.push_back(    cellId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
   if ( !searchStatus ) {
     const DTMtimeData& data( dataList[ientry].second );
     mTime = data.mTime;
@@ -257,7 +257,7 @@ std::string& DTMtime::version() {
 void DTMtime::clear() {
 //  DTDataBuffer<int,int>::dropBuffer( mapName() );
   delete dBuf;
-  dBuf = 0;
+  dBuf = nullptr;
   dataList.clear();
   return;
 }
@@ -307,12 +307,12 @@ int DTMtime::set( int   wheelId,
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::findBuffer( mName );
-//  if ( dBuf == 0 ) {
+//  if ( dBuf == nullptr ) {
 //    cacheMap();
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
   std::vector<int> chanKey;
   chanKey.reserve(6);
   chanKey.push_back(   wheelId );
@@ -322,7 +322,7 @@ int DTMtime::set( int   wheelId,
   chanKey.push_back(   layerId );
   chanKey.push_back(    cellId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
 
   if ( !searchStatus ) {
     DTMtimeData& data( dataList[ientry].second );
@@ -343,7 +343,7 @@ int DTMtime::set( int   wheelId,
     data.mTrms = mTrms;
     ientry = dataList.size();
     dataList.push_back( std::pair<DTMtimeId,DTMtimeData>( key, data ) );
-    dBuf->insert( chanKey.begin(), chanKey.end(), ientry );
+    (*dBuf).insert( chanKey.begin(), chanKey.end(), ientry );
     return 0;
   }
 
@@ -458,9 +458,8 @@ void DTMtime::cacheMap() const {
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::openBuffer( mName );
-  DTBufferTree<int,int>** pBuf;
-  pBuf = const_cast<DTBufferTree<int,int>**>( &dBuf );
-  *pBuf = new DTBufferTree<int,int>;
+
+  auto pBuf = new DTBufferTree<int,int>;
 
   int entryNum = 0;
   int entryMax = dataList.size();
@@ -477,8 +476,16 @@ void DTMtime::cacheMap() const {
     chanKey.push_back( chan.     slId );
     chanKey.push_back( chan.  layerId );
     chanKey.push_back( chan.   cellId );
-    dBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
+    pBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
 
+  }
+
+  //atomically try to swap this to become dBuf
+  DTBufferTree<int,int>* expect = nullptr;
+  bool exchanged = dBuf.compare_exchange_strong(expect, pBuf);
+  if(!exchanged) {
+      //some other thread beat us to this so need to get rid of the work we did
+      delete pBuf;
   }
 
   return;

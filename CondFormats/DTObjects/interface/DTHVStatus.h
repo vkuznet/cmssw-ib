@@ -30,6 +30,9 @@ class DTChamberId;
 //---------------
 #include <string>
 #include <vector>
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+#include <atomic>
+#endif
 
 //              ---------------------
 //              -- Class Interface --
@@ -175,12 +178,27 @@ class DTHVStatus {
   const_iterator end() const;
 
  private:
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  // copy-ctor
+  DTHVStatus(const DTHVStatus& src) = delete;
+  // copy assignment operator
+  DTHVStatus& operator=(const DTHVStatus& rhs) = delete;
+#else
+  // copy-ctor
+  DTHVStatus(const DTHVStatus& src);
+  // copy assignment operator
+  DTHVStatus& operator=(const DTHVStatus& rhs);
+#endif
 
   std::string dataVersion;
 
   std::vector< std::pair<DTHVStatusId,DTHVStatusData> > dataList;
 
-  DTBufferTree<int,int>* dBuf;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  mutable std::atomic<DTBufferTree<int,int>*> dBuf;
+#else
+  mutable DTBufferTree<int,int>* dBuf;
+#endif
 
   /// read and store full content
   void cacheMap() const;

@@ -35,14 +35,14 @@
 DTLVStatus::DTLVStatus():
   dataVersion( " " ) {
   dataList.reserve( 10 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
 DTLVStatus::DTLVStatus( const std::string& version ):
   dataVersion( version ) {
   dataList.reserve( 10 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
@@ -96,12 +96,12 @@ int DTLVStatus::get( int   wheelId,
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::findBuffer( mName );
-//  if ( dBuf == 0 ) {
+//  if ( dBuf == nullptr ) {
 //    cacheMap();
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
 
   std::vector<int> chanKey;
   chanKey.reserve(3);
@@ -109,7 +109,7 @@ int DTLVStatus::get( int   wheelId,
   chanKey.push_back( stationId );
   chanKey.push_back(  sectorId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
   if ( !searchStatus ) {
     const DTLVStatusData& data( dataList[ientry].second );
     flagCFE = data.flagCFE;
@@ -152,7 +152,7 @@ std::string& DTLVStatus::version() {
 void DTLVStatus::clear() {
 //  DTDataBuffer<int,int>::dropBuffer( mapName() );
   delete dBuf;
-  dBuf = 0;
+  dBuf = nullptr;
   dataList.clear();
   return;
 }
@@ -169,19 +169,19 @@ int DTLVStatus::set( int   wheelId,
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::findBuffer( mName );
-//  if ( dBuf == 0 ) {
+//  if ( dBuf == nullptr ) {
 //    cacheMap();
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
   std::vector<int> chanKey;
   chanKey.reserve(3);
   chanKey.push_back(   wheelId );
   chanKey.push_back( stationId );
   chanKey.push_back(  sectorId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
 
   if ( !searchStatus ) {
     DTLVStatusData& data( dataList[ientry].second );
@@ -204,7 +204,7 @@ int DTLVStatus::set( int   wheelId,
     ientry = dataList.size();
     dataList.push_back( std::pair<DTLVStatusId,
                                   DTLVStatusData>( key, data ) );
-    dBuf->insert( chanKey.begin(), chanKey.end(), ientry );
+    (*dBuf).insert( chanKey.begin(), chanKey.end(), ientry );
     return 0;
   }
 
@@ -386,9 +386,8 @@ void DTLVStatus::cacheMap() const {
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::openBuffer( mName );
-  DTBufferTree<int,int>** pBuf;
-  pBuf = const_cast<DTBufferTree<int,int>**>( &dBuf );
-  *pBuf = new DTBufferTree<int,int>;
+
+  auto pBuf = new DTBufferTree<int,int>;
 
   int entryNum = 0;
   int entryMax = dataList.size();
@@ -402,8 +401,16 @@ void DTLVStatus::cacheMap() const {
     chanKey.push_back( chan.  wheelId );
     chanKey.push_back( chan.stationId );
     chanKey.push_back( chan. sectorId );
-    dBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
+    pBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
 
+  }
+
+  //atomically try to swap this to become dBuf
+  DTBufferTree<int,int>* expect = nullptr;
+  bool exchanged = dBuf.compare_exchange_strong(expect, pBuf);
+  if(!exchanged) {
+      //some other thread beat us to this so need to get rid of the work we did
+      delete pBuf;
   }
 
   return;

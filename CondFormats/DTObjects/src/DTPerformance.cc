@@ -34,14 +34,14 @@
 DTPerformance::DTPerformance():
   dataVersion( " " ) {
   dataList.reserve( 1000 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
 DTPerformance::DTPerformance( const std::string& version ):
   dataVersion( version ) {
   dataList.reserve( 1000 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
@@ -113,7 +113,7 @@ int DTPerformance::get( int   wheelId,
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
 
   std::vector<int> chanKey;
   chanKey.reserve(4);
@@ -122,7 +122,7 @@ int DTPerformance::get( int   wheelId,
   chanKey.push_back(  sectorId );
   chanKey.push_back(      slId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
   if ( !searchStatus ) {
     const DTPerformanceData& data( dataList[ientry].second );
     meanT0         = data.meanT0;
@@ -187,7 +187,7 @@ std::string& DTPerformance::version() {
 void DTPerformance::clear() {
 //  DTDataBuffer<int,int>::dropBuffer( mapName() );
   delete dBuf;
-  dBuf = 0;
+  dBuf = nullptr;
   dataList.clear();
   return;
 }
@@ -220,7 +220,7 @@ int DTPerformance::set( int   wheelId,
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
   std::vector<int> chanKey;
   chanKey.reserve(4);
   chanKey.push_back(   wheelId );
@@ -228,7 +228,7 @@ int DTPerformance::set( int   wheelId,
   chanKey.push_back(  sectorId );
   chanKey.push_back(      slId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
 
   if ( !searchStatus ) {
     DTPerformanceData& data( dataList[ientry].second );
@@ -258,7 +258,7 @@ int DTPerformance::set( int   wheelId,
     ientry = dataList.size();
     dataList.push_back( std::pair<DTPerformanceId,DTPerformanceData>(
                         key, data ) );
-    dBuf->insert( chanKey.begin(), chanKey.end(), ientry );
+    (*dBuf).insert( chanKey.begin(), chanKey.end(), ientry );
     return 0;
   }
 
@@ -318,9 +318,7 @@ void DTPerformance::cacheMap() const {
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::openBuffer( mName );
-  DTBufferTree<int,int>** pBuf;
-  pBuf = const_cast<DTBufferTree<int,int>**>( &dBuf );
-  *pBuf = new DTBufferTree<int,int>;
+  auto pBuf = new DTBufferTree<int,int>;
 
   int entryNum = 0;
   int entryMax = dataList.size();
@@ -335,8 +333,16 @@ void DTPerformance::cacheMap() const {
     chanKey.push_back( chan.stationId );
     chanKey.push_back( chan. sectorId );
     chanKey.push_back( chan.     slId );
-    dBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
+    pBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
 
+  }
+
+  //atomically try to swap this to become dBuf
+  DTBufferTree<int,int>* expect = nullptr;
+  bool exchanged = dBuf.compare_exchange_strong(expect, pBuf);
+  if(!exchanged) {
+      //some other thread beat us to this so need to get rid of the work we did
+      delete pBuf;
   }
 
   return;

@@ -28,6 +28,9 @@
 //---------------
 #include <string>
 #include <vector>
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+#include <atomic>
+#endif
 
 //              ---------------------
 //              -- Class Interface --
@@ -124,6 +127,17 @@ class DTTPGParameters {
   const_iterator end() const;
 
  private:
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  // copy-ctor
+  DTTPGParameters(const DTTPGParameters& src) = delete;
+  // copy assignment operator
+  DTTPGParameters& operator=(const DTTPGParameters& rhs) = delete;
+#else
+  // copy-ctor
+  DTTPGParameters(const DTTPGParameters& src);
+  // copy assignment operator
+  DTTPGParameters& operator=(const DTTPGParameters& rhs);
+#endif
 
   std::string dataVersion;
   float nsPerCount;
@@ -131,7 +145,11 @@ class DTTPGParameters {
 
   std::vector< std::pair<DTTPGParametersId,DTTPGParametersData> > dataList;
 
-  DTBufferTree<int,int>* dBuf;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  mutable std::atomic<DTBufferTree<int,int>*> dBuf;
+#else
+  mutable DTBufferTree<int,int>* dBuf;
+#endif
 
   /// read and store full content
   void cacheMap() const;

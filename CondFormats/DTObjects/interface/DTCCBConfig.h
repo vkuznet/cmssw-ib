@@ -28,6 +28,9 @@
 #include <string>
 #include <vector>
 #include <map>
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+#include <atomic>
+#endif
 
 //              ---------------------
 //              -- Class Interface --
@@ -120,13 +123,28 @@ class DTCCBConfig {
   const_iterator end() const;
 
  private:
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  // copy-ctor
+  DTCCBConfig(const DTCCBConfig& src) = delete;
+  // copy assignment operator
+  DTCCBConfig& operator=(const DTCCBConfig& rhs) = delete;
+#else
+  // copy-ctor
+  DTCCBConfig(const DTCCBConfig& src);
+  // copy assignment operator
+  DTCCBConfig& operator=(const DTCCBConfig& rhs);
+#endif
 
   int timeStamp;
   std::string dataVersion;
   std::vector<DTConfigKey> fullConfigKey;
   std::vector< std::pair<DTCCBId,int> > dataList;
 
-  DTBufferTree< int,std::vector<int>* >* dBuf;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  mutable std::atomic<DTBufferTree<int,std::vector<int>*>*> dBuf;
+#else
+  mutable DTBufferTree<int,std::vector<int>*>* dBuf;
+#endif
 
   /// read and store full content
   void cacheMap() const;

@@ -36,7 +36,7 @@ DTTPGParameters::DTTPGParameters():
   nsPerCount( 25.0 / 32.0 ),
   clockLength( 32 ) {
   dataList.reserve( 250 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
@@ -45,7 +45,7 @@ DTTPGParameters::DTTPGParameters( const std::string& version ):
   nsPerCount( 25.0 / 32.0 ),
   clockLength( 32 ) {
   dataList.reserve( 250 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
@@ -95,12 +95,12 @@ int DTTPGParameters::get( int   wheelId,
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::findBuffer( mName );
-//  if ( dBuf == 0 ) {
+//  if ( dBuf == nullptr ) {
 //    cacheMap();
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
 
   std::vector<int> chanKey;
   chanKey.reserve(3);
@@ -108,7 +108,7 @@ int DTTPGParameters::get( int   wheelId,
   chanKey.push_back( stationId );
   chanKey.push_back(  sectorId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
   if ( !searchStatus ) {
     const DTTPGParametersData& data( dataList[ientry].second );
     nc = data.nClock;
@@ -179,7 +179,7 @@ std::string& DTTPGParameters::version() {
 void DTTPGParameters::clear() {
 //  DTDataBuffer<int,int>::dropBuffer( mapName() );
   delete dBuf;
-  dBuf = 0;
+  dBuf = nullptr;
   dataList.clear();
   return;
 }
@@ -199,19 +199,19 @@ int DTTPGParameters::set( int   wheelId,
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::findBuffer( mName );
-//  if ( dBuf == 0 ) {
+//  if ( dBuf == nullptr ) {
 //    cacheMap();
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
   std::vector<int> chanKey;
   chanKey.reserve(3);
   chanKey.push_back(   wheelId );
   chanKey.push_back( stationId );
   chanKey.push_back(  sectorId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
 
   if ( !searchStatus ) {
     DTTPGParametersData& data( dataList[ientry].second );
@@ -230,7 +230,7 @@ int DTTPGParameters::set( int   wheelId,
     ientry = dataList.size();
     dataList.push_back( std::pair<DTTPGParametersId,
                                   DTTPGParametersData>( key, data ) );
-    dBuf->insert( chanKey.begin(), chanKey.end(), ientry );
+    (*dBuf).insert( chanKey.begin(), chanKey.end(), ientry );
     return 0;
   }
 
@@ -282,9 +282,8 @@ void DTTPGParameters::cacheMap() const {
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::openBuffer( mName );
-  DTBufferTree<int,int>** pBuf;
-  pBuf = const_cast<DTBufferTree<int,int>**>( &dBuf );
-  *pBuf = new DTBufferTree<int,int>;
+
+  auto pBuf = new DTBufferTree<int,int>;
 
   int entryNum = 0;
   int entryMax = dataList.size();
@@ -298,8 +297,16 @@ void DTTPGParameters::cacheMap() const {
     chanKey.push_back( chan.  wheelId );
     chanKey.push_back( chan.stationId );
     chanKey.push_back( chan. sectorId );
-    dBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
+    pBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
 
+  }
+
+  //atomically try to swap this to become dBuf
+  DTBufferTree<int,int>* expect = nullptr;
+  bool exchanged = dBuf.compare_exchange_strong(expect, pBuf);
+  if(!exchanged) {
+      //some other thread beat us to this so need to get rid of the work we did
+      delete pBuf;
   }
 
   return;

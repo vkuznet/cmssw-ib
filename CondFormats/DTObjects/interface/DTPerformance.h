@@ -28,6 +28,9 @@
 //---------------
 #include <string>
 #include <vector>
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+#include <atomic>
+#endif
 
 //              ---------------------
 //              -- Class Interface --
@@ -198,13 +201,28 @@ class DTPerformance {
   const_iterator end() const;
 
  private:
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  // copy-ctor
+  DTPerformance(const DTPerformance& src) = delete;
+  // copy assignment operator
+  DTPerformance& operator=(const DTPerformance& rhs) = delete;
+#else
+  // copy-ctor
+  DTPerformance(const DTPerformance& src);
+  // copy assignment operator
+  DTPerformance& operator=(const DTPerformance& rhs);
+#endif
 
   std::string dataVersion;
   float nsPerCount;
 
   std::vector< std::pair<DTPerformanceId,DTPerformanceData> > dataList;
 
-  DTBufferTree<int,int>* dBuf;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  mutable std::atomic<DTBufferTree<int,int>*> dBuf;
+#else
+  mutable DTBufferTree<int,int>* dBuf;
+#endif
 
   /// read and store full content
   void cacheMap() const;

@@ -37,14 +37,14 @@
 DTHVStatus::DTHVStatus():
   dataVersion( " " ) {
   dataList.reserve( 10 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
 DTHVStatus::DTHVStatus( const std::string& version ):
   dataVersion( version ) {
   dataList.reserve( 10 );
-  dBuf = 0;
+  dBuf = nullptr;
 }
 
 
@@ -105,12 +105,12 @@ int DTHVStatus::get( int   wheelId,
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::findBuffer( mName );
-//  if ( dBuf == 0 ) {
+//  if ( dBuf == nullptr ) {
 //    cacheMap();
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
 
   std::vector<int> chanKey;
   chanKey.reserve(6);
@@ -121,7 +121,7 @@ int DTHVStatus::get( int   wheelId,
   chanKey.push_back(   layerId );
   chanKey.push_back(    partId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
   if ( !searchStatus ) {
     const DTHVStatusData& data( dataList[ientry].second );
     fCell = data.fCell;
@@ -273,7 +273,7 @@ std::string& DTHVStatus::version() {
 void DTHVStatus::clear() {
 //  DTDataBuffer<int,int>::dropBuffer( mapName() );
   delete dBuf;
-  dBuf = 0;
+  dBuf = nullptr;
   dataList.clear();
   dataList.reserve( 10 );
   return;
@@ -295,12 +295,12 @@ int DTHVStatus::set( int   wheelId,
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::findBuffer( mName );
-//  if ( dBuf == 0 ) {
+//  if ( dBuf == nullptr ) {
 //    cacheMap();
 //    dBuf =
 //    DTDataBuffer<int,int>::findBuffer( mName );
 //  }
-  if ( dBuf == 0 ) cacheMap();
+  if ( dBuf == nullptr ) cacheMap();
   std::vector<int> chanKey;
   chanKey.reserve(6);
   chanKey.push_back(   wheelId );
@@ -310,7 +310,7 @@ int DTHVStatus::set( int   wheelId,
   chanKey.push_back(   layerId );
   chanKey.push_back(    partId );
   int ientry;
-  int searchStatus = dBuf->find( chanKey.begin(), chanKey.end(), ientry );
+  int searchStatus = (*dBuf).find( chanKey.begin(), chanKey.end(), ientry );
 
   if ( !searchStatus ) {
     DTHVStatusData& data( dataList[ientry].second );
@@ -338,7 +338,7 @@ int DTHVStatus::set( int   wheelId,
     ientry = dataList.size();
     dataList.push_back( std::pair<DTHVStatusId,
                                   DTHVStatusData>( key, data ) );
-    dBuf->insert( chanKey.begin(), chanKey.end(), ientry );
+    (*dBuf).insert( chanKey.begin(), chanKey.end(), ientry );
     return 0;
   }
 
@@ -536,9 +536,8 @@ void DTHVStatus::cacheMap() const {
 //  std::string mName = mapName();
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::openBuffer( mName );
-  DTBufferTree<int,int>** pBuf;
-  pBuf = const_cast<DTBufferTree<int,int>**>( &dBuf );
-  *pBuf = new DTBufferTree<int,int>;
+
+  auto pBuf = new DTBufferTree<int,int>;
 
   int entryNum = 0;
   int entryMax = dataList.size();
@@ -555,10 +554,18 @@ void DTHVStatus::cacheMap() const {
     chanKey.push_back( chan.     slId );
     chanKey.push_back( chan.  layerId );
     chanKey.push_back( chan.   partId );
-    dBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
+    pBuf->insert( chanKey.begin(), chanKey.end(), entryNum++ );
 
   }
 
+  //atomically try to swap this to become dBuf
+  DTBufferTree<int,int>* expect = nullptr;
+  bool exchanged = dBuf.compare_exchange_strong(expect, pBuf);
+  if(!exchanged) {
+      //some other thread beat us to this so need to get rid of the work we did
+      delete pBuf;
+  }
+  
   return;
 
 }

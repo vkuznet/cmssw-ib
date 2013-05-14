@@ -28,6 +28,9 @@
 //---------------
 #include <string>
 #include <vector>
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+#include <atomic>
+#endif
 
 //              ---------------------
 //              -- Class Interface --
@@ -257,12 +260,27 @@ class DTStatusFlag {
   const_iterator end() const;
 
  private:
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  // copy-ctor
+  DTStatusFlag(const DTStatusFlag& src) = delete;
+  // copy assignment operator
+  DTStatusFlag& operator=(const DTStatusFlag& rhs) = delete;
+#else
+  // copy-ctor
+  DTStatusFlag(const DTStatusFlag& src);
+  // copy assignment operator
+  DTStatusFlag& operator=(const DTStatusFlag& rhs);
+#endif
 
   std::string dataVersion;
 
   std::vector< std::pair<DTStatusFlagId,DTStatusFlagData> > dataList;
 
-  DTBufferTree<int,int>* dBuf;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  mutable std::atomic<DTBufferTree<int,int>*> dBuf;
+#else
+  mutable DTBufferTree<int,int>* dBuf;
+#endif
 
   /// read and store full content
   void cacheMap() const;

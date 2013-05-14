@@ -31,6 +31,9 @@
 //---------------
 #include <string>
 #include <vector>
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+#include <atomic>
+#endif
 
 //              ---------------------
 //              -- Class Interface --
@@ -258,13 +261,28 @@ class DTMtime {
   const_iterator end() const;
 
  private:
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  // copy-ctor
+  DTMtime(const DTMtime& src) = delete;
+  // copy assignment operator
+  DTMtime& operator=(const DTMtime& rhs) = delete;
+#else
+  // copy-ctor
+  DTMtime(const DTMtime& src);
+  // copy assignment operator
+  DTMtime& operator=(const DTMtime& rhs);
+#endif
 
   std::string dataVersion;
   float nsPerCount;
 
   std::vector< std::pair<DTMtimeId,DTMtimeData> > dataList;
 
-  DTBufferTree<int,int>* dBuf;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  mutable std::atomic<DTBufferTree<int,int>*> dBuf;
+#else
+  mutable DTBufferTree<int,int>* dBuf;
+#endif
 
   /// read and store full content
   void cacheMap() const;
