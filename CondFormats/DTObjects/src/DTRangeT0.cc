@@ -234,7 +234,6 @@ void DTRangeT0::cacheMap() const {
 //  DTBufferTree<int,int>* dBuf =
 //  DTDataBuffer<int,int>::openBuffer( mName );
   auto pBuf = new DTBufferTree<int,int>;
-  pBuf->setDefault( 0 );
 
   int entryNum = 0;
   int entryMax = dataList.size();

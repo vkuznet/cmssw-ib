@@ -363,6 +363,7 @@ void DTCCBConfig::cacheMap() const {
 //  DTDataBuffer< int,std::vector<int>* >::openBuffer( mName );
 
   auto pBuf = new DTBufferTree<int,std::vector<int>*>;
+  pBuf->setDefault( 0 );
 
   const_iterator iter = dataList.begin();
   const_iterator iend = dataList.end();

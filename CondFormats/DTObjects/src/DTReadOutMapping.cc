@@ -459,20 +459,10 @@ int DTReadOutMapping::insertReadOutGeometryLink( int     dduId,
   readOutChannelDriftTubeMap.push_back( link );
 
   if ( rgBuf == nullptr ) {
-    auto prgBuf = new DTBufferTree<int,int>;
-    DTBufferTree<int,int>* expect = nullptr;
-    bool exchanged = rgBuf.compare_exchange_strong(expect, prgBuf);
-    if(!exchanged) {
-      delete prgBuf;
-    }
+    rgBuf = new DTBufferTree<int,int>;
   }
   if ( grBuf == nullptr ) {
-    auto pgrBuf = new DTBufferTree<int,int>;
-    DTBufferTree<int,int>* expect = nullptr;
-    bool exchanged = grBuf.compare_exchange_strong(expect, pgrBuf);
-    if(!exchanged) {
-      delete pgrBuf;
-    }
+    grBuf = new DTBufferTree<int,int>;
   }
 
   std::vector<int> cellKey;
@@ -730,48 +720,48 @@ void DTReadOutMapping::cacheMap() const {
 
   //atomically try to swap local pointers to proper data member buffers
   DTBufferTree<int,int>* expect = nullptr;
-  bool exchanged = mType.compare_exchange_strong(expect, mType);
+  bool exchanged = mType.compare_exchange_strong(expect, pmType);
   if(!exchanged) {
       delete pmType;
   }
   expect = nullptr;
-  exchanged = rgBuf.compare_exchange_strong(expect, rgBuf);
+  exchanged = rgBuf.compare_exchange_strong(expect, prgBuf);
   if(!exchanged) {
       delete prgBuf;
   }
   expect = nullptr;
-  exchanged = grBuf.compare_exchange_strong(expect, grBuf);
+  exchanged = grBuf.compare_exchange_strong(expect, pgrBuf);
   if(!exchanged) {
       delete pgrBuf;
   }
   expect = nullptr;
-  exchanged = rgROB.compare_exchange_strong(expect, rgROB);
+  exchanged = rgROB.compare_exchange_strong(expect, prgROB);
   if(!exchanged) {
       delete prgROB;
   }
   expect = nullptr;
-  exchanged = rgROS.compare_exchange_strong(expect, rgROS);
+  exchanged = rgROS.compare_exchange_strong(expect, prgROS);
   if(!exchanged) {
       delete prgROS;
   }
   expect = nullptr;
-  exchanged = rgDDU.compare_exchange_strong(expect, rgDDU);
+  exchanged = rgDDU.compare_exchange_strong(expect, prgDDU);
   if(!exchanged) {
       delete prgDDU;
   }
 
   DTBufferTree<int,std::vector<int>*>* expect_iv = nullptr;
-  exchanged = grROB.compare_exchange_strong(expect_iv, grROB);
+  exchanged = grROB.compare_exchange_strong(expect_iv, pgrROB);
   if(!exchanged) {
       delete pgrROB;
   }
   expect_iv = nullptr;
-  exchanged = grROS.compare_exchange_strong(expect_iv, grROS);
+  exchanged = grROS.compare_exchange_strong(expect_iv, pgrROS);
   if(!exchanged) {
       delete pgrROS;
   }
   expect_iv = nullptr;
-  exchanged = grDDU.compare_exchange_strong(expect_iv, grDDU);
+  exchanged = grDDU.compare_exchange_strong(expect_iv, pgrDDU);
   if(!exchanged) {
       delete pgrDDU;
   }
