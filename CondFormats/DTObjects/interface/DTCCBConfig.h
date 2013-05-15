@@ -148,7 +148,7 @@ class DTCCBConfig {
 
   /// read and store full content
   void cacheMap() const;
-  void resetMap() const;
+  void resetMap();
 //  std::string mapName() const;
 
 };

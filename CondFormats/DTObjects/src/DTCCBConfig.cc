@@ -400,7 +400,7 @@ void DTCCBConfig::cacheMap() const {
 }
 
 
-void DTCCBConfig::resetMap() const {
+void DTCCBConfig::resetMap() {
 //  std::string mName = mapName();
 //  DTBufferTree< int,std::vector<int>* >* dBuf =
 //  DTDataBuffer< int,std::vector<int>* >::findBuffer( mName );
