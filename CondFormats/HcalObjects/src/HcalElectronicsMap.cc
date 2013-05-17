@@ -27,14 +27,47 @@ namespace hcal_impl {
 
 HcalElectronicsMap::~HcalElectronicsMap(){}
 
+// helper copy function
+void HcalElectronicsMap::copyFrom(const HcalElectronicsMap& src) {
+    sortedByPId.exchange(src.sortedByPId);
+    sortedByTId.exchange(src.sortedByTId);
+
+    mPItemsById = new std::vector<const PrecisionItem*>;
+    for (const auto& pi: (*src.mPItemsById)) {
+        (*mPItemsById).push_back(pi);
+    }
+    mTItemsByTrigId = new std::vector<const TriggerItem*>;
+    for (const auto& ti: (*src.mTItemsByTrigId)) {
+        (*mTItemsByTrigId).push_back(ti);
+    }
+}
+// copy-ctor
+HcalElectronicsMap::HcalElectronicsMap(const HcalElectronicsMap& src) {
+    copyFrom(src);
+}
+// copy assignment operator
+HcalElectronicsMap&
+HcalElectronicsMap::operator=(const HcalElectronicsMap& rhs) {
+    if (this == &rhs) {
+        return *this;
+    }
+    // free old memory
+    delete mPItemsById;
+    mPItemsById = nullptr;
+    delete mTItemsByTrigId;
+    mTItemsByTrigId = nullptr;
+    copyFrom(rhs);
+    return *this;
+}
+
 const HcalElectronicsMap::PrecisionItem* HcalElectronicsMap::findById (unsigned long fId) const {
   PrecisionItem target (fId, 0);
   std::vector<const HcalElectronicsMap::PrecisionItem*>::const_iterator item;
 
   if (!sortedByPId) sortById();
   
-  item = std::lower_bound (mPItemsById.begin(), mPItemsById.end(), &target, hcal_impl::LessById());
-  if (item == mPItemsById.end() || (*item)->mId != fId) 
+  item = std::lower_bound ((*mPItemsById).begin(), (*mPItemsById).end(), &target, hcal_impl::LessById());
+  if (item == (*mPItemsById).end() || (*item)->mId != fId) 
     //    throw cms::Exception ("Conditions not found") << "Unavailable Electronics map for cell " << fId;
     return 0;
   return *item;
@@ -63,8 +96,8 @@ const HcalElectronicsMap::TriggerItem* HcalElectronicsMap::findByTrigId (unsigne
 
   if (!sortedByTId) sortByTriggerId();
   
-  item = std::lower_bound (mTItemsByTrigId.begin(), mTItemsByTrigId.end(), &target, hcal_impl::LessByTrigId());
-  if (item == mTItemsByTrigId.end() || (*item)->mTrigId != fTrigId) 
+  item = std::lower_bound ((*mTItemsByTrigId).begin(), (*mTItemsByTrigId).end(), &target, hcal_impl::LessByTrigId());
+  if (item == (*mTItemsByTrigId).end() || (*item)->mTrigId != fTrigId) 
     //    throw cms::Exception ("Conditions not found") << "Unavailable Electronics map for cell " << fId;
     return 0;
   return *item;
@@ -188,24 +221,36 @@ bool HcalElectronicsMap::mapEId2chId (HcalElectronicsId fElectronicsId, DetId fI
 
 void HcalElectronicsMap::sortById () const {
   if (!sortedByPId) {
-    mPItemsById.clear();
-    for (std::vector<PrecisionItem>::const_iterator i=mPItems.begin(); i!=mPItems.end(); ++i) {
-      if (i->mElId) mPItemsById.push_back(&(*i));
-    }
+      auto ptr = new std::vector<const PrecisionItem*>;
+      for (auto i=mPItems.begin(); i!=mPItems.end(); ++i) {
+          if (i->mElId) (*ptr).push_back(&(*i));
+      }
     
-    std::sort (mPItemsById.begin(), mPItemsById.end(), hcal_impl::LessById ());
-    sortedByPId=true;
+      std::sort ((*ptr).begin(), (*ptr).end(), hcal_impl::LessById ());
+      //atomically try to swap this to become mPItemsById
+      std::vector<const PrecisionItem*>* expect = nullptr;
+      bool exchanged = mPItemsById.compare_exchange_strong(expect, ptr);
+      if(!exchanged) {
+          delete ptr;
+      }
+      sortedByPId.exchange(true);
   }
 }
 
 void HcalElectronicsMap::sortByTriggerId () const {
   if (!sortedByTId) {
-    mTItemsByTrigId.clear();
-    for (std::vector<TriggerItem>::const_iterator i=mTItems.begin(); i!=mTItems.end(); ++i) {
-      if (i->mElId) mTItemsByTrigId.push_back(&(*i));
-    }
+      auto ptr = new std::vector<const TriggerItem*>;
+      for (auto i=mTItems.begin(); i!=mTItems.end(); ++i) {
+          if (i->mElId) (*ptr).push_back(&(*i));
+      }
     
-    std::sort (mTItemsByTrigId.begin(), mTItemsByTrigId.end(), hcal_impl::LessByTrigId ());
-    sortedByTId=true;
+      std::sort ((*ptr).begin(), (*ptr).end(), hcal_impl::LessByTrigId ());
+      //atomically try to swap this to become mTItemsByTrigId
+      std::vector<const TriggerItem*>* expect = nullptr;
+      bool exchanged = mTItemsByTrigId.compare_exchange_strong(expect, ptr);
+      if(!exchanged) {
+          delete ptr;
+      }
+      sortedByTId.exchange(true);
   }
 }
