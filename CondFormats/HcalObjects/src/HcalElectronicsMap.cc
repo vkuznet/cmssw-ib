@@ -25,7 +25,12 @@ namespace hcal_impl {
   class LessByTrigId {public: bool operator () (const HcalElectronicsMap::TriggerItem* a, const HcalElectronicsMap::TriggerItem* b) {return a->mTrigId < b->mTrigId;}};
 }
 
-HcalElectronicsMap::~HcalElectronicsMap(){}
+HcalElectronicsMap::~HcalElectronicsMap() {
+    delete mPItemsById;
+    mPItemsById = nullptr;
+    delete mTItemsByTrigId;
+    mTItemsByTrigId = nullptr;
+}
 
 // helper copy function
 void HcalElectronicsMap::copyFrom(const HcalElectronicsMap& src) {
