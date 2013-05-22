@@ -34,18 +34,9 @@ HcalElectronicsMap::~HcalElectronicsMap() {
     }
 }
 // copy-ctor
-HcalElectronicsMap::HcalElectronicsMap(const HcalElectronicsMap& src) {
-    mPItems = src.mPItems;
-    mTItems = src.mTItems;
-    mPItemsById = new std::vector<const PrecisionItem*>;
-    for (const auto& pi: (*src.mPItemsById)) {
-        (*mPItemsById).push_back(pi);
-    }
-    mTItemsByTrigId = new std::vector<const TriggerItem*>;
-    for (const auto& ti: (*src.mTItemsByTrigId)) {
-        (*mTItemsByTrigId).push_back(ti);
-    }
-}
+HcalElectronicsMap::HcalElectronicsMap(const HcalElectronicsMap& src)
+    : mPItems(src.mPItems), mTItems(src.mTItems),
+      mPItemsById(nullptr), mTItemsByTrigId(nullptr) {}
 // copy assignment operator
 HcalElectronicsMap&
 HcalElectronicsMap::operator=(const HcalElectronicsMap& rhs) {
@@ -54,11 +45,16 @@ HcalElectronicsMap::operator=(const HcalElectronicsMap& rhs) {
     return *this;
 }
 // public swap function
-void HcalElectronicsMap::swap(HcalElectronicsMap& src) {
-    std::swap(*(this->mPItemsById), *(src.mPItemsById));
-    std::swap(*(this->mTItemsByTrigId), *(src.mTItemsByTrigId));
-    std::swap(this->mPItems, src.mPItems);
-    std::swap(this->mTItems, src.mTItems);
+void HcalElectronicsMap::swap(HcalElectronicsMap& other) {
+    std::swap(mPItems, other.mPItems);
+    std::swap(mTItems, other.mTItems);
+    other.mTItemsByTrigId.exchange(mTItemsByTrigId.exchange(other.mTItemsByTrigId));
+    other.mPItemsById.exchange(mPItemsById.exchange(other.mPItemsById));
+}
+// move constructor
+HcalElectronicsMap::HcalElectronicsMap(HcalElectronicsMap&& other) 
+    : HcalElectronicsMap() {
+    other.swap(*this);
 }
 
 const HcalElectronicsMap::PrecisionItem* HcalElectronicsMap::findById (unsigned long fId) const {

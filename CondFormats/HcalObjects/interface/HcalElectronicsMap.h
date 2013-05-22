@@ -30,11 +30,15 @@ class HcalElectronicsMap {
   ~HcalElectronicsMap();
 
   // swap function
-  void swap(HcalElectronicsMap& src);
+  void swap(HcalElectronicsMap& other);
   // copy-ctor
   HcalElectronicsMap(const HcalElectronicsMap& src);
   // copy assignment operator
   HcalElectronicsMap& operator=(const HcalElectronicsMap& rhs);
+  // move constructor
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  HcalElectronicsMap(HcalElectronicsMap&& other);
+#endif
 
   /// lookup the logical detid associated with the given electronics id
   //return Null item if no such mapping
