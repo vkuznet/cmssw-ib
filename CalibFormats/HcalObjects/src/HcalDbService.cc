@@ -16,7 +16,7 @@
 HcalDbService::HcalDbService (const edm::ParameterSet& cfg): 
   mPedestals (0), mPedestalWidths (0),
   mGains (0), mGainWidths (0),  
-  mQieShapeCache (0), mQIEData(0), 
+  mQIEData(0),
   mElectronicsMap(0),
   mRespCorrs(0),
   mL1TriggerObjects(0),
