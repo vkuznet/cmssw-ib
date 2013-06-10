@@ -291,9 +291,7 @@
 
  <class name="HcalDcsMap">
   <field name="mItemsById" transient="true"/>
-  <field name="sortedById" transient="true"/>
   <field name="mItemsByDcsId" transient="true"/>
-  <field name="sortedByDcsId" transient="true"/>
  </class>
  <class name="HcalDcsMap::Item"/>
  <class name="std::vector<HcalDcsMap::Item>"/>
