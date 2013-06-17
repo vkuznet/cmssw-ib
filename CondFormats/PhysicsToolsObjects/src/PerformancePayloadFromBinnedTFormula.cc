@@ -6,6 +6,30 @@ int PerformancePayloadFromBinnedTFormula::InvalidPos=-1;
 using namespace std;
 
 
+// copy ctor
+PerformancePayloadFromBinnedTFormula::PerformancePayloadFromBinnedTFormula(const PerformancePayloadFromBinnedTFormula& src) {
+    compiledFormulas_ = src.compiledFormulas_;
+    m_State.store(src.m_State);
+
+}
+// move ctor
+PerformancePayloadFromBinnedTFormula::PerformancePayloadFromBinnedTFormula(PerformancePayloadFromBinnedTFormula&& rhs)
+    : PerformancePayloadFromBinnedTFormula() {
+    rhs.swap(*this);
+}
+// operator=
+const PerformancePayloadFromBinnedTFormula&
+PerformancePayloadFromBinnedTFormula::operator=(const PerformancePayloadFromBinnedTFormula& rhs) {
+    PerformancePayloadFromBinnedTFormula temp(rhs);
+    temp.swap(*this);
+    return *this;
+}
+// public swap
+void PerformancePayloadFromBinnedTFormula::swap(PerformancePayloadFromBinnedTFormula& rhs) {
+    std::swap(compiledFormulas_, rhs.compiledFormulas_);
+    m_State.store(rhs.m_State);
+}
+
 TFormula * PerformancePayloadFromBinnedTFormula::getFormula(PerformanceResult::ResultType r ,BinningPointByMap p ) const {
   //
   // chooses the correct rectangular region
@@ -86,10 +110,8 @@ bool PerformancePayloadFromBinnedTFormula::isInPayload(PerformanceResult::Result
 
 void PerformancePayloadFromBinnedTFormula::check() const {
   if (pls.size()== compiledFormulas_.size()) return;
-  //
-  // otherwise, compile!
-  //
-  compiledFormulas_.clear();
+
+  std::vector<std::vector<TFormula *> > tswap;
   for (unsigned int t=0; t< pls.size(); ++t){
     std::vector <TFormula *> temp;
     for (unsigned int i=0; i< (pls[t].formulas()).size(); ++i){
@@ -98,7 +120,14 @@ void PerformancePayloadFromBinnedTFormula::check() const {
       tt->Compile();
       temp.push_back(tt);
     }
-    compiledFormulas_.push_back(temp);
+    tswap.push_back(temp);
+  }
+
+  if (kSet==m_State.load()) return;
+  char expected = kUnset;
+  if(m_State.compare_exchange_strong(expected, kSetting) ) {
+      compiledFormulas_.swap(tswap);
+      m_State.store(kSet);
   }
 }
 

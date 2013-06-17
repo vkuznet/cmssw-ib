@@ -4,6 +4,9 @@
 #include "CondFormats/PhysicsToolsObjects/interface/PhysicsTFormulaPayload.h"
 #include "CondFormats/PhysicsToolsObjects/interface/PerformancePayload.h"
 
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__) && !defined(__LCG__)
+#include <atomic>
+#endif
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -23,6 +26,14 @@ class PerformancePayloadFromBinnedTFormula : public PerformancePayload {
   virtual ~PerformancePayloadFromBinnedTFormula(){
     compiledFormulas_.clear();
   }
+  // copy ctor
+  PerformancePayloadFromBinnedTFormula(const PerformancePayloadFromBinnedTFormula& src);
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  PerformancePayloadFromBinnedTFormula(PerformancePayloadFromBinnedTFormula&& src);
+#endif
+  // operator=
+  const PerformancePayloadFromBinnedTFormula& operator=(const PerformancePayloadFromBinnedTFormula& rhs);
+  void swap(PerformancePayloadFromBinnedTFormula& rhs);
 
   float getResult(PerformanceResult::ResultType,BinningPointByMap) const ; // gets from the full payload
   
@@ -76,6 +87,10 @@ class PerformancePayloadFromBinnedTFormula : public PerformancePayload {
   // the transient part; now a vector of vector; CHANGE CHECK!!!!!
   //
   mutable   std::vector<std::vector<TFormula *> > compiledFormulas_;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+  mutable std::atomic<char> m_State;
+  enum States {kUnset, kSetting, kSet};
+#endif
 };
 
 #endif
