@@ -4,7 +4,7 @@
 #include "CondFormats/PhysicsToolsObjects/interface/PhysicsTFormulaPayload.h"
 #include "CondFormats/PhysicsToolsObjects/interface/PerformancePayload.h"
 
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__) && !defined(__LCG__)
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
 #include <atomic>
 #endif
 #include <algorithm>
@@ -86,7 +86,7 @@ class PerformancePayloadFromTFormula : public PerformancePayload {
   //
   mutable   std::vector<TFormula *> compiledFormulas_;
 //  mutable std::atomic<std::vector<TFormula*>> compiledFormulas_;
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__) && !defined(__LCG__)
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
   mutable std::atomic<char> m_State;
   enum States {kUnset, kSetting, kSet};
 #endif
