@@ -5,6 +5,30 @@ int PerformancePayloadFromTFormula::InvalidPos=-1;
 #include <iostream>
 using namespace std;
 
+// copy ctor
+PerformancePayloadFromTFormula::PerformancePayloadFromTFormula(const PerformancePayloadFromTFormula& src) {
+    compiledFormulas_ = src.compiledFormulas_;
+    m_State.store(src.m_State);
+
+}
+// move ctor
+PerformancePayloadFromTFormula::PerformancePayloadFromTFormula(PerformancePayloadFromTFormula&& rhs)
+    : PerformancePayloadFromTFormula() {
+    rhs.swap(*this);
+}
+// operator=
+const PerformancePayloadFromTFormula&
+PerformancePayloadFromTFormula::operator=(const PerformancePayloadFromTFormula& rhs) {
+    PerformancePayloadFromTFormula temp(rhs);
+    temp.swap(*this);
+    return *this;
+}
+// public swap
+void PerformancePayloadFromTFormula::swap(PerformancePayloadFromTFormula& rhs) {
+    std::swap(compiledFormulas_, rhs.compiledFormulas_);
+    m_State.store(rhs.m_State);
+}
+
 float PerformancePayloadFromTFormula::getResult(PerformanceResult::ResultType r ,BinningPointByMap p) const {
   check();
   //
@@ -56,13 +80,19 @@ bool PerformancePayloadFromTFormula::isInPayload(PerformanceResult::ResultType r
 
 void PerformancePayloadFromTFormula::check() const {
   if (pl.formulas().size() == compiledFormulas_.size()) return;
-  //
-  // otherwise, compile!
-  //
+
+  std::vector<TFormula *> tmp;
   for (unsigned int i=0; i< pl.formulas().size(); ++i){
     TFormula* t = new TFormula("rr",(pl.formulas()[i]).c_str()); //FIXME: "rr" should be unique!
     t->Compile();
-    compiledFormulas_.push_back(t);
+    tmp.push_back(t);
+  }
+
+  if (kSet==m_State.load()) return;
+  char expected = kUnset;
+  if(m_State.compare_exchange_strong(expected, kSetting) ) {
+      compiledFormulas_.swap(tmp);
+      m_State.store(kSet);
   }
 }
 
