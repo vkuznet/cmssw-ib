@@ -18,8 +18,13 @@ namespace Calibration {
 template<typename Value_t, typename AxisX_t, typename AxisY_t>
 Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D() :
 	stride(0), limitsX(AxisX_t(), AxisX_t()),
-	limitsY(AxisY_t(), AxisY_t()), total(Value_t()), totalValid(false)
+	limitsY(AxisY_t(), AxisY_t()), total(Value_t())
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(false);
+#else
+    totalValid = false;
+#endif
 }
 
 template<typename Value_t, typename AxisX_t, typename AxisY_t>
@@ -27,9 +32,15 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(const Histogram2D &orig) :
 	stride(orig.stride), binULimitsX(orig.binULimitsX),
 	binULimitsY(orig.binULimitsY), binValues(orig.binValues),
 	limitsX(orig.limitsX), limitsY(orig.limitsY),
-	total(orig.total), totalValid(orig.totalValid),
 	rowTotal(orig.rowTotal), columnTotal(orig.columnTotal)
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(orig.totalValid);
+    total.store(orig.total);
+#else
+    totalValid = orig.totalValid;
+    total = orig.total;
+#endif
 }
 
 template<typename Value_t, typename AxisX_t, typename AxisY_t>
@@ -41,10 +52,16 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	binULimitsY(orig.binULimitsY.begin(), orig.binULimitsY.end()),
 	binValues(orig.binValues.begin(), orig.binValues.end()),
 	limitsX(orig.limitsX), limitsY(orig.limitsY),
-	total(orig.total), totalValid(orig.totalValid),
 	rowTotal(orig.rowTotal.begin(), orig.rowTotal.end()),
 	columnTotal(orig.columnTotal.begin(), orig.columnTotal.end())
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(orig.totalValid);
+    total.store(orig.total);
+#else
+    totalValid = orig.totalValid;
+    total = orig.total;
+#endif
 }
 
 template<typename Value_t, typename AxisX_t, typename AxisY_t>
@@ -55,9 +72,15 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	binULimitsX(binULimitsX), binULimitsY(binULimitsY),
 	binValues((binULimitsY.size() + 1) * stride),
 	limitsX(AxisX_t(), AxisX_t()), limitsY(AxisY_t(), AxisY_t()),
-	total(Value_t()), totalValid(true),
 	rowTotal(binULimitsY.size() + 1), columnTotal(binULimitsX.size() + 1)
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(true);
+    total.store(Value_t());
+#else
+    totalValid = true;
+    total = Value_t();
+#endif
 	if (binULimitsX.size() < 2)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -85,9 +108,15 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	binULimitsY(binULimitsY.begin(), binULimitsY.end()),
 	binValues((binULimitsY.size() + 1) * stride),
 	limitsX(AxisX_t(), AxisX_t()), limitsY(AxisY_t(), AxisY_t()),
-	total(Value_t()), totalValid(true),
 	rowTotal(binULimitsY.size() + 1), columnTotal(binULimitsX.size() + 1)
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(true);
+    total.store(Value_t());
+#else
+    totalValid = true;
+    total = Value_t();
+#endif
 	if (binULimitsX.size() < 2)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -115,9 +144,15 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	binULimitsX(binULimitsX.begin(), binULimitsX.end()),
 	binValues((nBinsY + 2) * stride),
 	limitsX(AxisX_t(), AxisX_t()), limitsY(rangeY),
-	total(Value_t()), totalValid(true),
 	rowTotal(nBinsY + 2), columnTotal(binULimitsX.size() + 1)
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(true);
+    total.store(Value_t());
+#else
+    totalValid = true;
+    total = Value_t();
+#endif
 	if (binULimitsX.size() < 2)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -142,9 +177,15 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	binULimitsY(binULimitsY.begin(), binULimitsY.end()),
 	binValues((binULimitsY.size() + 1) * stride),
 	limitsX(rangeX), limitsY(AxisY_t(), AxisY_t()),
-	total(Value_t()), totalValid(true),
 	rowTotal(binULimitsY.size() + 1), columnTotal(nBinsX + 2)
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(true);
+    total.store(Value_t());
+#else
+    totalValid = true;
+    total = Value_t();
+#endif
 	if (!nBinsX)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -167,9 +208,16 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 		unsigned int nBinsY,
 		const PhysicsTools::Calibration::Range<OAxisY_t> &rangeY) :
 	stride(nBinsX + 2), binValues((nBinsY + 2) * stride),
-	limitsX(rangeX), limitsY(rangeY), total(Value_t()), totalValid(true),
+	limitsX(rangeX), limitsY(rangeY),
 	rowTotal(nBinsY + 2), columnTotal(nBinsX + 2)
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(true);
+    total.store(Value_t());
+#else
+    totalValid = true;
+    total = Value_t();
+#endif
 	if (!nBinsX)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -187,9 +235,15 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 			unsigned int nBinsY, AxisY_t minY, AxisY_t maxY) :
 	stride(nBinsX + 2), binValues((nBinsY + 2) * stride),
 	limitsX(minX, maxX), limitsY(minY, maxY),
-	total(Value_t()), totalValid(true),
 	rowTotal(nBinsY + 2), columnTotal(nBinsX + 2)
 {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(true);
+    total.store(Value_t());
+#else
+    totalValid = true;
+    total = Value_t();
+#endif
 	if (!nBinsX)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -216,8 +270,13 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::operator = (const Histogram2D &orig)
 	binValues = orig.binValues;
 	limitsX = orig.limitsX;
 	limitsY = orig.limitsY;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(orig.totalValid);
+    total.store(orig.total);
+#else
+    totalValid = orig.totalValid;
 	total = orig.total;
-	totalValid = orig.totalValid;
+#endif
 	rowTotal = orig.rowTotal;
 	columnTotal = orig.columnTotal;
 	return *this;
@@ -237,8 +296,13 @@ Histogram2D<Value_t, AxisX_t, AxisY_t> &Histogram2D<Value_t, AxisX_t, AxisY_t>::
 	                                 orig.binValues.end());
 	limitsX = orig.limitsX;
 	limitsY = orig.limitsY;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(orig.totalValid);
+    total.store(orig.total);
+#else
+    totalValid = orig.totalValid;
 	total = orig.total;
-	totalValid = orig.totalValid;
+#endif
 	rowTotal = std::vector<Value_t>(orig.rowTotal.begin(),
 	                                orig.rowTotal.end());
 	columnTotal = std::vector<Value_t>(orig.columnTotal.begin(),
@@ -250,8 +314,13 @@ template<typename Value_t, typename AxisX_t, typename AxisY_t>
 void Histogram2D<Value_t, AxisX_t, AxisY_t>::reset()
 {
 	std::fill(binValues.begin(), binValues.end(), Value_t());
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(true);
+    total.store(Value_t());
+#else
+    totalValid = true;
 	total = Value_t();
-	totalValid = true;
+#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -266,7 +335,11 @@ void Histogram2D<Value_t, AxisX_t, AxisY_t>::setBinContent(
 			   "[0, " << (binValues.size() - 1) << "]." << std::endl;
 
 	binValues[bin] = value;
-	totalValid = false;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(false);
+#else
+    totalValid = false;
+#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -313,7 +386,11 @@ void Histogram2D<Value_t, AxisX_t, AxisY_t>::fill(
 {
 	int bin = findBin(x, y);
 	binValues[bin] += weight;
-	totalValid = false;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(false);
+#else
+    totalValid = false;
+#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -328,7 +405,11 @@ void Histogram2D<Value_t, AxisX_t, AxisY_t>::setValues(
 			   "2D histogram values" << std::endl;
 
 	binValues = values;
-	totalValid = false;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(false);
+#else
+    totalValid = false;
+#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -344,7 +425,11 @@ void Histogram2D<Value_t, AxisX_t, AxisY_t>::setValues(
 			   "2D histogram values" << std::endl;
 
 	std::copy(values.begin(), values.end(), binValues.begin());
-	totalValid = false;
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+    totalValid.store(false);
+#else
+    totalValid = false;
+#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -414,7 +499,8 @@ int Histogram2D<Value_t, AxisX_t, AxisY_t>::findBinX(AxisX_t x) const
 		x -= limitsX.min;
 		x *= stride - 2;
 		x /= limitsX.width();
-		return clamp(0, (int)(std::floor(x)) + 1, (int)stride - 1);
+        unsigned int iStride = stride;
+		return clamp(0, (int)(std::floor(x)) + 1, (int)iStride - 1);
 	} else
 		return std::upper_bound(binULimitsX.begin(),
 		                        binULimitsX.end(), x) -
@@ -440,9 +526,14 @@ template<typename Value_t, typename AxisX_t, typename AxisY_t>
 Value_t Histogram2D<Value_t, AxisX_t, AxisY_t>::normalization() const
 {
 	if (!totalValid) {
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
+        total.store(std::accumulate(binValues.begin() + 1, binValues.end() - 1, Value_t()));
+        totalValid.store(true);
+#else
 		total = std::accumulate(binValues.begin() + 1,
 		                        binValues.end() - 1, Value_t()); 
-		totalValid = true;
+        totalValid = true;
+#endif
 	}
 
 	return total;
