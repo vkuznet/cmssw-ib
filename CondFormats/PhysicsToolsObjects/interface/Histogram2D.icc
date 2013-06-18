@@ -20,11 +20,7 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D() :
 	stride(0), limitsX(AxisX_t(), AxisX_t()),
 	limitsY(AxisY_t(), AxisY_t()), total(Value_t())
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
     totalValid.store(false);
-#else
-    totalValid = false;
-#endif
 }
 
 template<typename Value_t, typename AxisX_t, typename AxisY_t>
@@ -34,13 +30,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(const Histogram2D &orig) :
 	limitsX(orig.limitsX), limitsY(orig.limitsY),
 	rowTotal(orig.rowTotal), columnTotal(orig.columnTotal)
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(orig.totalValid);
     total.store(orig.total);
-#else
-    totalValid = orig.totalValid;
-    total = orig.total;
-#endif
+    totalValid.store(orig.totalValid);
 }
 
 template<typename Value_t, typename AxisX_t, typename AxisY_t>
@@ -55,13 +46,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	rowTotal(orig.rowTotal.begin(), orig.rowTotal.end()),
 	columnTotal(orig.columnTotal.begin(), orig.columnTotal.end())
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(orig.totalValid);
     total.store(orig.total);
-#else
-    totalValid = orig.totalValid;
-    total = orig.total;
-#endif
+    totalValid.store(orig.totalValid);
 }
 
 template<typename Value_t, typename AxisX_t, typename AxisY_t>
@@ -74,13 +60,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	limitsX(AxisX_t(), AxisX_t()), limitsY(AxisY_t(), AxisY_t()),
 	rowTotal(binULimitsY.size() + 1), columnTotal(binULimitsX.size() + 1)
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(true);
     total.store(Value_t());
-#else
-    totalValid = true;
-    total = Value_t();
-#endif
+    totalValid.store(true);
 	if (binULimitsX.size() < 2)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -110,13 +91,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	limitsX(AxisX_t(), AxisX_t()), limitsY(AxisY_t(), AxisY_t()),
 	rowTotal(binULimitsY.size() + 1), columnTotal(binULimitsX.size() + 1)
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(true);
     total.store(Value_t());
-#else
-    totalValid = true;
-    total = Value_t();
-#endif
+    totalValid.store(true);
 	if (binULimitsX.size() < 2)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -146,13 +122,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	limitsX(AxisX_t(), AxisX_t()), limitsY(rangeY),
 	rowTotal(nBinsY + 2), columnTotal(binULimitsX.size() + 1)
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(true);
     total.store(Value_t());
-#else
-    totalValid = true;
-    total = Value_t();
-#endif
+    totalValid.store(true);
 	if (binULimitsX.size() < 2)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -179,13 +150,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	limitsX(rangeX), limitsY(AxisY_t(), AxisY_t()),
 	rowTotal(binULimitsY.size() + 1), columnTotal(nBinsX + 2)
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(true);
     total.store(Value_t());
-#else
-    totalValid = true;
-    total = Value_t();
-#endif
+    totalValid.store(true);
 	if (!nBinsX)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -211,13 +177,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	limitsX(rangeX), limitsY(rangeY),
 	rowTotal(nBinsY + 2), columnTotal(nBinsX + 2)
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(true);
     total.store(Value_t());
-#else
-    totalValid = true;
-    total = Value_t();
-#endif
+    totalValid.store(true);
 	if (!nBinsX)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -237,13 +198,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::Histogram2D(
 	limitsX(minX, maxX), limitsY(minY, maxY),
 	rowTotal(nBinsY + 2), columnTotal(nBinsX + 2)
 {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(true);
     total.store(Value_t());
-#else
-    totalValid = true;
-    total = Value_t();
-#endif
+    totalValid.store(true);
 	if (!nBinsX)
 		throw cms::Exception("TooFewBinsError")
 			<< "Trying to generate degenerate 2D histogram: "
@@ -270,13 +226,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t>::operator = (const Histogram2D &orig)
 	binValues = orig.binValues;
 	limitsX = orig.limitsX;
 	limitsY = orig.limitsY;
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(orig.totalValid);
     total.store(orig.total);
-#else
-    totalValid = orig.totalValid;
-	total = orig.total;
-#endif
+    totalValid.store(orig.totalValid);
 	rowTotal = orig.rowTotal;
 	columnTotal = orig.columnTotal;
 	return *this;
@@ -296,13 +247,8 @@ Histogram2D<Value_t, AxisX_t, AxisY_t> &Histogram2D<Value_t, AxisX_t, AxisY_t>::
 	                                 orig.binValues.end());
 	limitsX = orig.limitsX;
 	limitsY = orig.limitsY;
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(orig.totalValid);
     total.store(orig.total);
-#else
-    totalValid = orig.totalValid;
-	total = orig.total;
-#endif
+    totalValid.store(orig.totalValid);
 	rowTotal = std::vector<Value_t>(orig.rowTotal.begin(),
 	                                orig.rowTotal.end());
 	columnTotal = std::vector<Value_t>(orig.columnTotal.begin(),
@@ -314,13 +260,8 @@ template<typename Value_t, typename AxisX_t, typename AxisY_t>
 void Histogram2D<Value_t, AxisX_t, AxisY_t>::reset()
 {
 	std::fill(binValues.begin(), binValues.end(), Value_t());
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    totalValid.store(true);
     total.store(Value_t());
-#else
-    totalValid = true;
-	total = Value_t();
-#endif
+    totalValid.store(true);
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -335,11 +276,7 @@ void Histogram2D<Value_t, AxisX_t, AxisY_t>::setBinContent(
 			   "[0, " << (binValues.size() - 1) << "]." << std::endl;
 
 	binValues[bin] = value;
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
     totalValid.store(false);
-#else
-    totalValid = false;
-#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -386,11 +323,7 @@ void Histogram2D<Value_t, AxisX_t, AxisY_t>::fill(
 {
 	int bin = findBin(x, y);
 	binValues[bin] += weight;
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
     totalValid.store(false);
-#else
-    totalValid = false;
-#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -405,11 +338,7 @@ void Histogram2D<Value_t, AxisX_t, AxisY_t>::setValues(
 			   "2D histogram values" << std::endl;
 
 	binValues = values;
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
     totalValid.store(false);
-#else
-    totalValid = false;
-#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -425,11 +354,7 @@ void Histogram2D<Value_t, AxisX_t, AxisY_t>::setValues(
 			   "2D histogram values" << std::endl;
 
 	std::copy(values.begin(), values.end(), binValues.begin());
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
     totalValid.store(false);
-#else
-    totalValid = false;
-#endif
 	rowTotal.clear();
 	columnTotal.clear();
 }
@@ -526,14 +451,8 @@ template<typename Value_t, typename AxisX_t, typename AxisY_t>
 Value_t Histogram2D<Value_t, AxisX_t, AxisY_t>::normalization() const
 {
 	if (!totalValid) {
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
         total.store(std::accumulate(binValues.begin() + 1, binValues.end() - 1, Value_t()));
         totalValid.store(true);
-#else
-		total = std::accumulate(binValues.begin() + 1,
-		                        binValues.end() - 1, Value_t()); 
-        totalValid = true;
-#endif
 	}
 
 	return total;

@@ -136,10 +136,10 @@ class Histogram2D {
 
 	// transient cache variables
 #if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-    mutable std::atomic<Value_t>	total;
+	mutable std::atomic<Value_t>	total;
     mutable std::atomic<bool>       totalValid;
 #else
-    mutable Value_t			        total;
+	mutable Value_t			        total;
     mutable bool			        totalValid;
 #endif
 
@@ -160,6 +160,8 @@ struct VHistogramD2D {
 } // namespace Calibration
 } // namespace PhysicsTools
 
+#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
 #include "CondFormats/PhysicsToolsObjects/interface/Histogram2D.icc"
+#endif
 
 #endif // CondFormats_PhysicsToolsObjects_Histogram2D_h
