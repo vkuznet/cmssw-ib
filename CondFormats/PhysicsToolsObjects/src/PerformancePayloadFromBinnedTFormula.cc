@@ -128,7 +128,8 @@ void PerformancePayloadFromBinnedTFormula::check() const {
       }
 
       std::vector<std::vector<TFormula *> >* expect = nullptr;
-      if(compiledFormulas_.compare_exchange_strong(expect, ptr) ) {
+      bool exchanged = compiledFormulas_.compare_exchange_strong(expect, ptr);
+      if(!exchanged) {
           delete ptr;
       }
   }
