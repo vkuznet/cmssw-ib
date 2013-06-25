@@ -10,6 +10,14 @@ PerformancePayloadFromBinnedTFormula::PerformancePayloadFromBinnedTFormula()
     : compiledFormulas_(nullptr) {
 }
 PerformancePayloadFromBinnedTFormula::~PerformancePayloadFromBinnedTFormula(){
+    for (auto& item: (*compiledFormulas_)){
+        for (auto& ptr: item){
+            if (ptr) {
+                delete ptr;
+                ptr = nullptr;
+            }
+        }
+    }
     delete compiledFormulas_;
     compiledFormulas_ = nullptr;
 }

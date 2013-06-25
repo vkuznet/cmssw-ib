@@ -9,9 +9,11 @@ PerformancePayloadFromTFormula::PerformancePayloadFromTFormula()
     : compiledFormulas_(nullptr) {}
 
 PerformancePayloadFromTFormula::~PerformancePayloadFromTFormula() {
-    for (unsigned int i=0; i < (*compiledFormulas_).size(); ++i){
-        auto ptr = (*compiledFormulas_)[i];
-        if (ptr) delete ptr;
+    for (auto& ptr: (*compiledFormulas_)) {
+        if (ptr) {
+            delete ptr;
+            ptr = nullptr;
+        }
     }
     delete compiledFormulas_;
     compiledFormulas_ = nullptr;
