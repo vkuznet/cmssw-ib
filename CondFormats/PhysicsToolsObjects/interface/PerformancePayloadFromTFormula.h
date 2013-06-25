@@ -22,13 +22,8 @@ class PerformancePayloadFromTFormula : public PerformancePayload {
 
   PerformancePayloadFromTFormula(std::vector<PerformanceResult::ResultType> r, std::vector<BinningVariables::BinningVariablesType> b  ,  PhysicsTFormulaPayload& in) : pl(in), results_(r), variables_(b) {}
 
-  PerformancePayloadFromTFormula(){}
-  virtual ~PerformancePayloadFromTFormula(){
-    for (unsigned int i=0; i< compiledFormulas_.size(); ++i){
-      delete compiledFormulas_[i];
-    }
-    compiledFormulas_.clear();
-  }
+  PerformancePayloadFromTFormula();
+  virtual ~PerformancePayloadFromTFormula();
   // copy ctor
   PerformancePayloadFromTFormula(const PerformancePayloadFromTFormula& src);
 #if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
@@ -84,11 +79,10 @@ class PerformancePayloadFromTFormula : public PerformancePayload {
   //
   // the transient part
   //
-  mutable   std::vector<TFormula *> compiledFormulas_;
-//  mutable std::atomic<std::vector<TFormula*>> compiledFormulas_;
 #if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-  mutable std::atomic<char> m_State;
-  enum States {kUnset, kSetting, kSet};
+  mutable   std::atomic<std::vector<TFormula*>*> compiledFormulas_;
+#else
+  mutable   std::vector<TFormula *> compiledFormulas_;
 #endif
 };
 

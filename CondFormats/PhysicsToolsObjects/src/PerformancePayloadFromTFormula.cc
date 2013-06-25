@@ -5,10 +5,20 @@ int PerformancePayloadFromTFormula::InvalidPos=-1;
 #include <iostream>
 using namespace std;
 
+PerformancePayloadFromTFormula::PerformancePayloadFromTFormula()
+    : compiledFormulas_(nullptr) {}
+
+PerformancePayloadFromTFormula::~PerformancePayloadFromTFormula() {
+    for (unsigned int i=0; i < (*compiledFormulas_).size(); ++i){
+        auto ptr = (*compiledFormulas_)[i];
+        if (ptr) delete ptr;
+    }
+    delete compiledFormulas_;
+    compiledFormulas_ = nullptr;
+}
 // copy ctor
 PerformancePayloadFromTFormula::PerformancePayloadFromTFormula(const PerformancePayloadFromTFormula& src) {
-    compiledFormulas_ = src.compiledFormulas_;
-    m_State.store(src.m_State);
+    compiledFormulas_.store(src.compiledFormulas_);
 
 }
 // move ctor
@@ -25,8 +35,7 @@ PerformancePayloadFromTFormula::operator=(const PerformancePayloadFromTFormula& 
 }
 // public swap
 void PerformancePayloadFromTFormula::swap(PerformancePayloadFromTFormula& rhs) {
-    std::swap(compiledFormulas_, rhs.compiledFormulas_);
-    m_State.store(rhs.m_State);
+    compiledFormulas_.store(rhs.compiledFormulas_);
 }
 
 float PerformancePayloadFromTFormula::getResult(PerformanceResult::ResultType r ,BinningPointByMap p) const {
@@ -37,7 +46,7 @@ float PerformancePayloadFromTFormula::getResult(PerformanceResult::ResultType r 
   if (! isInPayload(r,p)) return PerformancePayload::InvalidResult;
 
   // nice, what to do here???
-  TFormula * formula = compiledFormulas_[resultPos(r)];
+  TFormula * formula = (*compiledFormulas_)[resultPos(r)];
   //
   // prepare the vector to pass, order counts!!!
   //
@@ -79,20 +88,21 @@ bool PerformancePayloadFromTFormula::isInPayload(PerformanceResult::ResultType r
 
 
 void PerformancePayloadFromTFormula::check() const {
-  if (pl.formulas().size() == compiledFormulas_.size()) return;
+  if(!compiledFormulas_) {
 
-  std::vector<TFormula *> tmp;
-  for (unsigned int i=0; i< pl.formulas().size(); ++i){
-    TFormula* t = new TFormula("rr",(pl.formulas()[i]).c_str()); //FIXME: "rr" should be unique!
-    t->Compile();
-    tmp.push_back(t);
-  }
+      auto ptr = new std::vector<TFormula *>;
+      for (unsigned int i=0; i < pl.formulas().size(); ++i){
+        // NOTE: neither TFormula or t->Compile() is thread-safe, should be fixed in ROOT
+        TFormula* t = new TFormula("rr",(pl.formulas()[i]).c_str()); //FIXME: "rr" should be unique!
+        t->Compile();
+        ptr->push_back(t);
+      }
 
-  if (kSet==m_State.load()) return;
-  char expected = kUnset;
-  if(m_State.compare_exchange_strong(expected, kSetting) ) {
-      compiledFormulas_.swap(tmp);
-      m_State.store(kSet);
+      std::vector<TFormula *>* expect = nullptr;
+      bool exchanged = compiledFormulas_.compare_exchange_strong(expect, ptr);
+      if(!exchanged) {
+          delete ptr;
+      }
   }
 }
 
@@ -106,7 +116,7 @@ void PerformancePayloadFromTFormula::printFormula(PerformanceResult::ResultType 
   }
   
   // nice, what to do here???
-  TFormula * formula = compiledFormulas_[resultPos(res)];
+  TFormula * formula = (*compiledFormulas_)[resultPos(res)];
   cout << "-- Formula: " << formula->GetExpFormula("p") << endl;
   // prepare the vector to pass, order counts!!!
   //
