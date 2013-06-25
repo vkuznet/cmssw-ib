@@ -4,9 +4,6 @@
 #include "CondFormats/PhysicsToolsObjects/interface/PhysicsTFormulaPayload.h"
 #include "CondFormats/PhysicsToolsObjects/interface/PerformancePayload.h"
 
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__) && !defined(__LCG__)
-#include <atomic>
-#endif
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -22,16 +19,10 @@ class PerformancePayloadFromBinnedTFormula : public PerformancePayload {
 
   PerformancePayloadFromBinnedTFormula(std::vector<PerformanceResult::ResultType> r, std::vector<BinningVariables::BinningVariablesType> b  ,  std::vector<PhysicsTFormulaPayload> in) : pls(in), results_(r), variables_(b) {}
 
-  PerformancePayloadFromBinnedTFormula();
-  virtual ~PerformancePayloadFromBinnedTFormula();
-  // copy ctor
-  PerformancePayloadFromBinnedTFormula(const PerformancePayloadFromBinnedTFormula& src);
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-  PerformancePayloadFromBinnedTFormula(PerformancePayloadFromBinnedTFormula&& src);
-#endif
-  // operator=
-  const PerformancePayloadFromBinnedTFormula& operator=(const PerformancePayloadFromBinnedTFormula& rhs);
-  void swap(PerformancePayloadFromBinnedTFormula& rhs);
+  PerformancePayloadFromBinnedTFormula(){}
+  virtual ~PerformancePayloadFromBinnedTFormula(){
+    compiledFormulas_.clear();
+  }
 
   float getResult(PerformanceResult::ResultType,BinningPointByMap) const ; // gets from the full payload
   
@@ -84,11 +75,7 @@ class PerformancePayloadFromBinnedTFormula : public PerformancePayload {
   //
   // the transient part; now a vector of vector; CHANGE CHECK!!!!!
   //
-#if !defined(__CINT__) && !defined(__MAKECINT__) && !defined(__REFLEX__)
-  mutable   std::atomic<std::vector<std::vector<TFormula *> >* > compiledFormulas_;
-#else
   mutable   std::vector<std::vector<TFormula *> > compiledFormulas_;
-#endif
 };
 
 #endif

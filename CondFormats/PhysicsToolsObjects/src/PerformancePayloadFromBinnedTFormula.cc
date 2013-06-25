@@ -6,43 +6,6 @@ int PerformancePayloadFromBinnedTFormula::InvalidPos=-1;
 using namespace std;
 
 
-PerformancePayloadFromBinnedTFormula::PerformancePayloadFromBinnedTFormula()
-    : compiledFormulas_(nullptr) {
-}
-PerformancePayloadFromBinnedTFormula::~PerformancePayloadFromBinnedTFormula(){
-    for (auto& item: (*compiledFormulas_)){
-        for (auto& ptr: item){
-            if (ptr) {
-                delete ptr;
-                ptr = nullptr;
-            }
-        }
-    }
-    delete compiledFormulas_;
-    compiledFormulas_ = nullptr;
-}
-// copy ctor
-PerformancePayloadFromBinnedTFormula::PerformancePayloadFromBinnedTFormula(const PerformancePayloadFromBinnedTFormula& src) {
-    compiledFormulas_.store(src.compiledFormulas_);
-
-}
-// move ctor
-PerformancePayloadFromBinnedTFormula::PerformancePayloadFromBinnedTFormula(PerformancePayloadFromBinnedTFormula&& rhs)
-    : PerformancePayloadFromBinnedTFormula() {
-    rhs.swap(*this);
-}
-// operator=
-const PerformancePayloadFromBinnedTFormula&
-PerformancePayloadFromBinnedTFormula::operator=(const PerformancePayloadFromBinnedTFormula& rhs) {
-    PerformancePayloadFromBinnedTFormula temp(rhs);
-    temp.swap(*this);
-    return *this;
-}
-// public swap
-void PerformancePayloadFromBinnedTFormula::swap(PerformancePayloadFromBinnedTFormula& rhs) {
-    compiledFormulas_.store(rhs.compiledFormulas_);
-}
-
 TFormula * PerformancePayloadFromBinnedTFormula::getFormula(PerformanceResult::ResultType r ,BinningPointByMap p ) const {
   //
   // chooses the correct rectangular region
@@ -52,7 +15,7 @@ TFormula * PerformancePayloadFromBinnedTFormula::getFormula(PerformanceResult::R
   bool ok =  isOk(p,region);
   if (ok == false) return NULL;
 
-  return (*compiledFormulas_)[region][resultPos(r)];
+  return compiledFormulas_[region][resultPos(r)];
 
 }
 
@@ -122,25 +85,20 @@ bool PerformancePayloadFromBinnedTFormula::isInPayload(PerformanceResult::Result
 
 
 void PerformancePayloadFromBinnedTFormula::check() const {
-  if(!compiledFormulas_) {
-      auto ptr = new std::vector<std::vector<TFormula *> >;
-      for (unsigned int t=0; t < pls.size(); ++t){
-          std::vector <TFormula *> temp;
-          for (unsigned int i=0; i < (pls[t].formulas()).size(); ++i){
-              PhysicsTFormulaPayload  tmp = pls[t];
-              // NOTE: neither TFormula or t->Compile() is thread-safe, should be fixed in ROOT
-              TFormula* tt = new TFormula("rr",((tmp.formulas())[i]).c_str()); //FIXME: "rr" should be unique!
-              tt->Compile();
-              temp.push_back(tt);
-          }
-          ptr->push_back(temp);
-      }
-
-      std::vector<std::vector<TFormula *> >* expect = nullptr;
-      bool exchanged = compiledFormulas_.compare_exchange_strong(expect, ptr);
-      if(!exchanged) {
-          delete ptr;
-      }
+  if (pls.size()== compiledFormulas_.size()) return;
+  //
+  // otherwise, compile!
+  //
+  compiledFormulas_.clear();
+  for (unsigned int t=0; t< pls.size(); ++t){
+    std::vector <TFormula *> temp;
+    for (unsigned int i=0; i< (pls[t].formulas()).size(); ++i){
+      PhysicsTFormulaPayload  tmp = pls[t];
+      TFormula* tt = new TFormula("rr",((tmp.formulas())[i]).c_str()); //FIXME: "rr" should be unique!
+      tt->Compile();
+      temp.push_back(tt);
+    }
+    compiledFormulas_.push_back(temp);
   }
 }
 
