@@ -120,6 +120,7 @@ void PerformancePayloadFromBinnedTFormula::check() const {
           std::vector <TFormula *> temp;
           for (unsigned int i=0; i < (pls[t].formulas()).size(); ++i){
               PhysicsTFormulaPayload  tmp = pls[t];
+              // NOTE: neither TFormula or t->Compile() is thread-safe, should be fixed in ROOT
               TFormula* tt = new TFormula("rr",((tmp.formulas())[i]).c_str()); //FIXME: "rr" should be unique!
               tt->Compile();
               temp.push_back(tt);
