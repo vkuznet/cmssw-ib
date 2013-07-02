@@ -50,26 +50,18 @@ void BeamHaloPropagator::directionCheck(PropagationDirection dir)const {
   
 }
 
-BeamHaloPropagator::BeamHaloPropagator(Propagator* aEndCapTkProp, Propagator* aCrossTkProp, const MagneticField* field,
-                                 PropagationDirection dir) :
-  Propagator(dir), theEndCapTkProp(aEndCapTkProp->clone()), theCrossTkProp(aCrossTkProp->clone()), theField(field) { 
-  directionCheck(dir);
-}
-
-
 BeamHaloPropagator::BeamHaloPropagator(const Propagator& aEndCapTkProp, const Propagator& aCrossTkProp,const MagneticField* field,
                                  PropagationDirection dir) :
   Propagator(dir), theEndCapTkProp(aEndCapTkProp.clone()), theCrossTkProp(aCrossTkProp.clone()), theField(field) {
   directionCheck(dir);
 }
 
-
 BeamHaloPropagator::BeamHaloPropagator(const BeamHaloPropagator& aProp) :
-  Propagator(aProp.propagationDirection()), theEndCapTkProp(0), theCrossTkProp(0) { 
+  Propagator(aProp.propagationDirection()), theEndCapTkProp(nullptr), theCrossTkProp(nullptr) { 
   if (aProp.theEndCapTkProp)
-    theEndCapTkProp=aProp.getEndCapTkPropagator()->clone();
+    theEndCapTkProp.store(aProp.getEndCapTkPropagator()->clone());
   if (aProp.theCrossTkProp)
-    theCrossTkProp=aProp.getCrossTkPropagator()->clone();
+    theCrossTkProp.store(aProp.getCrossTkPropagator()->clone());
 }
 
 /* Destructor */ 
@@ -78,6 +70,12 @@ BeamHaloPropagator::~BeamHaloPropagator() {
   delete theEndCapTkProp;
   delete theCrossTkProp;
 
+}
+
+BeamHaloPropagator*
+BeamHaloPropagator::clone() const {
+    auto ptr = new BeamHaloPropagator(*this);
+    return ptr;
 }
 
 bool BeamHaloPropagator::crossingTk(const FreeTrajectoryState& fts, const Plane& plane)  const{
@@ -122,13 +120,13 @@ BeamHaloPropagator::propagateWithPath(const FreeTrajectoryState& fts,
 {  return getCrossTkPropagator()->propagateWithPath(fts, cylinder);}
 
 
-Propagator* BeamHaloPropagator::getEndCapTkPropagator() const {
+const Propagator* BeamHaloPropagator::getEndCapTkPropagator() const {
   LogDebug("BeamHaloPropagator")<<"using the EndCap propagator";
-  return theEndCapTkProp;}
+  return theEndCapTkProp.load();}
 
 
-Propagator* BeamHaloPropagator::getCrossTkPropagator() const {
+const Propagator* BeamHaloPropagator::getCrossTkPropagator() const {
   LogDebug("BeamHaloPropagator")<<"using the Crossing propagator";
-  return theCrossTkProp;}
+  return theCrossTkProp.load();}
 
 

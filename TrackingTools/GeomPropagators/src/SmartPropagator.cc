@@ -41,15 +41,6 @@ ReferenceCountingPointer<BoundCylinder> & SmartPropagator::theTkVolume() {
 
 
 /* Constructor */ 
-SmartPropagator::SmartPropagator(Propagator* aTkProp, Propagator* aGenProp, const MagneticField* field,
-                                 PropagationDirection dir, float epsilon) :
-  Propagator(dir), theTkProp(aTkProp->clone()), theGenProp(aGenProp->clone()), theField(field) { 
-
-  if (theTkVolume()==0) initTkVolume(epsilon);
-
-}
-
-
 SmartPropagator::SmartPropagator(const Propagator& aTkProp, const Propagator& aGenProp,const MagneticField* field,
                                  PropagationDirection dir, float epsilon) :
   Propagator(dir), theTkProp(aTkProp.clone()), theGenProp(aGenProp.clone()), theField(field) {
@@ -62,9 +53,9 @@ SmartPropagator::SmartPropagator(const Propagator& aTkProp, const Propagator& aG
 SmartPropagator::SmartPropagator(const SmartPropagator& aProp) :
   Propagator(aProp.propagationDirection()), theTkProp(0), theGenProp(0) { 
     if (aProp.theTkProp)
-      theTkProp=aProp.getTkPropagator()->clone();
+      theTkProp.store(aProp.getTkPropagator()->clone());
     if (aProp.theGenProp)
-      theTkProp=aProp.getGenPropagator()->clone();
+      theTkProp.store(aProp.getGenPropagator()->clone());
 
     //SL since it's a copy constructor, then the TkVolume has been already
     //initialized
@@ -80,6 +71,11 @@ SmartPropagator::~SmartPropagator() {
 
 }
 
+SmartPropagator*
+SmartPropagator::clone() const {
+    auto ptr = new SmartPropagator(*this);
+    return ptr;
+}
 
 /* Operations */ 
 void SmartPropagator::initTkVolume(float epsilon) {
@@ -195,14 +191,14 @@ bool SmartPropagator::insideTkVol( const Plane& plane)  const {
 }
 
 
-Propagator* SmartPropagator::getTkPropagator() const {
+const Propagator* SmartPropagator::getTkPropagator() const {
 
   return theTkProp;
 
 }
 
 
-Propagator* SmartPropagator::getGenPropagator() const {
+const Propagator* SmartPropagator::getGenPropagator() const {
 
   return theGenProp;
 

@@ -5,6 +5,8 @@
 #include "TrackingTools/TrajectoryState/interface/FreeTrajectoryState.h"
 #include <utility>
 
+#include <atomic>
+
 #include "FWCore/Utilities/interface/GCC11Compatibility.h"
 
 class FreeTrajectoryState;
@@ -43,6 +45,10 @@ public:
   Propagator (PropagationDirection dir = alongMomentum) :
     theDir(dir) {}
   virtual ~Propagator();
+  // copy ctor
+  Propagator(const Propagator& src);
+  // copy assignment
+  const Propagator& operator=(const Propagator& rhs);
 
   /** Propagate from a free state (e.g. position and momentum in 
    *  in global cartesian coordinates) to a surface.
@@ -132,7 +138,7 @@ public:
    *  functionality of the ex-UnidirectionalPropagator.
    */
   virtual void setPropagationDirection(PropagationDirection dir) const {
-    theDir = dir;
+    theDir.store(dir);
   }
 
   /** Returns the current value of the propagation direction.
@@ -164,7 +170,8 @@ public:
 
 private:
 
-  mutable PropagationDirection theDir;
+  mutable std::atomic<PropagationDirection> theDir;
+
 };
 
 class SetPropagationDirection {

@@ -20,6 +20,8 @@
  *
  */
 
+#include <atomic>
+
 /* Collaborating Class Declarations */
 #include "TrackingTools/TrajectoryState/interface/FreeTrajectoryState.h"
 #include "TrackingTools/TrajectoryState/interface/TrajectoryStateOnSurface.h"
@@ -40,8 +42,6 @@ class SmartPropagator GCC11_FINAL : public Propagator {
 
     /* Constructor */ 
     ///Defines which propagator is used inside Tk and which outside
-    SmartPropagator(Propagator* aTkProp, Propagator* aGenProp, const MagneticField* field,
-        PropagationDirection dir = alongMomentum, float epsilon = 5) ;
 
     ///Defines which propagator is used inside Tk and which outside
     SmartPropagator(const Propagator& aTkProp, const Propagator& aGenProp,const MagneticField* field,
@@ -54,9 +54,7 @@ class SmartPropagator GCC11_FINAL : public Propagator {
     virtual ~SmartPropagator() ;
 
     ///Virtual constructor (using copy c'tor)
-    virtual SmartPropagator* clone() const {
-      return new SmartPropagator(getTkPropagator(),getGenPropagator(),magneticField());
-    }
+    virtual SmartPropagator* clone() const;
 
     ///setting the direction fo both components
     void setPropagationDirection (PropagationDirection dir) const
@@ -134,9 +132,9 @@ class SmartPropagator GCC11_FINAL : public Propagator {
     bool insideTkVol(const Plane& plane)  const ;
 
     ///return the propagator used inside tracker
-    Propagator* getTkPropagator() const ;
+    const Propagator* getTkPropagator() const ;
     ///return the propagator used outside tracker
-    Propagator* getGenPropagator() const ;
+    const Propagator* getGenPropagator() const ;
     ///return the magneticField
     virtual const MagneticField* magneticField() const {return theField;}
 
@@ -144,8 +142,8 @@ class SmartPropagator GCC11_FINAL : public Propagator {
     ///build the tracker volume
   static void initTkVolume(float epsilon);
 
-    mutable Propagator* theTkProp;
-    mutable Propagator* theGenProp;
+    mutable std::atomic<Propagator*> theTkProp;
+    mutable std::atomic<Propagator*> theGenProp;
     const MagneticField* theField;
     static ReferenceCountingPointer<Cylinder> & theTkVolume();
 
